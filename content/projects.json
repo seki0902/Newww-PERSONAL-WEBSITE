@@ -1,0 +1,78 @@
+[
+  {
+    "id": "project-1",
+    "title": "AI 内容生产工作台",
+    "subtitle": "从选题到数字人视频的一站式网页工作台",
+    "order": 1,
+    "desktopSlot": "project_slot_01",
+    "enabled": true,
+    "tarot": { "id": "tarot-1", "name": "[PLACEHOLDER] 塔罗牌一", "image": "/assets/tarot-placeholder.svg", "hint": "[PLACEHOLDER] 塔罗提示一" },
+    "rewardItem": { "id": "reward-1", "title": "[PLACEHOLDER] 物件一", "icon": "✦" },
+    "pageIds": ["p1-overview", "p1-background", "p1-demo", "p1-evidence", "p1-result", "p1-reflection"],
+    "pages": [
+      { "id": "p1-overview", "projectId": "project-1", "internalName": "AI工作台-项目概览", "title": "AI 内容生产工作台", "navLabel": "项目概览", "order": 1, "kind": "overview", "blockIds": ["p1-text", "p1-role", "p1-metrics", "p1-screenshot"], "enabled": true },
+      { "id": "p1-background", "projectId": "project-1", "internalName": "AI工作台-业务背景", "title": "从分散工具到连续生产流程", "navLabel": "业务背景", "order": 2, "kind": "background", "blockIds": ["p1-background-text", "p1-comparison"], "enabled": true },
+      { "id": "p1-demo", "projectId": "project-1", "internalName": "AI工作台-交互演示", "title": "从选题到数字人视频", "navLabel": "交互 Demo", "order": 3, "kind": "demo", "blockIds": ["p1-interactive-demo"], "enabled": true },
+      { "id": "p1-evidence", "projectId": "project-1", "internalName": "AI工作台-真实证据", "title": "真实证据", "navLabel": "真实证据", "order": 4, "kind": "evidence", "blockIds": ["p1-evidence-note", "p1-evidence-image", "p1-video"], "enabled": true },
+      { "id": "p1-result", "projectId": "project-1", "internalName": "AI工作台-成果验证", "title": "成果验证", "navLabel": "成果验证", "order": 5, "kind": "result", "blockIds": ["p1-result-note", "p1-metrics"], "enabled": true },
+      { "id": "p1-reflection", "projectId": "project-1", "internalName": "AI工作台-项目复盘", "title": "项目复盘", "navLabel": "项目复盘", "order": 6, "kind": "reflection", "blockIds": ["p1-reflection-text", "p1-reflection-role"], "enabled": true }
+    ],
+    "blocks": [
+      { "id": "p1-text", "type": "text", "markdown": "把「选题 → 口播稿 → 编辑 → 数字人生成」从跨平台流程重构为一站式网页工作台。" },
+      { "id": "p1-role", "type": "text", "markdown": "个人职责：待补充。" },
+      { "id": "p1-screenshot", "type": "image", "asset": "/assets/project-placeholder.svg", "alt": "产品主界面截图待补充", "caption": "产品主界面截图待补充" },
+      { "id": "p1-background-text", "type": "text", "markdown": "原有内容生产链路需要在多个平台间切换，Prompt 分散，口播稿反复复制粘贴，后续生成步骤也彼此割裂。工作台把核心步骤集中到一个网页流程。" },
+      { "id": "p1-comparison", "type": "comparison", "before": { "label": "改造前", "items": ["多个平台间切换", "Prompt 分散管理", "反复复制粘贴", "生成链路割裂"] }, "after": { "label": "改造后", "items": ["网页内完成核心流程", "Skill 与 Prompt 统一管理", "直接进入下一生产步骤"] } },
+      {
+        "id": "p1-interactive-demo",
+        "type": "interactive_demo",
+        "presets": [
+          {
+            "id": "campus-recruitment",
+            "label": "央企秋招信息",
+            "input": "央企秋招信息",
+            "scriptOutput": "【待补充真实口播稿】这里展示“央企秋招信息”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
+            "avatarOptions": [{ "id": "avatar-a", "label": "数字人形象 A（演示占位）" }, { "id": "avatar-b", "label": "数字人形象 B（演示占位）" }],
+            "ratioOptions": [{ "id": "vertical", "label": "9:16 竖屏" }, { "id": "horizontal", "label": "16:9 横屏" }],
+            "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
+          },
+          {
+            "id": "product-intro",
+            "label": "产品功能介绍",
+            "input": "产品功能介绍",
+            "scriptOutput": "【待补充真实口播稿】这里展示“产品功能介绍”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
+            "avatarOptions": [{ "id": "avatar-a", "label": "数字人形象 A（演示占位）" }],
+            "ratioOptions": [{ "id": "vertical", "label": "9:16 竖屏" }, { "id": "square", "label": "1:1 方形" }],
+            "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
+          }
+        ]
+      },
+      { "id": "p1-evidence-note", "type": "text", "markdown": "本页将使用原始产品界面、实际产出成品与团队使用记录支撑项目说明。真实材料尚未提供，以下位置均为待替换占位，不作为正式证明材料。" },
+      { "id": "p1-evidence-image", "type": "image", "asset": "/assets/project-placeholder.svg", "alt": "工作台真实界面截图待补充", "caption": "待补充：工作台真实界面截图（发布前需隐藏敏感信息）" },
+      { "id": "p1-video", "type": "video", "asset": "/assets/placeholder-project.mp4", "poster": "/assets/project-placeholder.svg", "caption": "待补充：从选题到数字人视频的真实操作录屏或代表成品" },
+      { "id": "p1-result-note", "type": "text", "markdown": "以下数据沿用当前项目总结口径。统计时间、样本范围与原始记录待补充后，再作为可核验成果对外展示。" },
+      { "id": "p1-reflection-text", "type": "text", "markdown": "项目复盘内容待补充。需要由项目本人补充：关键判断、做对了什么、实际遇到的问题，以及下一轮最值得优化的环节。" },
+      { "id": "p1-reflection-role", "type": "text", "markdown": "个人职责与协作边界待补充。" },
+      {
+        "id": "p1-metrics",
+        "type": "metrics",
+        "items": [
+          { "label": "日常使用团队", "value": "4 人" },
+          { "label": "效率提升", "value": "约 50%" },
+          { "label": "数字人视频产出", "value": "1–2 → 3–5 条/天", "note": "个人日均产出" },
+          { "label": "生产流程", "value": "集中到一个网页", "note": "原流程跨多个平台" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "project-2",
+    "title": "[PLACEHOLDER] 项目二标题",
+    "subtitle": "[PLACEHOLDER] 项目二副标题",
+    "order": 2,
+    "desktopSlot": "project_slot_02",
+    "enabled": true,
+    "tarot": { "id": "tarot-2", "name": "[PLACEHOLDER] 塔罗牌二", "image": "/assets/tarot-placeholder.svg", "hint": "[PLACEHOLDER] 塔罗提示二" },
+    "blocks": [{ "id": "p2-text", "type": "text", "markdown": "[PLACEHOLDER] 这里是项目二介绍。" }]
+  }
+]

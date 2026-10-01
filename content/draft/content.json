@@ -1,0 +1,595 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "asset-bg-company",
+      "type": "image",
+      "fileName": "公司外景.png",
+      "originalName": "公司外景.png",
+      "path": "assets/images/公司外景.png",
+      "mimeType": "image/png",
+      "label": "公司外景",
+      "presentation": {
+        "backgroundLayout": "cropped"
+      }
+    },
+    {
+      "id": "asset-bg-lobby",
+      "type": "image",
+      "fileName": "公司前台.png",
+      "originalName": "公司前台.png",
+      "path": "assets/images/公司前台.png",
+      "mimeType": "image/png",
+      "label": "公司大厅",
+      "presentation": {
+        "backgroundLayout": "cropped"
+      }
+    },
+    {
+      "id": "asset-bg-office",
+      "type": "image",
+      "fileName": "工位.png",
+      "originalName": "工位.png",
+      "path": "assets/images/工位.png",
+      "mimeType": "image/png",
+      "label": "办公室与前辈电脑",
+      "presentation": {
+        "backgroundLayout": "cropped"
+      }
+    },
+    {
+      "id": "asset-character-hr",
+      "type": "image",
+      "fileName": "hr-pixel-navy-idle.png",
+      "originalName": "hr初见.png",
+      "path": "assets/images/hr-pixel-navy-idle.png",
+      "mimeType": "image/png",
+      "label": "HR 立绘",
+      "presentation": {
+        "portraitStyle": "standard"
+      }
+    },
+    {
+      "id": "asset-bg-desk",
+      "type": "image",
+      "fileName": "办公桌近景.png",
+      "originalName": "办公桌近景.png",
+      "path": "assets/images/办公桌近景.png",
+      "mimeType": "image/png",
+      "label": "办公桌近景",
+      "presentation": {
+        "backgroundLayout": "cropped"
+      }
+    },
+    {
+      "id": "asset-hr-introduce",
+      "type": "image",
+      "fileName": "hr-pixel-navy-introduce.png",
+      "originalName": "hr 介绍.png",
+      "path": "assets/images/hr-pixel-navy-introduce.png",
+      "mimeType": "image/png",
+      "label": "hr 介绍",
+      "presentation": {
+        "portraitStyle": "standard"
+      }
+    },
+    {
+      "id": "asset-hr-happy",
+      "type": "image",
+      "fileName": "hr-pixel-navy-happy.png",
+      "originalName": "hr开心介绍.png",
+      "path": "assets/images/hr-pixel-navy-happy.png",
+      "mimeType": "image/png",
+      "label": "hr开心介绍",
+      "presentation": {
+        "portraitStyle": "standard"
+      }
+    },
+    {
+      "id": "asset-hr-encourage",
+      "type": "image",
+      "fileName": "hr-pixel-navy-encourage.png",
+      "originalName": "hr 开心张开双臂.png",
+      "path": "assets/images/hr-pixel-navy-encourage.png",
+      "mimeType": "image/png",
+      "label": "hr 开心张开双臂",
+      "presentation": {
+        "portraitStyle": "standard"
+      }
+    },
+    {
+      "id": "asset-wallpaper",
+      "type": "image",
+      "fileName": "pink-desktop.svg",
+      "originalName": "粉色桌面壁纸占位图",
+      "path": "assets/images/pink-desktop.svg",
+      "mimeType": "image/svg+xml",
+      "label": "粉色像素桌面壁纸"
+    },
+    {
+      "id": "asset-sfx-text-tick",
+      "type": "audio",
+      "fileName": "kenney-text-tick.ogg",
+      "originalName": "Kenney Interface Sounds · tick_001.ogg",
+      "path": "assets/audio/kenney-text-tick.ogg",
+      "mimeType": "audio/ogg",
+      "label": "字幕轻敲（Kenney CC0）"
+    },
+    {
+      "id": "asset-sfx-ui-confirm",
+      "type": "audio",
+      "fileName": "kenney-ui-confirm.ogg",
+      "originalName": "Kenney Interface Sounds · confirmation_001.ogg",
+      "path": "assets/audio/kenney-ui-confirm.ogg",
+      "mimeType": "audio/ogg",
+      "label": "确认点击（Kenney CC0）"
+    },
+    {
+      "id": "asset-sfx-popup-open",
+      "type": "audio",
+      "fileName": "kenney-popup-open.ogg",
+      "originalName": "Kenney Interface Sounds · open_001.ogg",
+      "path": "assets/audio/kenney-popup-open.ogg",
+      "mimeType": "audio/ogg",
+      "label": "弹窗打开（Kenney CC0）"
+    },
+    {
+      "id": "asset-sfx-cat-purr",
+      "type": "audio",
+      "fileName": "oga-cat-purr-sleepy-loop.wav",
+      "originalName": "Cat Purr & Meow · cat_purrsleepy_loop.wav",
+      "path": "assets/audio/oga-cat-purr-sleepy-loop.wav",
+      "mimeType": "audio/wav",
+      "label": "睡眠猫呼噜（OpenGameArt CC0）"
+    },
+    {
+      "id": "asset-bgm-intro",
+      "type": "audio",
+      "fileName": "intro-before-desktop-loop.wav",
+      "originalName": "1-进入桌面前的bgm 循环.wav",
+      "path": "assets/music/intro-before-desktop-loop.wav",
+      "mimeType": "audio/wav",
+      "label": "BGM · 进入桌面前"
+    },
+    {
+      "id": "asset-bgm-desktop",
+      "type": "audio",
+      "fileName": "desktop-exploration-loop.wav",
+      "originalName": "2 探索桌面的循环播放bgm.wav",
+      "path": "assets/music/desktop-exploration-loop.wav",
+      "mimeType": "audio/wav",
+      "label": "BGM · 探索桌面"
+    },
+    {
+      "id": "asset-bgm-ending",
+      "type": "audio",
+      "fileName": "ending-loop.wav",
+      "originalName": "3-结尾的音乐 循环.wav",
+      "path": "assets/music/ending-loop.wav",
+      "mimeType": "audio/wav",
+      "label": "BGM · 结尾"
+    }
+  ],
+  "intro": {
+    "settings": {
+      "bgmAssetId": "asset-bgm-intro",
+      "textSoundAssetId": "asset-sfx-text-tick",
+      "clickSoundAssetId": "asset-sfx-ui-confirm",
+      "bgmVolume": 0.24,
+      "typewriterSpeed": 18,
+      "textSoundInterval": 4
+    },
+    "scenes": [
+      {
+        "id": "scene-01-01",
+        "order": 1,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-company",
+        "characterPosition": "center",
+        "speaker": "Jenny",
+        "text": "今天是我入职的第一天。"
+      },
+      {
+        "id": "scene-01-02",
+        "order": 2,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-company",
+        "speaker": "Jenny",
+        "text": "经历了千辛万苦，我终于来到了这家一直想加入的公司。"
+      },
+      {
+        "id": "scene-02-01",
+        "order": 3,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-lobby",
+        "characterAssetId": "asset-character-hr",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "嗨，你就是今天入职的 Jenny 吧？"
+      },
+      {
+        "id": "scene-02-02",
+        "order": 4,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-lobby",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "我是好公司的 HR。"
+      },
+      {
+        "id": "scene-02-03",
+        "order": 5,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-lobby",
+        "characterAssetId": "asset-hr-encourage",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "今天就由我来带你完成入职准备啦。"
+      },
+      {
+        "id": "scene-02-04",
+        "order": 6,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-lobby",
+        "speaker": "Jenny",
+        "text": "（不愧是好公司……）"
+      },
+      {
+        "id": "scene-02-05",
+        "order": 7,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-lobby",
+        "speaker": "Jenny",
+        "text": "（HR 都这么亲切。）"
+      },
+      {
+        "id": "scene-03-01",
+        "order": 8,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "center",
+        "speaker": "HR",
+        "text": "这就是你之后使用的电脑。"
+      },
+      {
+        "id": "scene-03-02",
+        "order": 9,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "不过准确地说，这是你的前辈留下来的电脑。"
+      },
+      {
+        "id": "scene-03-03",
+        "order": 10,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "前辈？"
+      },
+      {
+        "id": "scene-03-04",
+        "order": 11,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-happy",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "他以前可是我们这里非常厉害的人。"
+      },
+      {
+        "id": "scene-03-05",
+        "order": 12,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-encourage",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "不过现在已经财富自由啦。"
+      },
+      {
+        "id": "scene-03-06",
+        "order": 13,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-happy",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "最近正在欧洲到处旅行。"
+      },
+      {
+        "id": "scene-03-07",
+        "order": 14,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-happy",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "今天可能在法国，过几天可能就去西班牙了。"
+      },
+      {
+        "id": "scene-03-08",
+        "order": 15,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "（财富自由……）"
+      },
+      {
+        "id": "scene-03-09",
+        "order": 16,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "（到处旅行……）"
+      },
+      {
+        "id": "scene-03-10",
+        "order": 17,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "好羡慕。"
+      },
+      {
+        "id": "scene-04-01",
+        "order": 18,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "因为前辈现在没有办法亲自回来带新人，所以把以前的项目和工作资料都留在了电脑里面。"
+      },
+      {
+        "id": "scene-04-02",
+        "order": 19,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "他还在电脑里设置了一套特别的新人学习系统。"
+      },
+      {
+        "id": "scene-04-03",
+        "order": 20,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-happy",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "据他说，不管以后谁来接手，都可以慢慢从里面学会他的工作方式。"
+      },
+      {
+        "id": "scene-04-04",
+        "order": 21,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "哇……"
+      },
+      {
+        "id": "scene-04-05",
+        "order": 22,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "好厉害的前辈。"
+      },
+      {
+        "id": "scene-04-06",
+        "order": 23,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "speaker": "Jenny",
+        "text": "（如果我把这些全部学会，我以后也能变成这样吗？）"
+      },
+      {
+        "id": "scene-05-01",
+        "order": 24,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "今天你就先熟悉一下这台电脑吧。"
+      },
+      {
+        "id": "scene-05-02",
+        "order": 25,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-introduce",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "一会儿我会把员工手册和后面的入职安排发给你。"
+      },
+      {
+        "id": "scene-05-03",
+        "order": 26,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-happy",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "等你学习完，我们再继续之后的培训。"
+      },
+      {
+        "id": "scene-05-04",
+        "order": 27,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-office",
+        "characterAssetId": "asset-hr-encourage",
+        "characterPosition": "right",
+        "speaker": "HR",
+        "text": "加油，新人。"
+      },
+      {
+        "id": "scene-05-05",
+        "order": 28,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-desk",
+        "speaker": "Jenny",
+        "text": "那就……"
+      },
+      {
+        "id": "scene-05-06",
+        "order": 29,
+        "enabled": true,
+        "backgroundAssetId": "asset-bg-desk",
+        "speaker": "Jenny",
+        "text": "看看这位传说中的前辈到底留下了什么吧。"
+      }
+    ]
+  },
+  "onboarding": {
+    "title": "【新人引导系统】| 欢迎新人入职！",
+    "buttonLabel": "开始",
+    "hint": "新手引导已开启",
+    "typewriterSpeed": 24,
+    "openSoundAssetId": "asset-sfx-popup-open",
+    "purrSoundAssetId": "asset-sfx-cat-purr",
+    "pages": [
+      {
+        "id": "welcome",
+        "caption": "新人，欢迎入职！我是【前辈】留下的交接系统~请你跟着我一步步探索学习，快速上手吧！点击图标，开始你的探索。"
+      },
+      {
+        "id": "tarot",
+        "caption": "糟了！差点忘记了【前辈】有个小爱好是塔罗牌占卜，在你探索的过程中，需要通过抽取【塔罗牌】获取具体的项目内容。祝你幸运！"
+      }
+    ]
+  },
+  "desktop": {
+    "wallpaperAssetId": "asset-wallpaper",
+    "bgmAssetId": "asset-bgm-desktop",
+    "systemName": "前辈 OS",
+    "icons": [
+      {
+        "id": "desktop-projects",
+        "label": "项目档案",
+        "type": "project",
+        "locked": true
+      },
+      {
+        "id": "desktop-system",
+        "label": "新人代教系统",
+        "type": "system",
+        "locked": false
+      },
+      {
+        "id": "desktop-inventory",
+        "label": "物品栏",
+        "type": "inventory",
+        "locked": true
+      },
+      {
+        "id": "desktop-portfolio",
+        "label": "正式作品集",
+        "type": "portfolio",
+        "locked": true
+      }
+    ]
+  },
+  "ending": {
+    "bgmAssetId": "asset-bgm-ending"
+  },
+  "projectPages": [
+    {
+      "projectId": "project-1",
+      "pages": [
+        {
+          "id": "p1-overview",
+          "projectId": "project-1",
+          "internalName": "AI工作台-项目概览",
+          "title": "AI 内容生产工作台",
+          "navLabel": "项目概览",
+          "order": 1,
+          "blockIds": [
+            "p1-text",
+            "p1-role",
+            "p1-metrics",
+            "p1-screenshot"
+          ],
+          "enabled": true,
+          "kind": "overview"
+        },
+        {
+          "id": "p1-background",
+          "projectId": "project-1",
+          "internalName": "AI工作台-业务背景",
+          "title": "从分散工具到连续生产流程",
+          "navLabel": "业务背景",
+          "order": 2,
+          "blockIds": [
+            "p1-background-text",
+            "p1-comparison"
+          ],
+          "enabled": true,
+          "kind": "background"
+        },
+        {
+          "id": "p1-demo",
+          "projectId": "project-1",
+          "internalName": "AI工作台-交互演示",
+          "title": "从选题到数字人视频",
+          "navLabel": "交互 Demo",
+          "order": 3,
+          "blockIds": [
+            "p1-interactive-demo"
+          ],
+          "enabled": true,
+          "kind": "demo"
+        },
+        {
+          "id": "p1-evidence",
+          "projectId": "project-1",
+          "internalName": "AI工作台-真实证据",
+          "title": "真实证据",
+          "navLabel": "真实证据",
+          "order": 4,
+          "blockIds": [
+            "p1-evidence-note",
+            "p1-evidence-image",
+            "p1-video"
+          ],
+          "enabled": true,
+          "kind": "evidence"
+        },
+        {
+          "id": "p1-result",
+          "projectId": "project-1",
+          "internalName": "AI工作台-成果验证",
+          "title": "成果验证",
+          "navLabel": "成果验证",
+          "order": 5,
+          "blockIds": [
+            "p1-result-note",
+            "p1-metrics"
+          ],
+          "enabled": true,
+          "kind": "result"
+        },
+        {
+          "id": "p1-reflection",
+          "projectId": "project-1",
+          "internalName": "AI工作台-项目复盘",
+          "title": "项目复盘",
+          "navLabel": "项目复盘",
+          "order": 6,
+          "blockIds": [
+            "p1-reflection-text",
+            "p1-reflection-role"
+          ],
+          "enabled": true,
+          "kind": "reflection"
+        }
+      ]
+    }
+  ]
+}

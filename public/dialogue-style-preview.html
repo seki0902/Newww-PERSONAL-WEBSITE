@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>对话框方案预览</title>
+    <style>
+      :root {
+        --ink: #24324b;
+        --muted-ink: #68758c;
+        --paper: #f8f4ed;
+        --paper-deep: #ebe4da;
+        --navy: #263e6a;
+        --navy-deep: #182947;
+        --rose: #dd7d9e;
+        --rose-pale: #f3cfdb;
+        --line: rgba(37, 54, 83, .16);
+        font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", ui-sans-serif, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100dvh;
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(90deg, rgba(38, 62, 106, .035) 1px, transparent 1px),
+          linear-gradient(rgba(38, 62, 106, .035) 1px, transparent 1px),
+          var(--paper);
+        background-size: 18px 18px;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .preview-shell {
+        width: min(1280px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: clamp(28px, 6vw, 76px) 0 68px;
+      }
+
+      .masthead {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 28px;
+        align-items: end;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow,
+      .option-index,
+      .option-kicker,
+      .status-label {
+        font-family: ui-monospace, "Cascadia Mono", "SFMono-Regular", monospace;
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 12px;
+        color: var(--navy);
+      }
+
+      .eyebrow::before {
+        width: 10px;
+        height: 10px;
+        content: "";
+        background: var(--rose);
+        box-shadow: 4px 4px 0 rgba(38, 62, 106, .2);
+      }
+
+      h1 {
+        max-width: 14ch;
+        margin: 0;
+        font-size: clamp(2rem, 5vw, 4.4rem);
+        font-weight: 800;
+        letter-spacing: -.075em;
+        line-height: .98;
+      }
+
+      .intro {
+        max-width: 42rem;
+        margin: 17px 0 0;
+        color: var(--muted-ink);
+        font-size: clamp(.94rem, 1.4vw, 1.05rem);
+        line-height: 1.75;
+      }
+
+      .selection-status {
+        min-width: 210px;
+        padding: 14px 0 13px 19px;
+        border-left: 2px solid var(--rose);
+      }
+
+      .status-label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--muted-ink);
+      }
+
+      #selection-value {
+        display: block;
+        color: var(--navy-deep);
+        font-size: .96rem;
+        font-weight: 750;
+      }
+
+      .option-list {
+        display: grid;
+        gap: clamp(34px, 6vw, 76px);
+        margin-top: clamp(40px, 7vw, 88px);
+      }
+
+      .option {
+        display: grid;
+        grid-template-columns: minmax(155px, .38fr) minmax(0, 1.62fr);
+        gap: clamp(20px, 4vw, 58px);
+        align-items: center;
+        padding-top: 2px;
+      }
+
+      .option-meta {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 16px 0;
+      }
+
+      .option-index {
+        color: var(--rose);
+      }
+
+      .option h2 {
+        margin: 9px 0 10px;
+        color: var(--navy-deep);
+        font-size: clamp(1.4rem, 2.3vw, 2rem);
+        letter-spacing: -.05em;
+        line-height: 1.1;
+      }
+
+      .option-copy {
+        max-width: 19rem;
+        margin: 0;
+        color: var(--muted-ink);
+        font-size: .93rem;
+        line-height: 1.65;
+      }
+
+      .option-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin: 16px 0 21px;
+      }
+
+      .option-tags span {
+        padding: 4px 8px;
+        border: 1px solid rgba(38, 62, 106, .19);
+        color: var(--navy);
+        font-family: ui-monospace, "Cascadia Mono", monospace;
+        font-size: .67rem;
+        letter-spacing: .06em;
+      }
+
+      .select-option {
+        padding: 0;
+        border: 0;
+        border-bottom: 1px solid var(--navy);
+        color: var(--navy);
+        background: transparent;
+        cursor: pointer;
+        font-size: .89rem;
+        font-weight: 800;
+        letter-spacing: .035em;
+        line-height: 1.8;
+        transition: color .18s ease, transform .18s ease;
+      }
+
+      .select-option:hover {
+        color: var(--rose);
+        transform: translateX(4px);
+      }
+
+      .select-option:focus-visible {
+        outline: 3px solid rgba(221, 125, 158, .5);
+        outline-offset: 4px;
+      }
+
+      .mock-stage {
+        position: relative;
+        isolation: isolate;
+        min-height: clamp(365px, 43vw, 510px);
+        overflow: hidden;
+        background: #e8d8d9;
+        box-shadow: 0 20px 48px rgba(49, 45, 61, .14);
+        contain: layout style paint;
+      }
+
+      .mock-stage::before {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        content: "";
+        background:
+          linear-gradient(135deg, rgba(238, 242, 251, .14), transparent 42%),
+          linear-gradient(0deg, rgba(35, 46, 77, .08), transparent 37%);
+      }
+
+      .mock-stage::after {
+        position: absolute;
+        z-index: 4;
+        inset: 0;
+        pointer-events: none;
+        content: "";
+        opacity: .22;
+        background-image:
+          linear-gradient(90deg, rgba(255, 255, 255, .35) 1px, transparent 1px),
+          linear-gradient(rgba(255, 255, 255, .35) 1px, transparent 1px);
+        background-size: 5px 5px;
+        mix-blend-mode: soft-light;
+      }
+
+      .scene-backdrop {
+        position: absolute;
+        z-index: -2;
+        inset: 0;
+        background-image: url("./content/current/assets/images/公司前台.png");
+        background-position: center;
+        background-size: cover;
+        filter: saturate(.86) contrast(.98);
+        transform: scale(1.025);
+      }
+
+      .portrait {
+        position: absolute;
+        z-index: 2;
+        right: 8%;
+        bottom: 0;
+        height: min(82%, 430px);
+        max-width: 48%;
+        object-fit: contain;
+        object-position: bottom center;
+        filter: drop-shadow(12px 15px 18px rgba(31, 40, 65, .18));
+        image-rendering: pixelated;
+        animation: portrait-arrive .52s cubic-bezier(.16, 1, .3, 1) both;
+      }
+
+      .stage-caption {
+        position: absolute;
+        z-index: 3;
+        top: 18px;
+        left: 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: rgba(36, 50, 75, .78);
+        font-family: ui-monospace, "Cascadia Mono", monospace;
+        font-size: .68rem;
+        font-weight: 800;
+        letter-spacing: .12em;
+      }
+
+      .stage-caption::before {
+        width: 6px;
+        height: 6px;
+        content: "";
+        background: currentColor;
+        box-shadow: 9px 0 0 rgba(36, 50, 75, .35);
+      }
+
+      .dialogue {
+        position: absolute;
+        z-index: 5;
+        right: 7%;
+        bottom: 28px;
+        left: 7%;
+        min-height: 137px;
+        padding: 34px clamp(23px, 4vw, 50px) 30px;
+      }
+
+      .dialogue p {
+        max-width: min(70%, 600px);
+        margin: 0;
+        font-size: clamp(.95rem, 1.5vw, 1.13rem);
+        font-weight: 650;
+        letter-spacing: .018em;
+        line-height: 1.78;
+      }
+
+      .speaker {
+        position: absolute;
+        top: 0;
+        left: 22px;
+        padding: 8px 14px 9px;
+        font-size: .82rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+        line-height: 1;
+      }
+
+      .advance {
+        position: absolute;
+        right: 25px;
+        bottom: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: ui-monospace, "Cascadia Mono", monospace;
+        font-size: .65rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+      }
+
+      .advance::before {
+        width: 5px;
+        height: 5px;
+        content: "";
+        background: currentColor;
+        box-shadow: 8px 0 0 currentColor, 16px 0 0 currentColor;
+        animation: advance-pixels 1.2s steps(2, end) infinite;
+      }
+
+      /* A: a quiet, translucent visual-novel HUD with pixel-cut corners. */
+      .option--vn .mock-stage {
+        border: 1px solid rgba(255, 255, 255, .58);
+      }
+
+      .option--vn .dialogue {
+        color: #3a4360;
+        background: linear-gradient(112deg, rgba(255, 253, 249, .84), rgba(250, 231, 240, .72));
+        box-shadow: 0 16px 30px rgba(75, 50, 83, .14), inset 0 1px 0 rgba(255, 255, 255, .72);
+        backdrop-filter: blur(9px);
+        clip-path: polygon(0 12px, 12px 12px, 12px 0, calc(100% - 12px) 0, calc(100% - 12px) 12px, 100% 12px, 100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px));
+      }
+
+      .option--vn .dialogue::before {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        content: "";
+        opacity: .45;
+        background:
+          linear-gradient(90deg, rgba(221, 125, 158, .55) 0 8px, transparent 8px calc(100% - 8px), rgba(221, 125, 158, .55) calc(100% - 8px)),
+          repeating-linear-gradient(90deg, rgba(38, 62, 106, .33) 0 4px, transparent 4px 13px);
+        background-size: 100% 2px, 100% 2px;
+        background-position: 0 0, 0 100%;
+        background-repeat: no-repeat;
+      }
+
+      .option--vn .speaker {
+        color: #fff;
+        background: var(--navy);
+        box-shadow: 5px 5px 0 rgba(38, 62, 106, .13);
+      }
+
+      .option--vn .advance {
+        color: #9f5778;
+      }
+
+      /* B: deliberately more structured, like a 16-bit RPG message window. */
+      .option--rpg .mock-stage {
+        border: 7px solid #dce4ed;
+        box-shadow: 0 0 0 2px #33486c, 0 20px 48px rgba(49, 45, 61, .16);
+      }
+
+      .option--rpg .portrait {
+        right: 5%;
+        height: min(85%, 448px);
+      }
+
+      .option--rpg .dialogue {
+        right: 5.5%;
+        bottom: 21px;
+        left: 5.5%;
+        color: #273c61;
+        border: 3px solid #263e6a;
+        background: #fff9e9;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, .82), 7px 7px 0 rgba(38, 62, 106, .24);
+        clip-path: polygon(0 11px, 11px 11px, 11px 0, calc(100% - 11px) 0, calc(100% - 11px) 11px, 100% 11px, 100% calc(100% - 11px), calc(100% - 11px) calc(100% - 11px), calc(100% - 11px) 100%, 11px 100%, 11px calc(100% - 11px), 0 calc(100% - 11px));
+      }
+
+      .option--rpg .dialogue p {
+        padding-left: 3px;
+        text-shadow: 1px 1px 0 #fff;
+      }
+
+      .option--rpg .speaker {
+        top: -16px;
+        left: 18px;
+        color: #fff9e9;
+        border: 3px solid #263e6a;
+        background: #385889;
+        box-shadow: 4px 4px 0 rgba(38, 62, 106, .24);
+      }
+
+      .option--rpg .advance {
+        color: #3c5b88;
+      }
+
+      /* C: no card outline; the dialogue becomes a film-like bottom subtitle field. */
+      .option--cinema .mock-stage {
+        border-bottom: 4px solid rgba(230, 165, 181, .72);
+      }
+
+      .option--cinema .scene-backdrop {
+        filter: saturate(.72) contrast(1.02) brightness(.91);
+      }
+
+      .option--cinema .portrait {
+        right: 10%;
+        height: min(87%, 462px);
+        filter: drop-shadow(16px 18px 24px rgba(15, 22, 43, .37));
+      }
+
+      .option--cinema .dialogue {
+        right: 0;
+        bottom: 0;
+        left: 0;
+        min-height: 155px;
+        padding: 44px clamp(26px, 6vw, 76px) 31px;
+        color: #fffaf4;
+        background: linear-gradient(180deg, transparent, rgba(94, 64, 76, .76) 33%, rgba(63, 43, 51, .96));
+      }
+
+      .option--cinema .dialogue p {
+        text-shadow: 0 2px 10px rgba(0, 0, 0, .28);
+      }
+
+      .option--cinema .speaker {
+        top: 20px;
+        left: clamp(26px, 6vw, 76px);
+        padding: 0 0 6px;
+        color: #f6bdcc;
+        border-bottom: 2px solid currentColor;
+        background: transparent;
+      }
+
+      .option--cinema .advance {
+        right: clamp(26px, 6vw, 76px);
+        color: rgba(255, 226, 216, .8);
+      }
+
+      .option--selected .option-meta::before {
+        width: 26px;
+        height: 3px;
+        margin-bottom: 15px;
+        content: "";
+        background: var(--rose);
+        box-shadow: 7px 5px 0 rgba(38, 62, 106, .28);
+      }
+
+      .option--selected .select-option {
+        color: var(--rose);
+      }
+
+      @keyframes portrait-arrive {
+        from {
+          opacity: 0;
+          transform: translate3d(18px, 12px, 0) scale(.96);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+      }
+
+      @keyframes advance-pixels {
+        50% {
+          opacity: .35;
+          transform: translateX(4px);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .preview-shell {
+          width: min(100% - 28px, 680px);
+          padding-top: 29px;
+        }
+
+        .masthead {
+          grid-template-columns: 1fr;
+          gap: 22px;
+        }
+
+        .selection-status {
+          padding-left: 14px;
+        }
+
+        .option {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        .option-meta {
+          padding: 0;
+        }
+
+        .option-copy {
+          max-width: 32rem;
+        }
+
+        .mock-stage {
+          min-height: min(510px, 116vw);
+        }
+
+        .portrait {
+          right: 2%;
+          height: min(80%, 410px);
+          max-width: 60%;
+        }
+
+        .dialogue {
+          right: 4%;
+          bottom: 15px;
+          left: 4%;
+          min-height: 146px;
+          padding: 37px 22px 29px;
+        }
+
+        .dialogue p {
+          max-width: 78%;
+          font-size: .91rem;
+          line-height: 1.66;
+        }
+
+        .speaker {
+          left: 15px;
+        }
+
+        .advance {
+          right: 18px;
+          bottom: 12px;
+          font-size: .56rem;
+        }
+
+        .option--rpg .dialogue {
+          right: 4.5%;
+          bottom: 17px;
+          left: 4.5%;
+        }
+
+        .option--cinema .dialogue {
+          padding: 42px 22px 28px;
+        }
+
+        .option--cinema .speaker {
+          left: 22px;
+        }
+
+        .option--cinema .advance {
+          right: 22px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .portrait,
+        .advance::before {
+          animation: none;
+        }
+
+        .select-option {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="preview-shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Dialogue box study / 03</p>
+          <h1>选一个更像游戏的对话框</h1>
+          <p class="intro">三种方案使用同一张像素场景、同一位 HR 和同一段文字，只比较对话框的节奏、边界与氛围。</p>
+        </div>
+        <div class="selection-status" aria-live="polite">
+          <span class="status-label">你的选择</span>
+          <strong id="selection-value">尚未选择</strong>
+        </div>
+      </header>
+
+      <div class="option-list">
+        <section class="option option--vn" data-option="A｜复古视觉小说">
+          <div class="option-meta">
+            <span class="option-index">Option / 01</span>
+            <h2>复古视觉小说</h2>
+            <p class="option-copy">淡透底、切角和极细的像素高光。边框几乎隐去，但名字牌和推进提示仍保留游戏感。</p>
+            <div class="option-tags"><span>轻边框</span><span>柔和</span><span>像素 HUD</span></div>
+            <button class="select-option" type="button">选择方案 A</button>
+          </div>
+          <div class="mock-stage" aria-label="方案 A 对话框预览">
+            <div class="scene-backdrop"></div>
+            <span class="stage-caption">SCENE / LOBBY</span>
+            <img class="portrait" src="./content/current/assets/images/hr-pixel-navy-introduce.png" alt="穿藏蓝色西装的 HR 立绘" />
+            <div class="dialogue">
+              <strong class="speaker">HR</strong>
+              <p>欢迎来到这里。先跟着我熟悉一下环境，之后我们再慢慢聊。</p>
+              <span class="advance">点击推进</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="option option--rpg" data-option="B｜16-bit RPG 窗口">
+          <div class="option-meta">
+            <span class="option-index">Option / 02</span>
+            <h2>16-bit RPG 窗口</h2>
+            <p class="option-copy">清晰的阶梯像素轮廓、米白纸感和更强的层级。最像传统游戏 UI，但边框存在感也最强。</p>
+            <div class="option-tags"><span>像素最强</span><span>结构感</span><span>复古</span></div>
+            <button class="select-option" type="button">选择方案 B</button>
+          </div>
+          <div class="mock-stage" aria-label="方案 B 对话框预览">
+            <div class="scene-backdrop"></div>
+            <span class="stage-caption">SCENE / LOBBY</span>
+            <img class="portrait" src="./content/current/assets/images/hr-pixel-navy-happy.png" alt="穿藏蓝色西装的 HR 开心立绘" />
+            <div class="dialogue">
+              <strong class="speaker">HR</strong>
+              <p>别紧张，今天先把最重要的几件事记住就好，我会陪你走完流程。</p>
+              <span class="advance">点击推进</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="option option--cinema" data-option="C｜电影字幕条">
+          <div class="option-meta">
+            <span class="option-index">Option / 03</span>
+            <h2>电影字幕条</h2>
+            <p class="option-copy">去掉完整卡片，让文字融进画面底部的暗色渐层。最克制、最有场景感，也最不像传统窗口。</p>
+            <div class="option-tags"><span>无外框</span><span>沉浸</span><span>克制</span></div>
+            <button class="select-option" type="button">选择方案 C</button>
+          </div>
+          <div class="mock-stage" aria-label="方案 C 对话框预览">
+            <div class="scene-backdrop"></div>
+            <span class="stage-caption">SCENE / LOBBY</span>
+            <img class="portrait" src="./content/current/assets/images/hr-pixel-navy-encourage.png" alt="穿藏蓝色西装的 HR 鼓励立绘" />
+            <div class="dialogue">
+              <strong class="speaker">HR</strong>
+              <p>不用急着表现得很完美。你可以按自己的节奏来，我们有的是时间。</p>
+              <span class="advance">点击推进</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const selectionValue = document.querySelector("#selection-value");
+      const options = document.querySelectorAll(".option");
+
+      document.querySelectorAll(".select-option").forEach((button) => {
+        button.addEventListener("click", () => {
+          const option = button.closest(".option");
+          options.forEach((item) => item.classList.toggle("option--selected", item === option));
+          selectionValue.textContent = option.dataset.option;
+        });
+      });
+    </script>
+  </body>
+</html>

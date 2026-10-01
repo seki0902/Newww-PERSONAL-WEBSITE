@@ -1,0 +1,106 @@
+.project-pages-editor {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #f3b5cc;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.project-pages-editor .section-title h2 { margin: .15rem 0 0; }
+.project-pages-editor .section-title > label { display: grid; gap: .35rem; min-width: min(100%, 280px); font-size: .85rem; font-weight: 700; }
+.project-pages-editor select,
+.project-pages-editor input { width: 100%; padding: .55rem; border: 1px solid #eab1c7; border-radius: 7px; background: #fffafd; color: #5d2947; font: inherit; }
+
+.page-editor-grid { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.page-list { display: grid; gap: .5rem; }
+.page-list > button { display: grid; gap: .2rem; width: 100%; padding: .65rem .75rem; border: 1px solid #eab1c7; border-radius: 8px; background: #fffafd; color: #5d2947; text-align: left; }
+.page-list > button.selected { border-color: #ff76ab; background: #ffd4e5; }
+.page-list > button.add-page-button { display: block; border-style: dashed; background: #ffeaf2; text-align: center; font-weight: 700; }
+.page-list small { color: #b75a84; }
+.page-list span { overflow: hidden; color: #87506d; font-size: .8rem; text-overflow: ellipsis; white-space: nowrap; }
+
+.page-detail { display: grid; gap: .8rem; min-width: 0; padding: 1rem; border: 1px solid #f6c7d8; border-radius: 10px; background: #fffafd; }
+.page-detail > label { display: grid; gap: .35rem; font-size: .85rem; font-weight: 700; }
+.page-detail > label.check { display: flex; align-items: center; }
+.page-detail > label.check input { width: auto; }
+.page-detail-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.page-detail-actions button,
+.page-block-row button { padding: .45rem .65rem; border: 1px solid #e98ab3; border-radius: 7px; background: #fff; color: #7c315a; }
+.page-detail-actions button:disabled,
+.page-block-row button:disabled { opacity: .42; }
+.page-detail-actions .danger-button { margin-left: auto; border-color: #d26b7f; color: #9f2942; }
+
+.page-blocks { display: grid; gap: .55rem; margin-top: .35rem; padding-top: 1rem; border-top: 1px solid #f3b5cc; }
+.page-blocks h3 { margin: 0; font-size: 1rem; }
+.page-blocks > p { margin: -.25rem 0 .25rem; color: #87506d; font-size: .82rem; }
+.page-block-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .65rem; border: 1px solid #f1d0dd; border-radius: 8px; background: #fff; }
+.page-block-row.is-included { border-color: #ed9dbd; background: #fff3f8; }
+.page-block-row > label { display: flex; min-width: 0; flex: 1; align-items: center; gap: .65rem; }
+.page-block-row > label input { width: auto; }
+.page-block-row > label span { display: grid; min-width: 0; gap: .12rem; }
+.page-block-row small { overflow: hidden; color: #a55a7c; text-overflow: ellipsis; white-space: nowrap; }
+.page-block-row > div { display: flex; gap: .35rem; }
+.editor-empty { margin: 0; padding: 1rem; color: #87506d; text-align: center; }
+
+/* The editor is intentionally a directory, not one long form. */
+.editor-workspace { display: grid; grid-template-columns: minmax(210px, 250px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.editor-directory { position: sticky; top: 1rem; display: grid; gap: .45rem; padding: .85rem; border: 1px solid #f3b5cc; border-radius: 12px; background: #fff; }
+.editor-directory-label { margin: .1rem .25rem .45rem; color: #b75a84; font-size: .68rem; font-weight: 800; letter-spacing: .12em; }
+.editor-directory button { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: .45rem; padding: .65rem .7rem; border: 1px solid transparent; border-radius: 9px; background: transparent; color: #6f3655; text-align: left; transition: background-color .16s ease, border-color .16s ease, transform .16s ease; }
+.editor-directory button:hover { border-color: #efbad0; background: #fff5f9; transform: translateX(2px); }
+.editor-directory button.selected { border-color: #ff76ab; background: #ffdce9; color: #702d51; box-shadow: 3px 3px 0 #f6bed4; }
+.editor-directory button small { grid-row: 1 / span 2; padding-top: .12rem; color: #c66590; font-size: .7rem; font-weight: 800; }
+.editor-directory button b { overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
+.editor-directory button span { overflow: hidden; color: #9f6480; font-size: .72rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.editor-directory button:focus-visible,.editor-panel-navigation button:focus-visible { outline: 3px solid #e276a4; outline-offset: 2px; }
+
+.editor-panel { min-width: 0; }
+.editor-panel-header { margin-bottom: 1rem; padding: .25rem .1rem 1rem; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; border-bottom: 1px solid #efbed2; }
+.editor-panel-header h2 { margin: .1rem 0 .2rem; color: #6c2e50; font-size: 1.35rem; }
+.editor-panel-header p { margin: 0; color: #98607a; font-size: .86rem; }
+.editor-panel-navigation { display: flex; flex-wrap: wrap; gap: .5rem; }
+.editor-panel-navigation button { padding: .5rem .65rem; border: 1px solid #e98ab3; border-radius: 7px; background: #fff; color: #7c315a; font: inherit; font-size: .82rem; }
+.editor-panel-navigation button:disabled { opacity: .45; }
+
+.editor-grid--story { grid-template-columns: minmax(230px, .76fr) minmax(340px, 1.24fr); }
+.editor-grid--story .scene-list { max-height: calc(100vh - 220px); overflow-y: auto; }
+.editor-grid--story .scene-list .section-title { position: sticky; z-index: 1; top: 0; margin: -1rem -1rem .55rem; padding: 1rem 1rem .55rem; border-bottom: 1px solid #f5d2df; background: #fff; }
+.editor-standalone-section { display: grid; gap: .85rem; max-width: 860px; padding: 1rem; border: 1px solid #f3b5cc; border-radius: 12px; background: #fff; }
+.editor-standalone-section > label,
+.onboarding-page-fields > label,
+.editor-two-columns > label,
+.desktop-icon-field > label { display: grid; gap: .35rem; color: #652d4d; font-size: .85rem; font-weight: 700; }
+.editor-standalone-section input,
+.editor-standalone-section textarea,
+.editor-standalone-section select { width: 100%; padding: .55rem; border: 1px solid #eab1c7; border-radius: 7px; background: #fffafd; color: #5d2947; font: inherit; }
+.editor-standalone-section textarea { min-height: 118px; resize: vertical; }
+.editor-section-intro { padding: .75rem .85rem; border-left: 4px solid #ff8db8; border-radius: 0 8px 8px 0; background: #fff4f8; }
+.editor-section-intro h3 { margin: 0; color: #722f53; font-size: 1rem; }
+.editor-section-intro p { margin: .35rem 0 0; color: #906078; font-size: .83rem; line-height: 1.55; }
+.onboarding-page-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.editor-two-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.desktop-icon-editor { display: grid; gap: .55rem; padding-top: .25rem; }
+.desktop-icon-editor h3 { margin: 0; color: #6b2e50; font-size: .95rem; }
+.desktop-icon-field { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .75rem; padding: .75rem; border: 1px solid #f3d2df; border-radius: 9px; background: #fffafd; }
+.desktop-icon-field .check { display: flex; align-items: center; gap: .4rem; padding-bottom: .55rem; white-space: nowrap; }
+.desktop-icon-field .check input { width: auto; }
+.editor-panel > .settings-editor { grid-column: auto; max-width: 660px; }
+
+@media (max-width: 800px) {
+  .editor-workspace { grid-template-columns: minmax(0, 1fr); }
+  .editor-directory { position: static; grid-auto-flow: column; grid-auto-columns: minmax(165px, 72%); grid-template-columns: none; overflow-x: auto; padding-bottom: .7rem; }
+  .editor-directory-label { display: none; }
+  .editor-directory button { min-height: 64px; }
+  .editor-panel-header { align-items: flex-start; flex-direction: column; }
+  .editor-grid--story,.onboarding-page-fields,.editor-two-columns { grid-template-columns: minmax(0, 1fr); }
+  .editor-grid--story .scene-list { max-height: 48vh; }
+  .desktop-icon-field { grid-template-columns: minmax(0, 1fr); }
+  .desktop-icon-field .check { padding-bottom: 0; }
+}
+
+@media (max-width: 800px) {
+  .project-pages-editor .section-title { align-items: stretch; flex-direction: column; }
+  .page-editor-grid { grid-template-columns: minmax(0, 1fr); }
+  .page-detail-actions .danger-button { margin-left: 0; }
+}
