@@ -26,7 +26,7 @@ export function TarotScreen({ project, onComplete, muted = false, drawSound, emb
         <button type="button" className="folder-window-control folder-window-control--maximize" aria-label={maximized ? "还原抽牌窗口" : "最大化抽牌窗口"} onClick={onMaximize} />
       </div><span>{project.title}</span></header>}
       <div className="tarot-body"><span className="eyebrow">解锁仪式 / {project.order.toString().padStart(2, "0")}</span><h1>{revealed ? "你抽到了" : "选择一张牌"}</h1><p className="tarot-introduction">抽取一张塔罗牌，开启这段项目探索。</p>
-        {!revealed ? <div className="tarot-cards">{[1, 2, 3].map((card) => <button type="button" key={card} className="tarot-back" aria-label={`牌背 ${card}`} onClick={reveal}><img src={staticAsset(`tarot/back-${card}.png`)} alt="" /></button>)}</div>
+        {!revealed ? <div className="tarot-cards">{[1, 2, 3].map((card) => <button type="button" key={card} className="tarot-back" aria-label={`牌背 ${card}`} onClick={reveal}><img src={staticAsset(`tarot/back-${card}.webp`)} alt="" /></button>)}</div>
           : <div className="tarot-reveal" aria-live="polite"><h2>{project.tarot.name}</h2><figure><img src={mediaUrl(project.tarot.image)} alt={`${project.tarot.name} 牌面`} /><figcaption data-testid="tarot-quote">{project.tarot.hint}</figcaption></figure><button type="button" className="primary-button" onClick={onComplete}>完成抽牌</button></div>}
       </div>
     </section>

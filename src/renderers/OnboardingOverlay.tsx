@@ -76,7 +76,7 @@ export function OnboardingOverlay({ content, resolveAsset, onComplete, muted, on
       <div className={`onboarding-backdrop onboarding-backdrop--${page + 1}`} aria-hidden="true" />
       <section className="onboarding-window" ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="onboarding-title" tabIndex={-1}>
         <header className="onboarding-titlebar">
-          <img src={staticAsset("onboarding/canva-sleeping-cat.png")} alt="" aria-hidden="true" />
+          <img src={staticAsset("onboarding/canva-sleeping-cat.webp")} alt="" aria-hidden="true" />
           <h1 id="onboarding-title">{content.title}</h1>
           <button type="button" className="onboarding-sound-toggle" onClick={toggleMuted} aria-label={muted ? "开启声音" : "关闭声音"}><span aria-hidden="true">♪</span></button>
           <span className="onboarding-window-controls" aria-hidden="true"><i>−</i><i>×</i></span>
@@ -85,7 +85,7 @@ export function OnboardingOverlay({ content, resolveAsset, onComplete, muted, on
           <div className="onboarding-art" aria-hidden="true">
             <i className="onboarding-spark onboarding-spark--one" />
             <i className="onboarding-spark onboarding-spark--two" />
-            <div className="onboarding-cat-breathe"><img src={staticAsset("onboarding/canva-sleeping-cat.png")} alt="" /></div>
+            <div className="onboarding-cat-breathe"><img src={staticAsset("onboarding/canva-sleeping-cat.webp")} alt="" /></div>
             <span className="onboarding-snore"><i>z</i><i>z</i><i>z</i></span>
           </div>
           <div className="onboarding-copy" key={page}>
