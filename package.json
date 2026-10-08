@@ -8,16 +8,18 @@
     "dev:all": "node tools/dev-all.mjs",
     "server": "node server/index.mjs",
     "build": "tsc -b && vite build",
-    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p functions/tsconfig.json",
     "preview": "vite preview --host 0.0.0.0 --port 4173",
-    "lint": "eslint src server tools tests vite.config.ts vitest.config.ts playwright.config.ts eslint.config.mjs --max-warnings 0",
+    "lint": "eslint src server functions tools tests vite.config.ts vitest.config.ts playwright.config.ts eslint.config.mjs --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "content:import": "node tools/import-media.mjs",
     "content:export": "node tools/export-media.mjs",
     "content:publish": "node tools/publish.mjs",
-    "pretest:e2e": "npm run build"
+    "pretest:e2e": "npm run build",
+    "media:optimize": "node tools/optimize-media.mjs",
+    "r2:upload": "node tools/r2-upload.mjs"
   },
   "dependencies": {
     "pg": "^8.13.1",
@@ -27,6 +29,8 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.700.0",
+    "@cloudflare/workers-types": "^4.20250109.0",
     "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.5",
@@ -37,6 +41,7 @@
     "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^16.5.0",
+    "sharp": "^0.35.5",
     "typescript": "^5.7.2",
     "typescript-eslint": "8.46.4",
     "vite": "^6.0.7",

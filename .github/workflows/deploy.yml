@@ -1,12 +1,12 @@
-name: Deploy Portfolio (ECS + Docker + Aliyun ACR)
+name: Deploy Portfolio (Cloudflare Pages + R2)
 
-# 设计约束：镜像只在 GitHub Actions 构建，ECS 只 pull & run（严禁在 ECS 上 build）。
+# 设计：站点 = Cloudflare Pages（静态 SPA + Pages Functions API），素材 = R2。
+# 没有 ECS、没有构建服务器、不需要备案；PR 只跑质量门禁，master 合并后自动发布。
 on:
   push:
     branches: [master, main]
     paths-ignore:
       - "**/*.md"
-      - ".github/ISSUE_TEMPLATE/**"
   pull_request:
     branches: [master, main]
   workflow_dispatch:
@@ -20,15 +20,10 @@ permissions:
 
 env:
   NODE_VERSION: "22"
-  DEPLOY_DIR: ${{ vars.DEPLOY_DIR || '/opt/seki-portfolio' }}
-  # 阿里云容器镜像服务（杭州个人版）；同地域可把 ACR_PULL_REGISTRY 换成 VPC 地址。
-  ACR_REGISTRY: ${{ vars.ACR_REGISTRY || 'crpi-nqwu6u57qjindq7p.cn-hangzhou.personal.cr.aliyuncs.com' }}
-  ACR_PULL_REGISTRY: ${{ vars.ACR_PULL_REGISTRY || 'crpi-nqwu6u57qjindq7p.cn-hangzhou.personal.cr.aliyuncs.com' }}
-  ACR_REPOSITORY: ${{ vars.ACR_REPOSITORY || 'seki0902/website' }}
-  APP_CONTAINER: seki-portfolio-app
+  CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT || 'seki-portfolio' }}
 
 jobs:
-  # ---------- 1. 质量门禁：lint + 类型 + 单元测试 + 浏览器 E2E ----------
+  # ---------- 1. 质量门禁：lint + 类型 + 单测 + 浏览器 E2E ----------
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -60,7 +55,7 @@ jobs:
       - run: npm run build
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
-      - name: Run browser E2E against local build + Postgres
+      - name: Run browser E2E
         run: npm run test:e2e
       - name: Upload Playwright report
         if: failure()
@@ -70,130 +65,30 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  # ---------- 2. 构建镜像并推送到 ACR ----------
-  build-and-push:
+  # ---------- 2. 发布到 Cloudflare Pages（静态产物 + Pages Functions）----------
+  deploy:
     needs: [verify]
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    outputs:
-      image: ${{ steps.meta.outputs.pull_image }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - id: meta
-        run: |
-          echo "pull_image=${ACR_PULL_REGISTRY}/${ACR_REPOSITORY}:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
-      - uses: docker/login-action@v3
-        with:
-          registry: ${{ env.ACR_REGISTRY }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          # ACR 个人版不支持 buildx 的 OCI 证明清单，必须关闭 provenance / SBOM。
-          provenance: false
-          sbom: false
-          tags: |
-            ${{ env.ACR_REGISTRY }}/${{ env.ACR_REPOSITORY }}:${{ github.sha }}
-            ${{ env.ACR_REGISTRY }}/${{ env.ACR_REPOSITORY }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  # ---------- 3. 部署到 ECS（scp compose + docker compose pull/up，不在 ECS 构建）----------
-  deploy:
-    needs: [build-and-push]
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     environment: production
     steps:
       - uses: actions/checkout@v4
-
-      - name: Sync compose file to ECS
-        uses: appleboy/scp-action@v0.1.7
+      - uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.ECS_HOST }}
-          username: ${{ secrets.ECS_USER }}
-          key: ${{ secrets.ECS_SSH_KEY }}
-          port: ${{ secrets.ECS_PORT || '22' }}
-          source: "docker-compose.prod.yml"
-          target: ${{ env.DEPLOY_DIR }}
-          overwrite: true
-          timeout: 60s
-
-      - name: Deploy on ECS over SSH
-        uses: appleboy/ssh-action@v1.2.0
-        env:
-          APP_IMAGE: ${{ needs.build-and-push.outputs.image }}
-          DATABASE_URL_B64: ${{ secrets.DATABASE_URL_B64 }}
-          ADMIN_TOKEN_B64: ${{ secrets.ADMIN_TOKEN_B64 }}
-          ACR_PULL_REGISTRY: ${{ env.ACR_PULL_REGISTRY }}
-          ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
-          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
-          DEPLOY_DIR: ${{ env.DEPLOY_DIR }}
-          APP_CONTAINER: ${{ env.APP_CONTAINER }}
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          host: ${{ secrets.ECS_HOST }}
-          username: ${{ secrets.ECS_USER }}
-          key: ${{ secrets.ECS_SSH_KEY }}
-          port: ${{ secrets.ECS_PORT || '22' }}
-          command_timeout: 20m
-          envs: APP_IMAGE,DATABASE_URL_B64,ADMIN_TOKEN_B64,ACR_PULL_REGISTRY,ACR_USERNAME,ACR_PASSWORD,DEPLOY_DIR,APP_CONTAINER
-          script: |
-            set -euo pipefail
-            cd "$DEPLOY_DIR"
-            test -f docker-compose.prod.yml
-
-            if [ -n "${ACR_PASSWORD:-}" ]; then
-              echo "$ACR_PASSWORD" | docker login "$ACR_PULL_REGISTRY" -u "$ACR_USERNAME" --password-stdin
-            fi
-
-            # 用 python 安全写入 .env（避免密码中的特殊字符被 sed 破坏）
-            python3 - "$APP_IMAGE" "$DATABASE_URL_B64" "$ADMIN_TOKEN_B64" <<'PY'
-            import base64, os, sys
-            image, db_b64, token_b64 = sys.argv[1], sys.argv[2], sys.argv[3]
-            # 只覆盖显式提供的值：DATABASE_URL / ADMIN_TOKEN 默认沿用服务器上的 .env，
-            # 这样数据库口令与编辑器令牌无需进入 GitHub Secrets。
-            values = {"APP_IMAGE": image}
-            if db_b64:
-              values["DATABASE_URL"] = base64.b64decode(db_b64).decode()
-            if token_b64:
-              values["ADMIN_TOKEN"] = base64.b64decode(token_b64).decode()
-            path = ".env"
-            existing = {}
-            if os.path.exists(path):
-              for line in open(path, encoding="utf-8"):
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                  key, value = line.split("=", 1)
-                  existing[key] = value
-            existing.update(values)
-            with open(path, "w", encoding="utf-8") as fh:
-              for key, value in existing.items():
-                fh.write(f"{key}={value}\n")
-            os.chmod(path, 0o600)
-            PY
-
-            grep -q '^DATABASE_URL=' .env || { echo "缺少 DATABASE_URL（服务器 .env 未配置）"; exit 1; }
-
-            docker compose -f docker-compose.prod.yml pull app
-            docker compose -f docker-compose.prod.yml up -d --no-deps app
-            docker compose -f docker-compose.prod.yml ps
-
-            for i in $(seq 1 24); do
-              if curl -fsS "http://127.0.0.1:8080/api/health" >/dev/null; then
-                curl -fsS "http://127.0.0.1:8080/api/health"
-                echo ""
-                echo "部署成功：$APP_IMAGE"
-                exit 0
-              fi
-              echo "等待健康检查… ($i/24)"
-              sleep 5
-            done
-            echo "健康检查失败，输出最近日志："
-            docker logs --tail 80 "$APP_CONTAINER" || true
-            exit 1
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=${{ env.CF_PAGES_PROJECT }} --branch=${{ github.ref_name }}
+      - name: Smoke test (health + 一个素材)
+        run: |
+          BASE="${{ vars.PUBLIC_BASE_URL || format('https://{0}.pages.dev', env.CF_PAGES_PROJECT) }}"
+          echo "public: $BASE"
+          curl -fsS "$BASE/api/health" | head -c 300; echo
+          curl -fsS -o /dev/null -w 'spa: %{http_code}\n' "$BASE/"

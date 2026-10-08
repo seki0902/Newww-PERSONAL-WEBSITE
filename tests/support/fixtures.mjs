@@ -32,6 +32,11 @@ export function makePng(width = 2, height = 2, rgb = [90, 140, 190]) {
   ]);
 }
 
+/** 最小可用 WebP（1x1，44 字节）——夹具里的静态素材已全部转成 WebP。 */
+export function makeWebp() {
+  return Buffer.from("UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=", "base64");
+}
+
 /** 生成静音 WAV（44 字节头 + 采样数据）。 */
 export function makeWav(seconds = 0.2, sampleRate = 8000) {
   const samples = Math.floor(seconds * sampleRate);
@@ -48,14 +53,14 @@ export function makeWav(seconds = 0.2, sampleRate = 8000) {
 export const STATIC_ASSET_SPECS = [
   "fonts/kami-seki-regular.woff2", "fonts/kami-seki-medium.woff2",
   "fonts/kami-education-regular.woff2", "fonts/kami-education-medium.woff2",
-  "onboarding/canva-onboarding-01.png", "onboarding/canva-onboarding-02.png", "onboarding/canva-sleeping-cat.png",
-  "onboarding/canva-welcome-character.png", "onboarding/canva-welcome-dialogue.png", "onboarding/canva-welcome-nameplate.png",
-  "onboarding/canva-welcome-choice-content.png", "onboarding/canva-welcome-choice-education.png",
-  "onboarding/canva-welcome-choice-sales.png", "onboarding/canva-welcome-cursor.png",
-  "canva-original/MAHV_kZZuSY.png", "canva-original/MAHV_mLKkCQ.png", "canva-original/MAHV_mFriGQ.png",
-  "canva-original/MAHV_lPoNak.png", "canva-original/MAHV_iDthYI.png", "canva-original/MAHV_pm1j1g.png",
-  "canva-original/MAHV_saoD2c.png", "canva-original/MAHV_pfICPo.png", "canva-original/MAHV_jjXGNM.png",
-  "tarot/back-1.png", "tarot/back-2.png", "tarot/back-3.png",
+  "onboarding/canva-onboarding-01.webp", "onboarding/canva-onboarding-02.webp", "onboarding/canva-sleeping-cat.webp",
+  "onboarding/canva-welcome-character.webp", "onboarding/canva-welcome-dialogue.webp", "onboarding/canva-welcome-nameplate.webp",
+  "onboarding/canva-welcome-choice-content.webp", "onboarding/canva-welcome-choice-education.webp",
+  "onboarding/canva-welcome-choice-sales.webp", "onboarding/canva-welcome-cursor.webp",
+  "canva-original/MAHV_kZZuSY.webp", "canva-original/MAHV_mLKkCQ.webp", "canva-original/MAHV_mFriGQ.webp",
+  "canva-original/MAHV_lPoNak.webp", "canva-original/MAHV_iDthYI.webp", "canva-original/MAHV_pm1j1g.webp",
+  "canva-original/MAHV_saoD2c.webp", "canva-original/MAHV_pfICPo.webp", "canva-original/MAHV_jjXGNM.webp",
+  "tarot/back-1.webp", "tarot/back-2.webp", "tarot/back-3.webp",
   "tarot/a1.webp", "tarot/a2.webp", "tarot/a3.webp", "tarot/a4.webp",
   "tarot/a5.webp", "tarot/a6.webp", "tarot/a7.webp", "tarot/a8.webp",
   "project-placeholder.svg",
@@ -172,7 +177,8 @@ export function buildFixtureDir(dir) {
     write(asset.path, asset.type === "image" ? makePng(4, 4) : makeWav());
   }
   for (const spec of STATIC_ASSET_SPECS) {
-    if (spec.endsWith(".png")) write(join("static", spec), makePng(3, 3, [200, 180, 120]));
+    if (spec.endsWith(".webp")) write(join("static", spec), makeWebp());
+    else if (spec.endsWith(".png")) write(join("static", spec), makePng(3, 3, [200, 180, 120]));
     else if (spec.endsWith(".woff2")) write(join("static", spec), Buffer.from("wOF2fixture-font-bytes"));
     else write(join("static", spec), Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><rect width="4" height="4" fill="#345"/></svg>'));
   }

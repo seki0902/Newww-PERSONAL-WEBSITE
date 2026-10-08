@@ -7,7 +7,7 @@ describe("staticAsset", () => {
   it("把历史 public/assets 路径转换为数据库素材地址", () => {
     expect(staticAsset("fonts/kami-seki-regular.woff2")).toBe("/api/assets/static/fonts/kami-seki-regular.woff2");
     expect(staticAsset("/assets/fonts/kami-seki-regular.woff2")).toBe("/api/assets/static/fonts/kami-seki-regular.woff2");
-    expect(staticAsset("assets/tarot/back-1.png")).toBe("/api/assets/static/tarot/back-1.png");
+    expect(staticAsset("assets/tarot/back-1.webp")).toBe("/api/assets/static/tarot/back-1.webp");
   });
 });
 
@@ -38,7 +38,7 @@ describe("createAssetResolver / assetUrl", () => {
     const resolve = createAssetResolver(bundle);
     expect(resolve("asset-bg-office")).toBe("/api/assets/asset-bg-office");
     expect(resolve("missing-id")).toBeUndefined();
-    expect(resolve("/assets/onboarding/canva-welcome-character.png")).toBe("/api/assets/static/onboarding/canva-welcome-character.png");
+    expect(resolve("/assets/onboarding/canva-welcome-character.webp")).toBe("/api/assets/static/onboarding/canva-welcome-character.webp");
     expect(resolve(undefined)).toBeUndefined();
   });
 

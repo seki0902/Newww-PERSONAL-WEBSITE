@@ -6,7 +6,8 @@
 - 前端：Vite 6 + React 18 + TypeScript + Zustand + Zod
 - 服务端：Node 22 原生 HTTP 服务（`server/`），同时托管前端产物与内容/素材 API
 - 数据：PostgreSQL —— **内容与全部素材（图片 / 音频 / 字体 / 演示小程序）都存放在数据库里，仓库中不包含任何素材文件**
-- 部署：GitHub Actions 构建镜像 → 阿里云 ACR → ECS 只 `docker compose pull && up`（**禁止在 ECS 上 build**）
+- 部署：**Cloudflare Pages（静态 SPA + Pages Functions API）+ R2（内容与素材）**，无需服务器、无需备案
+- 可选历史路径：`docker-compose.prod.yml` + `server/`（自托管 Node + PostgreSQL），仅作本地开发/兜底
 
 ---
 
@@ -26,12 +27,18 @@
 │   ├── editor/                # 可视化编辑器（连 /api，改的是数据库里的 draft）
 │   ├── lib/media.ts           # ★ 素材 URL 解析（bundle id / 历史 /assets 路径 → /api/assets/*）
 │   └── styles.css
-├── server/                    # 站点服务
+├── functions/                 # ★ Cloudflare Pages Functions（生产 API）
+│   ├── api/[[path]].ts        # /api/health · /api/content · /api/assets（R2 读写 + Range/ETag）
+│   └── demos/[[path]].ts      # /demos/**（agent 演示小程序）
+├── wrangler.toml              # Pages 项目 + R2 bucket 绑定
+├── server/                    # 本地开发用的 Node 服务（自托管兜底）
 │   ├── index.mjs              # 路由：SPA 静态托管 + /api/content + /api/assets + /demos
 │   ├── db.mjs                 # PostgreSQL 访问层（content_documents / media_assets）
 │   └── lib/                   # http 工具（Range/ETag/gzip/安全路径）、env 读取
 ├── tools/
-│   ├── import-media.mjs       # 素材 + 内容导入数据库（--publish/--prune）
+│   ├── optimize-media.mjs     # ★ 素材压缩：PNG→WebP、WAV→OGG/Opus（体积 -90%）
+│   ├── r2-upload.mjs          # ★ 优化后的素材/内容上传到 R2（--publish/--prune）
+│   ├── import-media.mjs       # （本地/自托管）素材 + 内容导入 PostgreSQL
 │   ├── export-media.mjs       # 从数据库导出（备份/迁移）
 │   ├── publish.mjs            # draft → published
 │   └── dev-all.mjs            # 一条命令起本地 API + Vite
@@ -128,90 +135,75 @@ TEST_DATABASE_URL=postgres://seki:seki@127.0.0.1:55432/seki_e2e \
   npm run lint && npm run typecheck && npm test && npm run build && npm run test:e2e
 ```
 
-## 5. 部署（GitHub Actions → 阿里云 ACR → ECS）
+## 5. 部署（Cloudflare Pages + R2，无需备案）
 
-流水线 `.github/workflows/deploy.yml`：
+```
+GitHub Actions: verify(lint/type/单测/E2E) → build → wrangler pages deploy dist
+素材与内容：   本地 npm run media:optimize → npm run r2:upload（R2 bucket: seki-portfolio）
+运行时：       Pages Functions 从 R2 读取 content/*.json 与 media/*，支持 Range/ETag/强缓存
+```
 
-1. **verify**：`npm ci` → lint → typecheck → 单元测试（自带 postgres service）→ build → 安装 Chromium → 浏览器 E2E；
-2. **build-and-push**：多阶段构建镜像并推送到 ACR（`provenance/sbom` 关闭，个人版 ACR 不支持）；
-3. **deploy**：`scp` compose 文件到 ECS → `docker login` → 写入 `.env` → `docker compose pull app` → `up -d --no-deps app` → 健康检查 `/api/health`。
+### 5.1 一次性配置（Cloudflare 控制台）
 
-触发条件：推送到 `master`/`main`（PR 只跑 verify）；也支持手动 `workflow_dispatch`。
-**ECS 上不会执行任何构建**：compose 只有 `image:`，没有 `build:`。
+1. 开通 **R2**（免费额度：10GB 存储、零出口流量费；需绑卡）
+2. 建 R2 bucket：名称 **`seki-portfolio`**（与 `wrangler.toml` 里的 `bucket_name` 一致）
+3. 建 **API Token**（My Profile → API Tokens → Create Token → Custom token）：
+   - `Account` → `Cloudflare Pages` → **Edit**
+   - `Account` → `Workers R2 Storage` → **Edit**
+4. 建 **R2 Access Key**（R2 → Manage R2 API Tokens → Create API Token，权限 `Object Read & Write`，限 `seki-portfolio`）
+   → 得到 `Access Key ID` / `Secret Access Key`
+5. 记下 **Account ID**（控制台右侧或 URL 里）
 
-### 5.1 需要在 GitHub 仓库里配置的 Secrets / Variables
+### 5.2 GitHub 仓库 Secrets / Variables
 
-| 类型 | 名称 | 说明 |
+| 类型 | 名称 | 用途 |
 | --- | --- | --- |
-| Secret | `ACR_USERNAME` | 阿里云容器镜像服务用户名（固定密码方式） |
-| Secret | `ACR_PASSWORD` | ACR 固定密码 |
-| Secret | `ECS_HOST` | ECS 公网 IP |
-| Secret | `ECS_USER` | `root` |
-| Secret | `ECS_SSH_KEY` | 部署私钥全文（见 5.3 生成方式） |
-| Secret | `ECS_PORT` | 可选，默认 22 |
-| Secret | `DATABASE_URL_B64` | 数据库连接串的 base64（见 5.4） |
-| Secret | `ADMIN_TOKEN_B64` | 编辑器写入令牌的 base64（可留空则写接口在 production 关闭） |
-| Variable | `ACR_REPOSITORY` | 可选，默认 `touhou-trpg/seki-portfolio` |
-| Variable | `ACR_REGISTRY` / `ACR_PULL_REGISTRY` | 可选，默认 `crpi-nqwu6u57qjindq7p.cn-hangzhou.personal.cr.aliyuncs.com` |
-| Variable | `DEPLOY_DIR` | 可选，默认 `/opt/seki-portfolio` |
+| Secret | `CLOUDFLARE_API_TOKEN` | CI 发布 Pages |
+| Secret | `CLOUDFLARE_ACCOUNT_ID` | CI 发布 Pages |
+| Variable | `CF_PAGES_PROJECT` | 可选，默认 `seki-portfolio` |
+| Variable | `PUBLIC_BASE_URL` | 可选，冒烟测试地址（默认 `https://seki-portfolio.pages.dev`） |
 
-### 5.2 服务器侧现状（已配置）
-
-```
-/opt/seki-portfolio/
-├── docker-compose.prod.yml
-├── .env                  # APP_IMAGE / DATABASE_URL / ADMIN_TOKEN（600 权限）
-└── deploy_key            # GitHub Actions 部署私钥（复制到 Secrets.ECS_SSH_KEY 后建议删除）
+编辑器写权限（`ADMIN_TOKEN`）配置在 Pages 项目里，不进仓库：
+```bash
+npx wrangler pages secret put ADMIN_TOKEN --project-name seki-portfolio
 ```
 
-- 数据库：复用 `touhou-trpg-db`（postgres:16-alpine）容器内的独立库 `seki_portfolio`，
-  角色 `seki` 只拥有该库；应用容器通过外部网络 `touhou-trpg_default` 以 `touhou-trpg-db:5432` 访问；
-- 端口：容器发布在宿主机 `8080`；
-- 资源限制：`mem_limit 384m` / `cpus 0.5`，避免影响同机 n8n 与 touhou-trpg。
-
-### 5.3 生成部署密钥（服务器上执行）
+### 5.3 首次/日常发布
 
 ```bash
-ssh-keygen -t ed25519 -N "" -C "github-actions-seki-portfolio" -f /opt/seki-portfolio/deploy_key
-cat /opt/seki-portfolio/deploy_key.pub >> /root/.ssh/authorized_keys
-cat /opt/seki-portfolio/deploy_key        # 复制到 GitHub Secret ECS_SSH_KEY，然后删除该文件
+# 1) 压缩素材（PNG→WebP、WAV→OGG，约 -90%）
+npm run media:optimize -- --source ../seki-media --out ../seki-media-opt
+
+# 2) 上传内容与素材到 R2（首次需 --publish）
+R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... R2_BUCKET=seki-portfolio   npm run r2:upload -- --source ../seki-media-opt --publish
+
+# 3) 发布前端（本地或直接合并到 master 让 CI 发布）
+npx wrangler pages deploy dist --project-name seki-portfolio
 ```
 
-### 5.4 DATABASE_URL_B64 / ADMIN_TOKEN_B64 的生成
+### 5.4 内容日常更新
 
-```bash
-# 在服务器上读取（不要在聊天/日志里明文粘贴）
-grep '^DATABASE_URL=' /opt/seki-portfolio/.env | cut -d= -f2- | base64 -w0
-grep '^ADMIN_TOKEN='  /opt/seki-portfolio/.env | cut -d= -f2- | base64 -w0
-```
+- 线上编辑器：`https://<项目>.pages.dev/?editor=1&token=<ADMIN_TOKEN>`（保存 Draft → 发布，写入 R2）
+- 或本地改完用 `r2:upload --publish` 覆盖
 
-### 5.5 首次部署（数据库为空时）
+### 5.5 历史自托管（可选，仓库仍保留）
 
-```bash
-# 在能访问数据库的机器上执行一次（素材目录见第 3 节）
-DATABASE_URL='postgresql://seki:<密码>@<host>:5432/seki_portfolio' \
-  npm run content:import -- --source ./seki-media --publish
-```
-
-数据库建表由服务启动时自动完成（`ensureSchema`）。
+`docker-compose.prod.yml` + `server/` 可在任意支持 Docker 的机器上运行（Node + PostgreSQL），
+用于本地开发或作为备份方案；不再随 CI 自动部署。
 
 ## 6. 运维
 
 ```bash
-cd /opt/seki-portfolio
-docker compose -f docker-compose.prod.yml ps
-docker compose -f docker-compose.prod.yml logs -f --tail=100 app
-curl -fsS http://127.0.0.1:8080/api/health    # {"ok":true,"db":"up","assets":{...}}
+# 线上健康检查（Cloudflare）
+curl -fsS https://seki-portfolio.pages.dev/api/health     # {"ok":true,"storage":"r2","assets":{...}}
 
-# 回滚：把 .env 里 APP_IMAGE 换成上一个 sha，然后
-docker compose -f docker-compose.prod.yml pull app && docker compose -f docker-compose.prod.yml up -d --no-deps app
+# 查看 Pages 部署记录 / 日志
+npx wrangler pages deployment list --project-name seki-portfolio
+
+# 回滚：Pages 控制台 → Deployments → 选中上一个版本 → Rollback
 ```
 
-备份（内容 + 素材都在库里，一条命令即可）：
-
-```bash
-docker exec touhou-trpg-db pg_dump -U seki -Fc seki_portfolio > seki_portfolio-$(date +%F).dump
-```
+备份：素材源目录 + R2 内容 JSON 即可完整恢复（`tools/export-media.mjs` 用于自托管数据库导出）。
 
 ## 7. 常见问题
 
@@ -221,4 +213,5 @@ docker exec touhou-trpg-db pg_dump -U seki -Fc seki_portfolio > seki_portfolio-$
 | 图片/音频 404 | 素材未导入该 id：检查 `--source` 目录结构，重新 `npm run content:import` |
 | 编辑器保存报 403 | 生产环境需要 `?editor=1&token=<ADMIN_TOKEN>` |
 | E2E 起不来 | 检查 `TEST_DATABASE_URL` 可写、`dist/` 已构建、浏览器已 `npx playwright install chromium` |
-| 想改端口/域名 | 改 `.env`、`docker-compose.prod.yml` 的端口映射，或在前面挂一层反向代理（Caddy/Nginx） |
+| 想换域名 | Cloudflare 控制台 → Pages → Custom domains（自己的域名需先托管到 Cloudflare DNS；**无需 ICP 备案**） |
+| 素材没更新 | 上传后浏览器有强缓存，改文件名或等 CDN 缓存过期（`r2:upload --prune` 清理旧对象） |

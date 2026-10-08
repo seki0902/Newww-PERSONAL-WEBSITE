@@ -15,7 +15,7 @@ export function WelcomeOverlay({ content, resolveAsset, onComplete, muted }: { c
   const reducedMotion = useReducedMotion();
   const clickSound = resolveAsset(content.clickSoundAssetId);
   const background = resolveAsset(content.backgroundAssetId);
-  const image = (assetId: string | undefined, fallback: string) => resolveAsset(assetId) ?? staticAsset(`onboarding/canva-welcome-${fallback}.png`);
+  const image = (assetId: string | undefined, fallback: string) => resolveAsset(assetId) ?? staticAsset(`onboarding/canva-welcome-${fallback}.webp`);
 
   useEffect(() => {
     firstChoiceRef.current?.focus();

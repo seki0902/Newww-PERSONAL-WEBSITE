@@ -7,7 +7,7 @@ import globals from "globals";
 const eslintConfig = defineConfig([
   globalIgnores(["node_modules/**", "dist/**", "outputs/**", "test-results/**", "playwright-report/**"]),
   {
-    files: ["src/**/*.{ts,tsx}", "tests/**/*.ts", "*.config.ts"],
+    files: ["src/**/*.{ts,tsx}", "tests/**/*.ts", "functions/**/*.ts", "*.config.ts"],
     extends: [js.configs.recommended, tseslint.configs.recommended],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
@@ -17,7 +17,7 @@ const eslintConfig = defineConfig([
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   {
-    files: ["src/**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx}", "functions/**/*.ts"],
     plugins: { "react-hooks": reactHooks },
     rules: { "react-hooks/rules-of-hooks": "error", "react-hooks/exhaustive-deps": "error" },
   },
