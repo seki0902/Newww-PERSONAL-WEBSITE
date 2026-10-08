@@ -117,6 +117,7 @@ E2E 说明：
 
 - `tests/support/fixtures.mjs` 在运行时**生成**所需的 PNG / WAV / demo HTML（因此仓库里没有任何素材）；
 - `tests/support/e2e-server.mjs` 会建表、导入夹具、把 `dist/` + API 一起跑起来（等价生产形态）；
+  **安全阀**：该脚本会 `--prune` 目标库，因此只接受库名包含 `e2e` / `test` 的数据库（默认 `seki_e2e`）；
 - 覆盖：完整通关流程（开场→开机→引导→选桌面→抽牌→项目页→进度 100%→刷新存档→重置）、
   素材 ETag/304/Range、demo 小程序相对资源、未知素材 404、健康检查、编辑器权限（无 token 写接口 403）；
 - 首次运行需要浏览器：`npx playwright install chromium`。
