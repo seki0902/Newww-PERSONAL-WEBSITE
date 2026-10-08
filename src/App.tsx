@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
-import { intro, projects as baseProjects } from "./content";
+import { projects as baseProjects } from "./content";
 import { assetUrl, loadContentBundle } from "./content-bundle/loader";
 import { mergeProjectPages, type ContentBundle } from "./content-bundle/schema";
 import { EditorApp } from "./editor/EditorApp";
@@ -8,7 +8,6 @@ import { setRuntimeProjects, useRuntimeStore } from "./runtime/store";
 import { DesktopScreen } from "./renderers/DesktopScreen";
 import { ProjectScreen } from "./renderers/ProjectScreen";
 import { TarotScreen } from "./renderers/TarotScreen";
-import { VideoScreen } from "./renderers/VideoScreen";
 import { VisualNovelScreen } from "./renderers/VisualNovelScreen";
 import { StartupScreen } from "./renderers/StartupScreen";
 import { OnboardingOverlay } from "./renderers/OnboardingOverlay";
@@ -86,7 +85,6 @@ function PlayerApp() {
   if (showStartup) {
     screen = <>{desktop(undefined, false)}<StartupScreen onRevealDesktop={state.finishVisualNovel} onComplete={finishStartup} /></>;
   } else if (state.stage === "intro") screen = <VisualNovelScreen bundle={bundle} preview={preview} onComplete={startStartup} muted={muted} onMutedChange={setMuted} />;
-  else if (state.stage === "video") screen = <VideoScreen intro={intro} onFinish={state.finishVideo} />;
   else if (state.stage === "tarot" && active) screen = desktop(<TarotScreen project={active} muted={muted} drawSound={assetUrl(bundle, selectedDesktop.tarotSoundAssetId ?? selectedDesktop.clickSoundAssetId, preview)} onComplete={() => state.completeTarot(active.id)} embedded />);
   else if (state.stage === "project" && active) {
     const projectScreen = <ProjectScreen project={active} activePageId={state.activePageId} onGotoPage={state.gotoPage} onNextPage={state.nextPage} onPrevPage={state.prevPage} onComplete={() => state.completeProject(active.id)} onClose={state.closeProject} folderTitle={activeFolderTitle} fileTitle={state.activeFolderFileLabel} resolveAsset={(id) => assetUrl(bundle, id, preview)} embedded />;

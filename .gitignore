@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -10,56 +8,31 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# build output
+/dist/
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+/.vite/
+*.tsbuildinfo
 
-# next.js
-/.next/
-/.vinext/
-/out/
+# 本地媒体源目录：素材不入库（数据库才是素材的唯一来源），仅保留在部署机/本地
+/seki-media/
+/media/
+seki-media-backup/
 
-# misc
+# env
+.env
+.env.*
+!.env.example
+
+# editor
+.idea/
+.vscode/
 .DS_Store
 *.pem
-
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-next-env.d.ts
-/dist/
-/.wrangler/
-/.sites-runtime/
-/.agents/
-/.codex/
-/outputs/
-/work/
-
-# local tooling and generated checks
-/.idea/
-/.site-starter/
-/test-results/
-.brooks-lint-history.json
-*.tsbuildinfo
-
-# test suites and test-only configuration
-/tests/
-*.test.ts
-/playwright.config.ts
-/vitest.config.ts
-
-# local planning notes and personal documents
-/*.md
-/_gh_todo_*.txt
-/CLAUDE.md
-/main.py
-/content/SOUND_EFFECTS_SOURCES.md

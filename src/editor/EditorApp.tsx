@@ -1,12 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { contentBundleSchema, validateContentBundle, type ContentBundle, type IntroScene } from "../content-bundle/schema";
+import { editorToken } from "../content-bundle/loader";
 import { projects as baseProjects } from "../content";
 import { ProjectPagesEditor } from "./ProjectPagesEditor";
 import { WelcomeEditor } from "./WelcomeEditor";
 import { FolderEditor } from "./FolderEditor";
 import "./EditorApp.css";
 
-const api = "http://127.0.0.1:4174/api";
+const api = "/api";
+// 编辑器写接口在生产环境需要 x-admin-token（?token=xxx 或 localStorage）。
+const authHeaders = (extra: Record<string, string> = {}) => {
+  const token = editorToken();
+  return token ? { ...extra, "x-admin-token": token } : extra;
+};
 const blankScene = (): IntroScene => ({ id: `scene-${Date.now()}`, order: 1, enabled: true, speaker: "", text: "请输入对话", characterPosition: "right" });
 
 const editorSections = [
@@ -38,10 +44,10 @@ export function EditorApp() {
   const activeSectionMeta = editorSections[activeSectionIndex];
 
   useEffect(() => {
-    void fetch(`${api}/content`)
+    void fetch(`${api}/content?draft=1`, { headers: authHeaders() })
       .then(async (response) => { if (!response.ok) throw new Error(); return contentBundleSchema.parse(await response.json()); })
       .then((data) => { setBundle(data); setSelectedId(data.intro.scenes[0]?.id); setStatus("Draft 已载入"); })
-      .catch(() => setStatus("无法连接本地 Content Service。请先运行 npm run content:server。"));
+      .catch(() => setStatus("无法连接内容服务，请确认数据库已配置并运行 npm run server（或 npm run dev:all）。"));
   }, []);
 
   const updateScene = (patch: Partial<IntroScene>) => {
@@ -55,7 +61,7 @@ export function EditorApp() {
     if (!bundle) return false;
     try {
       const content = validateContentBundle(bundle, baseProjects);
-      const response = await fetch(`${api}/content`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) });
+      const response = await fetch(`${api}/content`, { method: "PUT", headers: authHeaders({ "Content-Type": "application/json" }), body: JSON.stringify(content) });
       if (!response.ok) { setStatus(`保存失败：${await response.text()}`); return false; }
       setStatus("Draft 已保存");
       return true;
@@ -79,7 +85,7 @@ export function EditorApp() {
     try {
       if (!await save()) return;
       setStatus("正在发布…");
-      const response = await fetch(`${api}/publish`, { method: "POST" });
+      const response = await fetch(`${api}/publish`, { method: "POST", headers: authHeaders() });
       setStatus(response.ok ? "发布完成" : `发布失败：${await response.text()}`);
     } catch (reason) {
       setStatus(`发布失败：${reason instanceof Error ? reason.message : "网络连接异常"}`);
@@ -101,7 +107,7 @@ export function EditorApp() {
     const type = file.type.startsWith("image/") ? "image" : file.type.startsWith("audio/") ? "audio" : "video";
     setStatus("正在上传素材…");
     try {
-      const response = await fetch(`${api}/assets`, { method: "POST", headers: { "Content-Type": file.type, "X-File-Name": encodeURIComponent(file.name), "X-Asset-Type": type }, body: file });
+      const response = await fetch(`${api}/assets`, { method: "POST", headers: authHeaders({ "Content-Type": file.type, "X-File-Name": encodeURIComponent(file.name), "X-Asset-Type": type }), body: file });
       if (!response.ok) { setStatus(`上传失败：${await response.text()}`); return; }
       const asset = await response.json();
       setBundle((latest) => latest ? { ...latest, assets: [...latest.assets, asset] } : latest);

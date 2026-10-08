@@ -38,8 +38,8 @@
   content: "";
 }
 
-.onboarding-backdrop--1 { background-image: url("/assets/onboarding/canva-onboarding-01.png"); }
-.onboarding-backdrop--2 { background-image: url("/assets/onboarding/canva-onboarding-02.png"); }
+.onboarding-backdrop--1 { background-image: url("/api/assets/static/onboarding/canva-onboarding-01.png"); }
+.onboarding-backdrop--2 { background-image: url("/api/assets/static/onboarding/canva-onboarding-02.png"); }
 
 .onboarding-window {
   width: min(92vw, 790px);

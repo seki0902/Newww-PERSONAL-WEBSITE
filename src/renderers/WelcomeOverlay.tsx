@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { staticAsset } from "../lib/media";
 import type { ContentBundle } from "../content-bundle/schema";
 import { useReducedMotion } from "./useReducedMotion";
 import "./OnboardingOverlay.css";
@@ -14,7 +15,7 @@ export function WelcomeOverlay({ content, resolveAsset, onComplete, muted }: { c
   const reducedMotion = useReducedMotion();
   const clickSound = resolveAsset(content.clickSoundAssetId);
   const background = resolveAsset(content.backgroundAssetId);
-  const image = (assetId: string | undefined, fallback: string) => resolveAsset(assetId) ?? `/assets/onboarding/canva-welcome-${fallback}.png`;
+  const image = (assetId: string | undefined, fallback: string) => resolveAsset(assetId) ?? staticAsset(`onboarding/canva-welcome-${fallback}.png`);
 
   useEffect(() => {
     firstChoiceRef.current?.focus();
