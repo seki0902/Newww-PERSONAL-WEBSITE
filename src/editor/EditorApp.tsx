@@ -3,6 +3,7 @@ import { contentBundleSchema, validateContentBundle, type ContentBundle, type In
 import { editorToken } from "../content-bundle/loader";
 import { projects as baseProjects } from "../content";
 import { ProjectPagesEditor } from "./ProjectPagesEditor";
+import { AssetLibraryEditor } from "./AssetLibraryEditor";
 import { WelcomeEditor } from "./WelcomeEditor";
 import { FolderEditor } from "./FolderEditor";
 import "./EditorApp.css";
@@ -73,6 +74,29 @@ export function EditorApp() {
     const ok = await saveBundle(bundle);
     if (ok) setStatus("Draft 已保存");
     return ok;
+  };
+  const saveAssets = async (nextAssets: ContentBundle["assets"]) => {
+    if (!bundle) return false;
+    const nextBundle = { ...bundle, assets: nextAssets };
+    setBundle(nextBundle);
+    const ok = await saveBundle(nextBundle);
+    if (ok) setStatus("素材信息已保存");
+    return ok;
+  };
+  const deleteAsset = async (id: string): Promise<{ ok: boolean; message: string }> => {
+    if (!bundle) return { ok: false, message: "内容尚未载入" };
+    try {
+      const response = await fetch(`${api}/assets/${encodeURIComponent(id)}`, { method: "DELETE", headers: authHeaders() });
+      if (!response.ok) return { ok: false, message: `删除失败：${await response.text()}` };
+      const nextAssets = bundle.assets.filter((asset) => asset.id !== id);
+      const nextBundle = { ...bundle, assets: nextAssets };
+      setBundle(nextBundle);
+      const saved = await saveBundle(nextBundle);
+      if (!saved) return { ok: false, message: "文件已删除，但 Draft 保存失败，请手动点击「保存 Draft」重试" };
+      return { ok: true, message: "素材已删除" };
+    } catch (reason) {
+      return { ok: false, message: `删除失败：${reason instanceof Error ? reason.message : "网络连接异常"}` };
+    }
   };
   const preview = async () => {
     const target = window.open("about:blank", "_blank");
@@ -242,7 +266,7 @@ export function EditorApp() {
             <ProjectPagesEditor key={desktopChoice.id} bundle={{ ...bundle, projectPages: desktopContent.projectPages ?? bundle.projectPages }} onChange={(updated) => updateDesktop({ projectPages: updated.projectPages })} />
           </>}
 
-          {activeSection === "assets" && <section className="asset-library editor-standalone-section"><h2>素材库</h2><label className="upload-label">上传素材<input type="file" accept="image/*,audio/*,video/*" onChange={(event) => { void upload(event.target.files?.[0]); event.target.value = ""; }} /></label>{bundle.assets.map((asset) => <div className="asset-item" key={asset.id}><small>{asset.type}</small><b>{asset.label ?? asset.originalName}</b><span>{asset.id}</span></div>)}</section>}
+          {activeSection === "assets" && <AssetLibraryEditor bundle={bundle} onUpload={upload} onSaveAssets={saveAssets} onDeleteAsset={deleteAsset} onStatus={(message) => setStatus(message)} />}
 
           {activeSection === "settings" && <section className="settings-editor editor-standalone-section">
             <h2>开场设置</h2>

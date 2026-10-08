@@ -33,6 +33,25 @@ test.describe("素材全部来自数据库", () => {
     expect((await request.get("/api/assets/does-not-exist")).status()).toBe(404);
   });
 
+  test("素材上传后可以删除：DELETE /api/assets/<id>", async ({ request }) => {
+    const adminHeaders = { "x-admin-token": process.env.ADMIN_TOKEN ?? "e2e-token" };
+    const created = await request.post("/api/assets", {
+      headers: {
+        ...adminHeaders,
+        "content-type": "image/png",
+        "x-file-name": encodeURIComponent("e2e-delete.png"),
+        "x-asset-type": "image",
+        "x-asset-id": "asset-e2e-delete",
+      },
+      data: Buffer.from([0x89, 0x50, 0x4e, 0x47]),
+    });
+    expect(created.status()).toBe(201);
+
+    const deleted = await request.delete("/api/assets/asset-e2e-delete", { headers: adminHeaders });
+    expect(deleted.status()).toBe(200);
+    expect((await request.get("/api/assets/asset-e2e-delete")).status()).toBe(404);
+  });
+
   test("健康检查报告数据库中的素材数量", async ({ request }) => {
     const health = await (await request.get("/api/health")).json();
     expect(health.ok).toBe(true);

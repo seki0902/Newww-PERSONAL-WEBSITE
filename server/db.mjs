@@ -122,6 +122,12 @@ export async function upsertAsset(pool, asset) {
   );
 }
 
+/** 删除素材。 @param {import("pg").Pool} pool @param {string} id */
+export async function deleteAsset(pool, id) {
+  const { rowCount } = await pool.query("DELETE FROM media_assets WHERE id = $1", [id]);
+  return rowCount > 0;
+}
+
 /** @param {import("pg").Pool} pool */
 export async function assetStats(pool) {
   const { rows } = await pool.query("SELECT count(*)::int AS count, coalesce(sum(byte_size), 0)::bigint AS bytes FROM media_assets");

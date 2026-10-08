@@ -5,7 +5,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  assetStats, createPool, ensureSchema, getAssetById, getAssetByPath, getDocument,
+  assetStats, createPool, deleteAsset, ensureSchema, getAssetById, getAssetByPath, getDocument,
   listAssets, publishDocument, putDocument, upsertAsset,
 } from "./db.mjs";
 import { mimeTypeForPath, readBody, safeResolve, sendBuffer, sendJson, sendStaticFile, sha256 } from "./lib/http.mjs";
@@ -146,12 +146,29 @@ async function handleApi(req, res, url, pool) {
   }
 
   if (pathname.startsWith("/api/assets/")) {
+    const id = decodeURIComponent(pathname.slice("/api/assets/".length));
+    if (req.method === "DELETE") {
+      if (!canWrite(req)) {
+        sendJson(req, res, 403, { error: "没有删除权限（需要 x-admin-token）" });
+        return true;
+      }
+      if (id.startsWith("static/")) {
+        sendJson(req, res, 400, { error: "内置静态素材不可删除" });
+        return true;
+      }
+      const deleted = await deleteAsset(pool, id);
+      if (!deleted) {
+        sendJson(req, res, 404, { error: `asset not found: ${id}` });
+        return true;
+      }
+      sendJson(req, res, 200, { ok: true, id });
+      return true;
+    }
     if (req.method !== "GET" && req.method !== "HEAD") {
-      res.writeHead(405, { allow: "GET" });
+      res.writeHead(405, { allow: "GET, HEAD, DELETE" });
       res.end();
       return true;
     }
-    const id = decodeURIComponent(pathname.slice("/api/assets/".length));
     const asset = await getAssetById(pool, id);
     if (!asset) {
       sendJson(req, res, 404, { error: `asset not found: ${id}` });

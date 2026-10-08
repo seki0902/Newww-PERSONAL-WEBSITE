@@ -180,6 +180,16 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
 
   if (rest.startsWith("assets/")) {
     const id = decodeURIComponent(rest.slice("assets/".length));
+    if (method === "DELETE") {
+      if (!canWrite(request, env)) return json({ error: "没有删除权限（需要 x-admin-token）" }, 403);
+      if (id.startsWith("static/")) return json({ error: "内置静态素材不可删除" }, 400);
+      if (!index.some((asset) => asset.id === id)) return json({ error: `asset not found: ${id}` }, 404);
+      await env.KV.delete(MEDIA_KEY(id));
+      await env.KV.put(ASSET_INDEX_KEY, JSON.stringify(index.filter((asset) => asset.id !== id), null, 2), {
+        metadata: { contentType: "application/json; charset=utf-8" },
+      });
+      return json({ ok: true, id });
+    }
     const meta = index.find((asset) => asset.id === id);
     return serveObject(request, env, MEDIA_KEY(id), { mimeType: meta?.mimeType, fileName: meta?.fileName });
   }

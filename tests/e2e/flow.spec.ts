@@ -108,6 +108,15 @@ test("编辑器路由：带 token 可以读取 draft，未带 token 时写接口
   await expect(page.getByTestId("editor-section-intro")).toBeVisible();
   await expect(page.getByText("Draft 已载入")).toBeVisible();
 
+  await page.getByTestId("editor-section-assets").click();
+  // 面板标题与区块标题都叫“素材库”，用区块容器定位，避免 strict mode 冲突。
+  await expect(page.locator(".asset-library")).toBeVisible();
+  await expect(page.getByPlaceholder("搜索名称 / 文件名 / ID")).toBeVisible();
+  await page.locator(".asset-card").first().getByRole("button", { name: "编辑", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: /编辑素材/ })).toBeVisible();
+  await page.getByRole("button", { name: "关闭弹窗" }).click();
+  await expect(page.getByRole("dialog", { name: /编辑素材/ })).toHaveCount(0);
+
   const anonymous = await request.put("/api/content", { data: { version: 1 }, headers: { "content-type": "application/json" } });
   expect(anonymous.status()).toBe(403);
 });
