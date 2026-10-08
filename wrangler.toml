@@ -2,6 +2,8 @@ name = "seki-portfolio"
 compatibility_date = "2026-01-01"
 pages_build_output_dir = "dist"
 
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "seki-portfolio"
+# Workers KV：存放内容 JSON 与全部素材（压缩后约 7MB，免费额度 1GB / 10 万读每天）
+# namespace id 由 tools/create-cloudflare-resources.mjs 创建后自动写入
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"

@@ -6,7 +6,7 @@
 - 前端：Vite 6 + React 18 + TypeScript + Zustand + Zod
 - 服务端：Node 22 原生 HTTP 服务（`server/`），同时托管前端产物与内容/素材 API
 - 数据：PostgreSQL —— **内容与全部素材（图片 / 音频 / 字体 / 演示小程序）都存放在数据库里，仓库中不包含任何素材文件**
-- 部署：**Cloudflare Pages（静态 SPA + Pages Functions API）+ R2（内容与素材）**，无需服务器、无需备案
+- 部署：**Cloudflare Pages（静态 SPA + Pages Functions API）+ Workers KV（内容与素材）**，无需服务器、无需备案、**无需银行卡**
 - 可选历史路径：`docker-compose.prod.yml` + `server/`（自托管 Node + PostgreSQL），仅作本地开发/兜底
 
 ---
@@ -28,16 +28,17 @@
 │   ├── lib/media.ts           # ★ 素材 URL 解析（bundle id / 历史 /assets 路径 → /api/assets/*）
 │   └── styles.css
 ├── functions/                 # ★ Cloudflare Pages Functions（生产 API）
-│   ├── api/[[path]].ts        # /api/health · /api/content · /api/assets（R2 读写 + Range/ETag）
+│   ├── api/[[path]].ts        # /api/health · /api/content · /api/assets（KV 读写 + Range/ETag）
 │   └── demos/[[path]].ts      # /demos/**（agent 演示小程序）
-├── wrangler.toml              # Pages 项目 + R2 bucket 绑定
+├── wrangler.toml              # Pages 项目 + KV namespace 绑定
 ├── server/                    # 本地开发用的 Node 服务（自托管兜底）
 │   ├── index.mjs              # 路由：SPA 静态托管 + /api/content + /api/assets + /demos
 │   ├── db.mjs                 # PostgreSQL 访问层（content_documents / media_assets）
 │   └── lib/                   # http 工具（Range/ETag/gzip/安全路径）、env 读取
 ├── tools/
 │   ├── optimize-media.mjs     # ★ 素材压缩：PNG→WebP、WAV→OGG/Opus（体积 -90%）
-│   ├── r2-upload.mjs          # ★ 优化后的素材/内容上传到 R2（--publish/--prune）
+│   ├── upload-assets.mjs      # ★ 优化后的素材/内容上传到 Workers KV（--publish/--prune）
+│   ├── create-cloudflare-resources.mjs  # ★ 一键创建 Pages 项目 + KV + ADMIN_TOKEN
 │   ├── import-media.mjs       # （本地/自托管）素材 + 内容导入 PostgreSQL
 │   ├── export-media.mjs       # 从数据库导出（备份/迁移）
 │   ├── publish.mjs            # draft → published
@@ -135,24 +136,27 @@ TEST_DATABASE_URL=postgres://seki:seki@127.0.0.1:55432/seki_e2e \
   npm run lint && npm run typecheck && npm test && npm run build && npm run test:e2e
 ```
 
-## 5. 部署（Cloudflare Pages + R2，无需备案）
+## 5. 部署（Cloudflare Pages + Workers KV，无需备案、无需银行卡）
 
 ```
 GitHub Actions: verify(lint/type/单测/E2E) → build → wrangler pages deploy dist
-素材与内容：   本地 npm run media:optimize → npm run r2:upload（R2 bucket: seki-portfolio）
-运行时：       Pages Functions 从 R2 读取 content/*.json 与 media/*，支持 Range/ETag/强缓存
+素材与内容：   本地 npm run media:optimize → npm run upload:assets（Workers KV）
+运行时：       Pages Functions 从 KV 读取 content/*.json 与 media/*，支持 Range/ETag/强缓存
+容量：         素材压缩后约 7MB（KV 免费额度：1GB 存储 / 10 万读 / 1 千写每天）
 ```
 
-### 5.1 一次性配置（Cloudflare 控制台）
+### 5.1 一次性配置（Cloudflare，无需绑卡）
 
-1. 开通 **R2**（免费额度：10GB 存储、零出口流量费；需绑卡）
-2. 建 R2 bucket：名称 **`seki-portfolio`**（与 `wrangler.toml` 里的 `bucket_name` 一致）
-3. 建 **API Token**（My Profile → API Tokens → Create Token → Custom token）：
+1. 注册/登录 **Cloudflare**（免费）
+2. 创建 **API Token**：右上头像 → My Profile → **API Tokens** → Create Token → *Custom token*
    - `Account` → `Cloudflare Pages` → **Edit**
-   - `Account` → `Workers R2 Storage` → **Edit**
-4. 建 **R2 Access Key**（R2 → Manage R2 API Tokens → Create API Token，权限 `Object Read & Write`，限 `seki-portfolio`）
-   → 得到 `Access Key ID` / `Secret Access Key`
-5. 记下 **Account ID**（控制台右侧或 URL 里）
+   - `Account` → `Workers KV Storage` → **Edit**
+3. 记下 **Account ID**（控制台首页右侧 / URL 里的 32 位串）
+
+然后一条命令建好所有资源（Pages 项目 + KV 命名空间 + 编辑器密钥，并写回 `wrangler.toml`）：
+```bash
+CLOUDFLARE_ACCOUNT_ID=<account id> CLOUDFLARE_API_TOKEN=<token> npm run cf:setup
+```
 
 ### 5.2 GitHub 仓库 Secrets / Variables
 
@@ -163,10 +167,8 @@ GitHub Actions: verify(lint/type/单测/E2E) → build → wrangler pages deploy
 | Variable | `CF_PAGES_PROJECT` | 可选，默认 `seki-portfolio` |
 | Variable | `PUBLIC_BASE_URL` | 可选，冒烟测试地址（默认 `https://seki-portfolio.pages.dev`） |
 
-编辑器写权限（`ADMIN_TOKEN`）配置在 Pages 项目里，不进仓库：
-```bash
-npx wrangler pages secret put ADMIN_TOKEN --project-name seki-portfolio
-```
+编辑器写权限（`ADMIN_TOKEN`）由 `cf:setup` 随机生成并写入 Pages 项目密钥（只在执行时打印一次，可用
+`npx wrangler pages secret put ADMIN_TOKEN --project-name seki-portfolio` 轮换）。
 
 ### 5.3 首次/日常发布
 
@@ -183,8 +185,8 @@ npx wrangler pages deploy dist --project-name seki-portfolio
 
 ### 5.4 内容日常更新
 
-- 线上编辑器：`https://<项目>.pages.dev/?editor=1&token=<ADMIN_TOKEN>`（保存 Draft → 发布，写入 R2）
-- 或本地改完用 `r2:upload --publish` 覆盖
+- 线上编辑器：`https://<项目>.pages.dev/?editor=1&token=<ADMIN_TOKEN>`（保存 Draft → 发布，写入 KV）
+- 或本地改完用 `upload:assets --publish` 覆盖
 
 ### 5.5 历史自托管（可选，仓库仍保留）
 
@@ -195,7 +197,7 @@ npx wrangler pages deploy dist --project-name seki-portfolio
 
 ```bash
 # 线上健康检查（Cloudflare）
-curl -fsS https://seki-portfolio.pages.dev/api/health     # {"ok":true,"storage":"r2","assets":{...}}
+curl -fsS https://seki-portfolio.pages.dev/api/health     # {"ok":true,"storage":"kv","assets":{...}}
 
 # 查看 Pages 部署记录 / 日志
 npx wrangler pages deployment list --project-name seki-portfolio
@@ -203,7 +205,7 @@ npx wrangler pages deployment list --project-name seki-portfolio
 # 回滚：Pages 控制台 → Deployments → 选中上一个版本 → Rollback
 ```
 
-备份：素材源目录 + R2 内容 JSON 即可完整恢复（`tools/export-media.mjs` 用于自托管数据库导出）。
+备份：素材源目录（`seki-media/`）+ KV 里的 `content/*.json` 即可完整恢复（`tools/export-media.mjs` 用于自托管数据库导出）。
 
 ## 7. 常见问题
 
@@ -214,4 +216,4 @@ npx wrangler pages deployment list --project-name seki-portfolio
 | 编辑器保存报 403 | 生产环境需要 `?editor=1&token=<ADMIN_TOKEN>` |
 | E2E 起不来 | 检查 `TEST_DATABASE_URL` 可写、`dist/` 已构建、浏览器已 `npx playwright install chromium` |
 | 想换域名 | Cloudflare 控制台 → Pages → Custom domains（自己的域名需先托管到 Cloudflare DNS；**无需 ICP 备案**） |
-| 素材没更新 | 上传后浏览器有强缓存，改文件名或等 CDN 缓存过期（`r2:upload --prune` 清理旧对象） |
+| 素材没更新 | 浏览器对素材是强缓存（immutable），改名或清缓存；`upload:assets --prune` 可清理 KV 里的旧 key |

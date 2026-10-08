@@ -1,6 +1,7 @@
 /**
  * Cloudflare Pages Function：把原 Node 服务端的 /api/* 完整搬到 Workers 运行时。
- * 数据全部放 R2（内容 JSON + 素材二进制），公开站点不再依赖 ECS / PostgreSQL。
+ * 数据放 Workers KV（内容 JSON + 素材二进制），公开站点不再依赖 ECS / PostgreSQL。
+ * 选 KV 而不是 R2：KV 免费且无需绑定银行卡，素材压缩后总共约 7MB，远在 1GB 免费额度内。
  *
  * 路由：
  *   GET  /api/health
@@ -12,7 +13,7 @@
  *   GET/HEAD /api/assets/<id...>         读取素材（Range / ETag / 强缓存）
  */
 interface Env {
-  BUCKET: R2Bucket;
+  KV: KVNamespace;
   ADMIN_TOKEN?: string;
   APP_REVISION?: string;
 }
@@ -59,50 +60,51 @@ function parseRange(header: string | null, size: number): { offset: number; leng
 }
 
 async function readAssetIndex(env: Env): Promise<AssetMeta[]> {
-  const object = await env.BUCKET.get(ASSET_INDEX_KEY);
-  if (!object) return [];
+  const raw = await env.KV.get(ASSET_INDEX_KEY);
+  if (!raw) return [];
   try {
-    const parsed = JSON.parse(await object.text()) as unknown;
+    const parsed = JSON.parse(raw) as unknown;
     return Array.isArray(parsed) ? (parsed as AssetMeta[]) : [];
   } catch {
     return [];
   }
 }
 
+/** 读取 KV 中的二进制对象（含元数据）。 */
+async function readKvBinary(env: Env, key: string) {
+  const { value, metadata } = await env.KV.getWithMetadata<{ contentType?: string; fileName?: string; size?: number }>(key, { type: "arrayBuffer" });
+  if (value === null) return null;
+  const buffer = value as ArrayBuffer;
+  return { buffer, size: metadata?.size ?? buffer.byteLength, contentType: metadata?.contentType, fileName: metadata?.fileName };
+}
+
 async function serveObject(request: Request, env: Env, key: string, meta?: { mimeType?: string; fileName?: string }) {
   const method = request.method.toUpperCase();
   if (method !== "GET" && method !== "HEAD") return json({ error: "method not allowed" }, 405, { allow: "GET, HEAD" });
 
-  const head = await env.BUCKET.head(key);
-  if (!head) return json({ error: `asset not found: ${key}` }, 404);
-
-  const etag = head.httpEtag ?? `"${head.etag}"`;
-  if (request.headers.get("if-none-match") === etag) {
-    return new Response(null, { status: 304, headers: { etag, "cache-control": "public, max-age=31536000, immutable" } });
-  }
-
-  const range = parseRange(request.headers.get("range"), head.size);
-  const object = await env.BUCKET.get(key, range ? { range } : undefined);
+  const object = await readKvBinary(env, key);
   if (!object) return json({ error: `asset not found: ${key}` }, 404);
 
-  const headers = new Headers({
-    "content-type": meta?.mimeType ?? object.httpMetadata?.contentType ?? "application/octet-stream",
+  const etag = `"${object.size.toString(16)}-${(meta?.mimeType ?? object.contentType ?? "bin").length}"`;
+  const cacheHeaders = {
+    "content-type": meta?.mimeType ?? object.contentType ?? "application/octet-stream",
     etag,
     "accept-ranges": "bytes",
     "cache-control": "public, max-age=31536000, immutable",
     "x-content-type-options": "nosniff",
-  });
-  if (meta?.fileName) headers.set("content-disposition", `inline; filename*=UTF-8''${encodeURIComponent(meta.fileName)}`);
+  };
+  if (request.headers.get("if-none-match") === etag) return new Response(null, { status: 304, headers: cacheHeaders });
+  if (meta?.fileName) (cacheHeaders as Record<string, string>)["content-disposition"] = `inline; filename*=UTF-8''${encodeURIComponent(meta.fileName)}`;
 
-  if (range && object.range) {
-    const offset = (object.range as { offset?: number }).offset ?? range.offset;
-    const length = (object.range as { length?: number }).length ?? range.length;
-    headers.set("content-range", `bytes ${offset}-${offset + length - 1}/${head.size}`);
-    headers.set("content-length", String(length));
-    return new Response(method === "HEAD" ? null : object.body, { status: 206, headers });
+  const range = parseRange(request.headers.get("range"), object.size);
+  if (range) {
+    const slice = object.buffer.slice(range.offset, range.offset + range.length);
+    return new Response(method === "HEAD" ? null : slice, {
+      status: 206,
+      headers: { ...cacheHeaders, "content-range": `bytes ${range.offset}-${range.offset + range.length - 1}/${object.size}`, "content-length": String(range.length) },
+    });
   }
-  headers.set("content-length", String(head.size));
-  return new Response(method === "HEAD" ? null : object.body, { status: 200, headers });
+  return new Response(method === "HEAD" ? null : object.buffer, { status: 200, headers: { ...cacheHeaders, "content-length": String(object.size) } });
 }
 
 export const onRequest: PagesFunction<Env> = async ({ request, env, params }) => {
@@ -113,12 +115,12 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
   const index = await readAssetIndex(env);
 
   if (rest === "health") {
-    const published = await env.BUCKET.head(CONTENT_KEY("published"));
+    const published = await env.KV.getWithMetadata(CONTENT_KEY("published"));
     return json({
       ok: true,
       storage: "r2",
       revision: env.APP_REVISION ?? "dev",
-      content: { publishedUpdatedAt: published?.uploaded?.toISOString() ?? null },
+      content: { publishedUpdatedAt: (published?.metadata as { uploaded?: string } | null)?.uploaded ?? null },
       assets: { count: index.length, bytes: index.reduce((sum, asset) => sum + (asset.byteSize ?? 0), 0) },
     });
   }
@@ -127,15 +129,15 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
     if (method === "GET" || method === "HEAD") {
       const wantDraft = url.searchParams.get("draft") === "1";
       if (wantDraft && !canWrite(request, env)) return json({ error: "draft content 需要编辑权限" }, 403);
-      const object = await env.BUCKET.get(CONTENT_KEY(wantDraft ? "draft" : "published"));
-      if (!object) return json({ error: `内容尚未初始化：R2 缺少 content/${wantDraft ? "draft" : "published"}.json` }, 503);
-      return new Response(object.body, { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
+      const doc = await env.KV.get(CONTENT_KEY(wantDraft ? "draft" : "published"));
+      if (!doc) return json({ error: `内容尚未初始化：KV 缺少 content/${wantDraft ? "draft" : "published"}.json` }, 503);
+      return new Response(doc, { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
     }
     if (method === "PUT" || method === "POST") {
       if (!canWrite(request, env)) return json({ error: "没有写入权限（需要 x-admin-token）" }, 403);
       const body = await request.text();
       try { JSON.parse(body); } catch { return json({ error: "内容不是合法 JSON" }, 400); }
-      await env.BUCKET.put(CONTENT_KEY("draft"), body, { httpMetadata: { contentType: "application/json; charset=utf-8" } });
+      await env.KV.put(CONTENT_KEY("draft"), body, { metadata: { contentType: "application/json; charset=utf-8", uploaded: new Date().toISOString() } });
       return json({ ok: true, updatedAt: new Date().toISOString() });
     }
     return json({ error: "method not allowed" }, 405, { allow: "GET, PUT" });
@@ -143,10 +145,9 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
 
   if (rest === "publish" && method === "POST") {
     if (!canWrite(request, env)) return json({ error: "没有发布权限（需要 x-admin-token）" }, 403);
-    const draft = await env.BUCKET.get(CONTENT_KEY("draft"));
+    const draft = await env.KV.get(CONTENT_KEY("draft"));
     if (!draft) return json({ error: "draft 不存在，无法发布" }, 409);
-    await env.BUCKET.put(CONTENT_KEY("published"), draft.body, { httpMetadata: { contentType: "application/json; charset=utf-8" } });
-    await draft.body?.cancel?.();
+    await env.KV.put(CONTENT_KEY("published"), draft, { metadata: { contentType: "application/json; charset=utf-8", uploaded: new Date().toISOString() } });
     return json({ ok: true, publishedAt: new Date().toISOString() });
   }
 
@@ -163,13 +164,13 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
       const path = decodeURIComponent(request.headers.get("x-asset-path") ?? `assets/${kind}s/${Date.now()}-${originalName}`);
       const buffer = await request.arrayBuffer();
       const contentType = request.headers.get("content-type") ?? "application/octet-stream";
-      await env.BUCKET.put(MEDIA_KEY(id), buffer, { httpMetadata: { contentType } });
+      await env.KV.put(MEDIA_KEY(id), buffer, { metadata: { contentType, fileName: originalName, size: buffer.byteLength } });
       const entry = {
         id, kind, path, mimeType: contentType, fileName: originalName, originalName,
         byteSize: buffer.byteLength, label: originalName.replace(/\.[^.]+$/, ""), url: `/api/assets/${id}`,
       };
-      await env.BUCKET.put(ASSET_INDEX_KEY, JSON.stringify([...index.filter((asset) => asset.id !== id), entry], null, 2), {
-        httpMetadata: { contentType: "application/json; charset=utf-8" },
+      await env.KV.put(ASSET_INDEX_KEY, JSON.stringify([...index.filter((asset) => asset.id !== id), entry], null, 2), {
+        metadata: { contentType: "application/json; charset=utf-8" },
       });
       return json(entry, 201);
     }
