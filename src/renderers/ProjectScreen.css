@@ -12,7 +12,7 @@
 .project-window-header {
   min-width: 0;
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 1rem;
   padding: .85rem 1.25rem;
@@ -30,12 +30,18 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
+  padding: 0;
+  border: 0;
   box-shadow: inset 0 0 0 1px #111a35aa;
 }
 
 .window-dot--close { background: #f17a79; }
 .window-dot--minimize { background: #f2bd62; }
 .window-dot--maximize { background: #72c795; }
+.project-window-controls button:not(:disabled) { cursor: pointer; }
+.project-window-controls button:not(:disabled):hover { filter: brightness(1.1); }
+.project-window-controls button:focus-visible { outline: 2px solid #f4f6ff; outline-offset: 3px; }
+.project-window-controls button:disabled { cursor: default; opacity: .7; }
 
 .project-window-identity { min-width: 0; }
 
@@ -160,6 +166,7 @@
 }
 
 .project-page-heading { margin-bottom: 1.5rem; }
+.project-page-subtitle { margin: .75rem 0 0; color: #47627a; font-size: 1.02rem; font-weight: 600; line-height: 1.65; }
 .project-page-heading .eyebrow { margin-bottom: .4rem; color: #9a6b14; }
 .project-window--paged .project-page-heading h1 { color: #17213a; }
 .project-window--paged .project-content { gap: 1.15rem; margin: 0; }
@@ -245,6 +252,7 @@
 .project-pager-reward { min-width: 0; }
 .project-pager-reward .reward-note { font-size: .82rem; }
 .project-pager-controls { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+.project-pager-count { min-width: 4.8rem; color: #f2bd62; font-size: .82rem; font-variant-numeric: tabular-nums; letter-spacing: .08em; text-align: center; white-space: nowrap; }
 
 .project-pager-button {
   min-height: 40px;
@@ -258,26 +266,67 @@
 
 .project-pager-button:hover:not(:disabled) { border-color: #f2bd62; background: #202f55; }
 .project-pager-button:disabled { cursor: default; opacity: .42; }
-.project-page-indicators { display: flex; align-items: center; gap: .38rem; }
-
-.project-page-indicator {
-  width: 9px;
-  height: 9px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: #6878a5;
-  transition: width .16s ease, background-color .16s ease;
-}
-
-.project-page-indicator.is-active { width: 22px; background: #f2bd62; }
 .project-pager-complete { display: flex; justify-content: flex-end; }
 .project-pager-complete .primary-button { white-space: nowrap; }
+
+.screen.project-screen--report { position: fixed; z-index: 30; inset: 0; display: grid; place-items: center; min-height: 0; padding: 1rem; background: rgba(9, 30, 44, .25); }
+.project-window--paged.project-window--report { width: min(88vw, 1260px); max-width: 1260px; height: min(80dvh, 780px); padding: 0; border-radius: 12px; box-shadow: 0 24px 60px rgba(8, 34, 51, .3); }
+.screen.project-screen--managed { background: transparent; pointer-events: none; }
+.project-screen--managed .project-window { pointer-events: auto; }
+.project-screen--report.is-maximized { padding: .5rem; }
+.project-screen--report.is-maximized .project-window--report { width: 100%; max-width: none; height: calc(100dvh - 1rem); }
+.project-window--report .project-window-header { grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; padding: .7rem 1rem; }
+.project-window--report .project-window-count,.project-window--report .project-window-subtitle { display: none; }
+.project-window--report .window-dot { display: grid; place-items: center; width: 25px; height: 25px; color: #142b3f; font-size: 1rem; font-weight: 700; }
+.project-window--report .project-paged-body { grid-template-columns: minmax(185px, 210px) minmax(0, 1fr); }
+.project-window--report .project-sidebar { padding: 1.2rem .65rem; }
+.project-window--report .project-nav-item { gap: .35rem; grid-template-columns: 1.7rem minmax(0, 1fr); padding: .8rem .55rem; }
+.project-window--report .project-nav-label { font-size: .79rem; }
+.project-window--report .project-page-viewport { overflow-x: hidden; background: #f7f9fb; }
+.project-window--report .project-page-content { padding: 1.5rem 1.75rem; }
+.project-window--report .project-page-heading { margin-bottom: 1.2rem; }
+.project-window--report .project-page-heading .eyebrow { margin: 0 0 .45rem; font-size: .7rem; letter-spacing: .06em; }
+.project-window--report .project-page-heading h1 { font-size: clamp(1.25rem, 1.7vw, 1.85rem); line-height: 1.45; }
+.project-window--report .project-page-subtitle { margin-top: .6rem; color: #47627a; font-size: .94rem; }
+.project-window--report .project-content { gap: 1rem; }
+.project-window--report .text-block { font-size: .87rem; color: #526778; line-height: 1.75; }
+.project-window--report .text-block p { margin: 0; }
+.project-window--report .project-page-content[data-page-kind="overview"] .project-content { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: .8rem 1.25rem; align-items: start; }
+.project-window--report .project-page-content[data-page-kind="overview"] .project-content > [data-block-type="table"] { grid-column: 2; grid-row: 1 / span 3; }
+.project-window--report .project-page-content[data-page-kind="overview"] .project-content > [data-block-type="callout"] { grid-column: 1 / -1; }
+.project-window--report .project-page-content[data-page-kind="overview"] .case-table th,.project-window--report .project-page-content[data-page-kind="overview"] .case-table td { padding: .65rem .55rem; }
+.project-window--report .project-page-content[data-page-kind="overview"] .case-table thead th:first-child { width: 19%; }
+.project-window--report .project-page-content[data-page-kind="overview"] .case-table thead th:nth-child(2) { width: 28%; }
+.project-window--report .project-pager { display: flex; padding: .7rem 1rem; }
+.project-window--report .project-pager-controls { flex: 1; }
+.project-window--report .project-pager-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: .5rem; }
+.project-window--report .project-pager-button:first-child { justify-self: start; }
+.project-window--report .project-pager-button:last-child { justify-self: end; }
+.project-window--report .project-pager-button:disabled { opacity: .55; }
+.project-restore-tray { position: fixed; z-index: 30; bottom: 4.5rem; right: 1.5rem; max-width: calc(100vw - 3rem); }
+.project-restore-tray > button { display: flex; align-items: center; gap: .7rem; padding: .7rem 1rem; border: 1px solid #8aa6bd; border-radius: 8px; background: #132440; color: #f4f6ff; font-size: .8rem; box-shadow: 0 6px 18px rgba(8, 34, 51, .2); }
+.project-restore-tray > button > span:last-child { color: #e7bd74; white-space: nowrap; }
+@media (max-width: 1100px) {
+  .project-window--paged.project-window--report { width: min(94vw, 1260px); height: 84dvh; }
+  .project-window--report .project-page-content[data-page-kind="overview"] .project-content { grid-template-columns: minmax(0, 1fr); }
+  .project-window--report .project-page-content[data-page-kind="overview"] .project-content > [data-block-type="table"] { grid-column: auto; grid-row: auto; }
+}
+@media (max-width: 760px) {
+  .screen.project-screen--report { padding: .5rem; }
+  .project-window--paged.project-window--report { width: 100%; height: min(92dvh, 900px); }
+  .project-window--report .project-paged-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .project-window--report .project-sidebar { padding: .65rem; }
+  .project-window--report .project-nav-item { padding: .5rem; grid-template-columns: auto auto; }
+  .project-window--report .project-page-content { padding: 1.1rem; }
+  .project-window--report .project-pager { padding: .65rem; }
+  .project-window--report .project-pager-button { font-size: .73rem; padding: .4rem .5rem; }
+  .project-window--report .project-pager-count { min-width: 3.4rem; font-size: .72rem; }
+}
 
 @media (max-width: 760px) {
   .project-screen { padding: .6rem; }
   .project-window--paged { width: 100%; height: calc(100vh - 1.2rem); max-height: none; border-radius: 12px; }
-  .project-window-header { grid-template-columns: 54px minmax(0, 1fr) auto; gap: .65rem; padding: .7rem .8rem; }
+  .project-window-header { grid-template-columns: minmax(0, 1fr) auto auto; gap: .65rem; padding: .7rem .8rem; }
   .window-dot { width: 9px; height: 9px; }
   .project-window--paged .project-window-path { gap: .35rem; font-size: .76rem; }
   .project-window-subtitle { font-size: .72rem; }
@@ -299,13 +348,11 @@
 }
 
 @media (max-width: 420px) {
-  .project-window-header { grid-template-columns: 42px minmax(0, 1fr); }
+  .project-window-header { grid-template-columns: minmax(0, 1fr) auto; }
   .project-window-controls { gap: .3rem; }
-  .project-window-count { grid-column: 2; margin-top: -.35rem; }
+  .project-window-count { display: none; }
   .project-pager-button { padding: .48rem .55rem; font-size: .86rem; }
-  .project-page-indicators { gap: .25rem; }
-  .project-page-indicator { width: 7px; height: 7px; }
-  .project-page-indicator.is-active { width: 16px; }
+  .project-pager-count { min-width: auto; font-size: .76rem; }
   .demo-steps li { padding: .5rem .3rem; font-size: .74rem; }
 }
 

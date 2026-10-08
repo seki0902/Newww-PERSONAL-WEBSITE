@@ -1,0 +1,177 @@
+<div class="page" id="mainPage">
+  <div class="page-title">&#20027;&#30028;&#38754; <span style="font-size:11px;color:#86868b;font-weight:400;cursor:pointer;margin-left:8px;" id="btnReTutorial">&#128214; &#20351;&#29992;&#25945;&#31243;</span><a href="/agent.html" class="agent-entry" title="Agent &#32842;&#22825;">&#129302; Agent</a><span style="font-size:14px;cursor:pointer;float:right;" id="btnSettings" title="&#35774;&#32622;">&#9881;&#65039; &#35774;&#32622;</span></div>
+  <div class="page-sub">&#36755;&#20837;&#35805;&#39064; &rarr; AI &#29983;&#25104;&#21475;&#25773;&#31295; &rarr; &#37197;&#32622;&#21442;&#25968; &rarr; &#29983;&#25104;&#35270;&#39057;</div>
+
+  <!-- AI topic search -->
+  <section class="topic-search" id="topicSearchSection">
+    <div class="topic-search-head">
+      <div>
+        <div class="topic-search-title">AI 选题搜索</div>
+        <div class="topic-search-sub">帮你把符合条件的招聘信息找出来并整理好</div>
+      </div>
+      <span class="topic-search-status" id="topicSearchStatus">输入你想查找的招聘选题</span>
+    </div>
+    <div class="topic-search-bar">
+      <input type="text" id="topicSearchInput" placeholder="搜索招聘会、校招、央国企、外企、人才引进……" autocomplete="off">
+      <button class="btn-p" id="btnTopicSearch">搜索</button>
+    </div>
+    <div class="topic-search-shortcuts">
+      <span>快捷搜索：</span>
+      <button class="topic-chip" data-topic-query="招聘会">招聘会</button>
+      <button class="topic-chip" data-topic-query="央国企">央国企</button>
+      <button class="topic-chip" data-topic-query="外企">外企</button>
+      <button class="topic-chip" data-topic-query="人才引进">人才引进</button>
+      <button class="topic-chip" data-topic-query="27届">27届</button>
+    </div>
+    <div class="topic-recent" id="topicRecent"></div>
+    <div class="topic-results" id="topicResults" aria-live="polite"></div>
+  </section>
+
+  <section class="topic-library" id="topicLibrarySection">
+    <div class="topic-library-head">
+      <div>
+        <div class="topic-search-title">我的选题库 <span class="topic-library-count" id="topicLibraryCount">0 条</span></div>
+        <div class="topic-search-sub">保存后的招聘选题会出现在这里，可直接生成口播稿</div>
+      </div>
+      <button class="btn-s" id="btnRefreshTopics" style="font-size:11px;padding:6px 10px;">刷新选题库</button>
+    </div>
+    <div class="topic-library-list" id="topicLibraryList" aria-live="polite"><div class="topic-empty">正在加载选题库……</div></div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- script area -->
+  <div style="margin-bottom:22px;">
+    <div class="field-label">&#31295;&#20214;</div>
+    <div class="row" style="margin-bottom:12px;">
+      <input type="text" id="topicInput" placeholder="&#36755;&#20837;&#35805;&#39064;&#65292;AI &#33258;&#21160;&#29983;&#25104;&#21475;&#25773;&#21021;&#31295;" style="flex:1;">
+      <button class="btn-p" id="btnGenerate" style="font-size:12px;white-space:nowrap;padding:10px 18px;">AI &#29983;&#25104;&#21021;&#31295;</button>
+    </div>
+    <div class="script-box readonly" id="scriptBox">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="font-size:11px;color:#86868b;" id="llmOutputLabel">AI &#36755;&#20986;</span>
+        <button class="btn-s" id="btnEdit" style="font-size:11px;padding:6px 16px;">&#9998; &#32534;&#36753;</button>
+        <div class="editor-overlay" id="editActions">
+          <button class="btn-s" id="btnSave" style="color:#239559;border-color:#239559;padding:6px 14px;font-size:12px;">&#10003; &#20445;&#23384;</button>
+          <button class="btn-s" id="btnCancel" style="color:#cf3a3a;border-color:#cf3a3a;padding:6px 14px;font-size:12px;">&#10007; &#25918;&#24323;</button>
+        </div>
+      </div>
+      <div contenteditable="false" id="scriptContent" style="font-size:14px;line-height:2;color:#3a3a3c;">
+        <p style="margin:0 0 8px;"><strong>AI &#26102;&#20195;&#65292;&#20869;&#23481;&#21019;&#20316;&#32773;&#26368;&#22836;&#30140;&#30340;&#19981;&#26159;&#27809;&#26377;&#24037;&#20855;&#65292;&#32780;&#26159;&#24037;&#20855;&#22826;&#22810;&#12290;</strong></p>
+        <p style="margin:0 0 8px;">&#19978;&#21320;&#29992; A &#24037;&#20855;&#20889;&#31295;&#65292;&#19979;&#21320;&#29992; B &#24037;&#20855;&#21098;&#35270;&#39057;&#65292;&#26202;&#19978;&#29992; C &#24037;&#20855;&#30475;&#25968;&#25454;&#12290;&#27599;&#22825;&#37117;&#22312;&#24037;&#20855;&#38388;&#36339;&#26469;&#36339;&#21435;&#12290;</p>
+        <p style="margin:0 0 8px;">&#20320;&#38656;&#35201;&#30340;&#19981;&#26159;&#26356;&#22810;&#24037;&#20855;&#65292;&#32780;&#26159;&#19968;&#20010;&#33021;&#20018;&#36215;&#26469;&#30340;&#27969;&#31243;&#12290;</p>
+        <p style="margin:0;">&#20170;&#22825;&#32842;&#32842;&#24590;&#20040;&#29992;&#26368;&#31616;&#21333;&#30340;&#24037;&#20855;&#38142;&#65292;&#25226;&#19968;&#23567;&#26102;&#30340;&#24037;&#20316;&#21387;&#32553;&#21040;&#21313;&#20998;&#38047;&#12290;</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- video params -->
+  <div>
+    <div class="field-label">&#35270;&#39057;&#21442;&#25968;</div>
+
+    <div class="field" style="margin-bottom:0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><span style="font-size:12px;color:#6b7280;">&#25968;&#23383;&#20154;&#24418;&#35937;</span><button class="btn-s" id="btnRefreshAvatars" style="font-size:10px;padding:4px 8px;">&#21516;&#27493;&#34633;&#38236;</button></div>
+      <div class="avatar-scroll">
+        <button class="arr" id="avatarPrev">&lt;</button>
+        <div class="avatar-list" id="avatarList"></div>
+        <button class="arr" id="avatarNext">&gt;</button>
+      </div>
+    </div>
+
+    <div class="field" style="margin-bottom:0;">
+      <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">&#20154;&#22768;</div>
+      <div class="avatar-scroll">
+        <button class="arr" id="voicePrev">&lt;</button>
+        <div class="avatar-list" id="voiceList"></div>
+        <button class="arr" id="voiceNext">&gt;</button>
+      </div>
+    </div>
+
+    <div class="row" style="align-items:flex-start;">
+      <div class="field">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">&#35821;&#36895;</div>
+        <select id="speedSelect"></select>
+      </div>
+      <div class="field">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">&#32972;&#26223;&#33394;</div>
+        <div class="chip-group" id="bgGroup" style="display:flex;gap:6px;flex-wrap:wrap;">
+          <div class="chip on" data-val="#FFFFFF">#FFFFFF</div>
+          <div class="chip" data-val="#1A1A2E">#1A1A2E</div>
+          <div class="chip" data-val="#F0F4F8">#F0F4F8</div>
+          <div class="chip" data-val="#E8F4E8">#E8F4E8</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="align-items:flex-start;">
+      <div class="field">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">&#20998;&#36776;&#29575;</div>
+        <div class="chip-group" id="resGroup" style="display:flex;gap:6px;">
+          <div class="chip on" data-val="1080P">1080P</div>
+          <div class="chip" data-val="720P">720P</div>
+        </div>
+      </div>
+      <div class="field">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:6px;">&#23383;&#24149;</div>
+        <div class="row" style="gap:10px;">
+          <div class="toggle off" id="subtitleToggle"><div class="k"></div></div>
+          <span style="font-size:13px;color:#4a5068;" id="subtitleLabel">&#20851;&#38381;</span>
+        </div>
+      </div>
+    </div>
+
+    <details style="margin-top:18px;">
+      <summary style="font-size:12px;color:#86868b;cursor:pointer;">&#39640;&#32423;&#21442;&#25968;</summary>
+      <div class="row" style="margin-top:14px;">
+        <div class="field" style="margin-bottom:12px;">
+          <div style="font-size:12px;color:#6b7280;margin-bottom:5px;">&#38899;&#37327;</div>
+          <select id="volSelect"><option>60</option><option>70</option><option>80</option><option>90</option><option selected>100</option></select>
+        </div>
+        <div class="field" style="margin-bottom:12px;">
+          <div style="font-size:12px;color:#6b7280;margin-bottom:5px;">&#39537;&#21160;&#27169;&#24335;</div>
+          <select id="driveSelect"><option value="">&#27491;&#24120;</option><option selected>random</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field" style="margin-bottom:12px;">
+          <div style="font-size:12px;color:#6b7280;margin-bottom:5px;">&#20154;&#20687;&#31867;&#22411;</div>
+          <select id="figureSelect"><option selected>stand_body</option><option>half_body</option></select>
+        </div>
+        <div class="field" style="margin-bottom:12px;">
+          <div style="font-size:12px;color:#6b7280;margin-bottom:5px;">&#25773;&#25918;&#27169;&#24335;</div>
+          <select id="backwaySelect"><option value="1" selected>&#27491;&#24120;</option><option value="2">&#20498;&#25918;</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field" style="margin-bottom:12px;">
+          <div style="font-size:12px;color:#6b7280;margin-bottom:5px;">&#35821;&#35328;</div>
+          <select id="langSelect"><option value="cn" selected>&#20013;&#25991;</option><option value="en">&#33521;&#25991;</option></select>
+        </div>
+        <div class="field" style="margin-bottom:0;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:12px;color:#6b7280;">&#21512;&#35268;&#27700;&#21360;</span>
+          <div class="toggle off" id="watermarkToggle"><div class="k"></div></div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div style="text-align:center;margin-top:26px;">
+    <button class="btn-p" id="btnCreateVideo" style="font-size:15px;padding:14px 56px;">&#29983;&#25104;&#35270;&#39057;</button>
+  </div>
+
+  <hr class="sep">
+
+  <!-- task list -->
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div class="field-label" style="margin-bottom:0;">&#20219;&#21153;&#35760;&#24405; <span style="font-size:10px;color:#86868b;font-weight:400;">&#20445;&#30041; 30 &#22825;</span></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-s" id="btnRefreshTasks" style="font-size:11px;padding:6px 10px;" title="&#21516;&#27493;&#34633;&#38236;&#20219;&#21153;&#29366;&#24577;">&#21047;&#26032;&#29366;&#24577;</button>
+        <button class="btn-s" id="btnClearTasks" style="font-size:11px;padding:6px 10px;" title="&#28165;&#31354;&#24050;&#23436;&#25104;&#30340;&#20219;&#21153;&#35760;&#24405;">&#28165;&#31354;&#35760;&#24405;</button>
+      </div>
+    </div>
+    <div id="taskList"><p style="font-size:12px;color:#86868b;">&#26242;&#26080;&#20219;&#21153;</p></div>
+  </div>
+</div>

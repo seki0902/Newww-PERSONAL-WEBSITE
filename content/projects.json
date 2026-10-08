@@ -6,23 +6,161 @@
     "order": 1,
     "desktopSlot": "project_slot_01",
     "enabled": true,
-    "tarot": { "id": "tarot-1", "name": "[PLACEHOLDER] 塔罗牌一", "image": "/assets/tarot-placeholder.svg", "hint": "[PLACEHOLDER] 塔罗提示一" },
-    "rewardItem": { "id": "reward-1", "title": "[PLACEHOLDER] 物件一", "icon": "✦" },
-    "pageIds": ["p1-overview", "p1-background", "p1-demo", "p1-evidence", "p1-result", "p1-reflection"],
+    "finalAction": {
+      "label": "查看交互 Demo →",
+      "disabled": true
+    },
+    "tarot": {
+      "id": "tarot-1",
+      "name": "A1｜魔术师",
+      "image": "/assets/tarot/a1.webp",
+      "hint": "魔术师的任务是统筹四元素，给你变个戏法看看，喜欢吗？"
+    },
+    "rewardItem": {
+      "id": "reward-1",
+      "title": "[PLACEHOLDER] 物件一",
+      "icon": "✦"
+    },
+    "pageIds": [
+      "p1-overview",
+      "p1-background",
+      "p1-demo",
+      "p1-evidence",
+      "p1-result",
+      "p1-reflection"
+    ],
     "pages": [
-      { "id": "p1-overview", "projectId": "project-1", "internalName": "AI工作台-项目概览", "title": "AI 内容生产工作台", "navLabel": "项目概览", "order": 1, "kind": "overview", "blockIds": ["p1-text", "p1-role", "p1-metrics", "p1-screenshot"], "enabled": true },
-      { "id": "p1-background", "projectId": "project-1", "internalName": "AI工作台-业务背景", "title": "从分散工具到连续生产流程", "navLabel": "业务背景", "order": 2, "kind": "background", "blockIds": ["p1-background-text", "p1-comparison"], "enabled": true },
-      { "id": "p1-demo", "projectId": "project-1", "internalName": "AI工作台-交互演示", "title": "从选题到数字人视频", "navLabel": "交互 Demo", "order": 3, "kind": "demo", "blockIds": ["p1-interactive-demo"], "enabled": true },
-      { "id": "p1-evidence", "projectId": "project-1", "internalName": "AI工作台-真实证据", "title": "真实证据", "navLabel": "真实证据", "order": 4, "kind": "evidence", "blockIds": ["p1-evidence-note", "p1-evidence-image", "p1-video"], "enabled": true },
-      { "id": "p1-result", "projectId": "project-1", "internalName": "AI工作台-成果验证", "title": "成果验证", "navLabel": "成果验证", "order": 5, "kind": "result", "blockIds": ["p1-result-note", "p1-metrics"], "enabled": true },
-      { "id": "p1-reflection", "projectId": "project-1", "internalName": "AI工作台-项目复盘", "title": "项目复盘", "navLabel": "项目复盘", "order": 6, "kind": "reflection", "blockIds": ["p1-reflection-text", "p1-reflection-role"], "enabled": true }
+      {
+        "id": "p1-overview",
+        "projectId": "project-1",
+        "internalName": "AI工作台-项目概览",
+        "title": "AI 内容生产工作台",
+        "navLabel": "项目概览",
+        "order": 1,
+        "kind": "overview",
+        "blockIds": [
+          "p1-text",
+          "p1-role",
+          "p1-metrics",
+          "p1-screenshot"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "p1-background",
+        "projectId": "project-1",
+        "internalName": "AI工作台-业务背景",
+        "title": "从分散工具到连续生产流程",
+        "navLabel": "业务背景",
+        "order": 2,
+        "kind": "background",
+        "blockIds": [
+          "p1-background-text",
+          "p1-comparison"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "p1-demo",
+        "projectId": "project-1",
+        "internalName": "AI工作台-交互演示",
+        "title": "从选题到数字人视频",
+        "navLabel": "交互 Demo",
+        "order": 3,
+        "kind": "demo",
+        "blockIds": [
+          "p1-agent-demo"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "p1-evidence",
+        "projectId": "project-1",
+        "internalName": "AI工作台-真实证据",
+        "title": "真实证据",
+        "navLabel": "真实证据",
+        "order": 4,
+        "kind": "evidence",
+        "blockIds": [
+          "p1-evidence-note",
+          "p1-evidence-image",
+          "p1-video"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "p1-result",
+        "projectId": "project-1",
+        "internalName": "AI工作台-成果验证",
+        "title": "成果验证",
+        "navLabel": "成果验证",
+        "order": 5,
+        "kind": "result",
+        "blockIds": [
+          "p1-result-note",
+          "p1-metrics"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "p1-reflection",
+        "projectId": "project-1",
+        "internalName": "AI工作台-项目复盘",
+        "title": "项目复盘",
+        "navLabel": "项目复盘",
+        "order": 6,
+        "kind": "reflection",
+        "blockIds": [
+          "p1-reflection-text",
+          "p1-reflection-role"
+        ],
+        "enabled": true
+      }
     ],
     "blocks": [
-      { "id": "p1-text", "type": "text", "markdown": "把「选题 → 口播稿 → 编辑 → 数字人生成」从跨平台流程重构为一站式网页工作台。" },
-      { "id": "p1-role", "type": "text", "markdown": "个人职责：待补充。" },
-      { "id": "p1-screenshot", "type": "image", "asset": "/assets/project-placeholder.svg", "alt": "产品主界面截图待补充", "caption": "产品主界面截图待补充" },
-      { "id": "p1-background-text", "type": "text", "markdown": "原有内容生产链路需要在多个平台间切换，Prompt 分散，口播稿反复复制粘贴，后续生成步骤也彼此割裂。工作台把核心步骤集中到一个网页流程。" },
-      { "id": "p1-comparison", "type": "comparison", "before": { "label": "改造前", "items": ["多个平台间切换", "Prompt 分散管理", "反复复制粘贴", "生成链路割裂"] }, "after": { "label": "改造后", "items": ["网页内完成核心流程", "Skill 与 Prompt 统一管理", "直接进入下一生产步骤"] } },
+      {
+        "id": "p1-text",
+        "type": "text",
+        "markdown": "把「选题 → 口播稿 → 编辑 → 数字人生成」从跨平台流程重构为一站式网页工作台。"
+      },
+      {
+        "id": "p1-role",
+        "type": "text",
+        "markdown": "个人职责：待补充。"
+      },
+      {
+        "id": "p1-screenshot",
+        "type": "image",
+        "asset": "/assets/project-placeholder.svg",
+        "alt": "产品主界面截图待补充",
+        "caption": "产品主界面截图待补充"
+      },
+      {
+        "id": "p1-background-text",
+        "type": "text",
+        "markdown": "原有内容生产链路需要在多个平台间切换，Prompt 分散，口播稿反复复制粘贴，后续生成步骤也彼此割裂。工作台把核心步骤集中到一个网页流程。"
+      },
+      {
+        "id": "p1-comparison",
+        "type": "comparison",
+        "before": {
+          "label": "改造前",
+          "items": [
+            "多个平台间切换",
+            "Prompt 分散管理",
+            "反复复制粘贴",
+            "生成链路割裂"
+          ]
+        },
+        "after": {
+          "label": "改造后",
+          "items": [
+            "网页内完成核心流程",
+            "Skill 与 Prompt 统一管理",
+            "直接进入下一生产步骤"
+          ]
+        }
+      },
       {
         "id": "p1-interactive-demo",
         "type": "interactive_demo",
@@ -32,8 +170,26 @@
             "label": "央企秋招信息",
             "input": "央企秋招信息",
             "scriptOutput": "【待补充真实口播稿】这里展示“央企秋招信息”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
-            "avatarOptions": [{ "id": "avatar-a", "label": "数字人形象 A（演示占位）" }, { "id": "avatar-b", "label": "数字人形象 B（演示占位）" }],
-            "ratioOptions": [{ "id": "vertical", "label": "9:16 竖屏" }, { "id": "horizontal", "label": "16:9 横屏" }],
+            "avatarOptions": [
+              {
+                "id": "avatar-a",
+                "label": "数字人形象 A（演示占位）"
+              },
+              {
+                "id": "avatar-b",
+                "label": "数字人形象 B（演示占位）"
+              }
+            ],
+            "ratioOptions": [
+              {
+                "id": "vertical",
+                "label": "9:16 竖屏"
+              },
+              {
+                "id": "horizontal",
+                "label": "16:9 横屏"
+              }
+            ],
             "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
           },
           {
@@ -41,38 +197,1808 @@
             "label": "产品功能介绍",
             "input": "产品功能介绍",
             "scriptOutput": "【待补充真实口播稿】这里展示“产品功能介绍”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
-            "avatarOptions": [{ "id": "avatar-a", "label": "数字人形象 A（演示占位）" }],
-            "ratioOptions": [{ "id": "vertical", "label": "9:16 竖屏" }, { "id": "square", "label": "1:1 方形" }],
+            "avatarOptions": [
+              {
+                "id": "avatar-a",
+                "label": "数字人形象 A（演示占位）"
+              }
+            ],
+            "ratioOptions": [
+              {
+                "id": "vertical",
+                "label": "9:16 竖屏"
+              },
+              {
+                "id": "square",
+                "label": "1:1 方形"
+              }
+            ],
             "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
           }
         ]
       },
-      { "id": "p1-evidence-note", "type": "text", "markdown": "本页将使用原始产品界面、实际产出成品与团队使用记录支撑项目说明。真实材料尚未提供，以下位置均为待替换占位，不作为正式证明材料。" },
-      { "id": "p1-evidence-image", "type": "image", "asset": "/assets/project-placeholder.svg", "alt": "工作台真实界面截图待补充", "caption": "待补充：工作台真实界面截图（发布前需隐藏敏感信息）" },
-      { "id": "p1-video", "type": "video", "asset": "/assets/placeholder-project.mp4", "poster": "/assets/project-placeholder.svg", "caption": "待补充：从选题到数字人视频的真实操作录屏或代表成品" },
-      { "id": "p1-result-note", "type": "text", "markdown": "以下数据沿用当前项目总结口径。统计时间、样本范围与原始记录待补充后，再作为可核验成果对外展示。" },
-      { "id": "p1-reflection-text", "type": "text", "markdown": "项目复盘内容待补充。需要由项目本人补充：关键判断、做对了什么、实际遇到的问题，以及下一轮最值得优化的环节。" },
-      { "id": "p1-reflection-role", "type": "text", "markdown": "个人职责与协作边界待补充。" },
+      {
+        "id": "p1-evidence-note",
+        "type": "text",
+        "markdown": "本页将使用原始产品界面、实际产出成品与团队使用记录支撑项目说明。真实材料尚未提供，以下位置均为待替换占位，不作为正式证明材料。"
+      },
+      {
+        "id": "p1-evidence-image",
+        "type": "image",
+        "asset": "/assets/project-placeholder.svg",
+        "alt": "工作台真实界面截图待补充",
+        "caption": "待补充：工作台真实界面截图（发布前需隐藏敏感信息）"
+      },
+      {
+        "id": "p1-video",
+        "type": "video",
+        "asset": "/assets/placeholder-project.mp4",
+        "poster": "/assets/project-placeholder.svg",
+        "caption": "待补充：从选题到数字人视频的真实操作录屏或代表成品"
+      },
+      {
+        "id": "p1-result-note",
+        "type": "text",
+        "markdown": "以下数据沿用当前项目总结口径。统计时间、样本范围与原始记录待补充后，再作为可核验成果对外展示。"
+      },
+      {
+        "id": "p1-reflection-text",
+        "type": "text",
+        "markdown": "项目复盘内容待补充。需要由项目本人补充：关键判断、做对了什么、实际遇到的问题，以及下一轮最值得优化的环节。"
+      },
+      {
+        "id": "p1-reflection-role",
+        "type": "text",
+        "markdown": "个人职责与协作边界待补充。"
+      },
       {
         "id": "p1-metrics",
         "type": "metrics",
         "items": [
-          { "label": "日常使用团队", "value": "4 人" },
-          { "label": "效率提升", "value": "约 50%" },
-          { "label": "数字人视频产出", "value": "1–2 → 3–5 条/天", "note": "个人日均产出" },
-          { "label": "生产流程", "value": "集中到一个网页", "note": "原流程跨多个平台" }
+          {
+            "label": "日常使用团队",
+            "value": "4 人"
+          },
+          {
+            "label": "效率提升",
+            "value": "约 50%"
+          },
+          {
+            "label": "数字人视频产出",
+            "value": "1–2 → 3–5 条/天",
+            "note": "个人日均产出"
+          },
+          {
+            "label": "生产流程",
+            "value": "集中到一个网页",
+            "note": "原流程跨多个平台"
+          }
         ]
+      },
+      {
+        "id": "p1-agent-demo",
+        "type": "agent_demo",
+        "app": "content-agent"
       }
     ]
   },
   {
     "id": "project-2",
-    "title": "[PLACEHOLDER] 项目二标题",
-    "subtitle": "[PLACEHOLDER] 项目二副标题",
+    "title": "Douyin AdPulse 投放诊断 Agent",
+    "subtitle": "指标、证据与多 Agent 诊断日报的交互工作台",
     "order": 2,
     "desktopSlot": "project_slot_02",
     "enabled": true,
-    "tarot": { "id": "tarot-2", "name": "[PLACEHOLDER] 塔罗牌二", "image": "/assets/tarot-placeholder.svg", "hint": "[PLACEHOLDER] 塔罗提示二" },
-    "blocks": [{ "id": "p2-text", "type": "text", "markdown": "[PLACEHOLDER] 这里是项目二介绍。" }]
+    "tarot": {
+      "id": "tarot-2",
+      "name": "A2｜宝剑国王",
+      "image": "/assets/tarot/a2.webp",
+      "hint": "做出任何改变前，都要有详实的数据支撑。"
+    },
+    "blocks": [
+      {
+        "id": "p2-text",
+        "type": "text",
+        "markdown": "[PLACEHOLDER] 这里是项目二介绍。"
+      },
+      {
+        "id": "p2-agent-demo",
+        "type": "agent_demo",
+        "app": "ads-agent"
+      }
+    ],
+    "pages": [
+      {
+        "id": "p2-demo",
+        "projectId": "project-2",
+        "internalName": "P2-交互演示",
+        "title": "投放 Agent 交互演示",
+        "navLabel": "交互 Demo",
+        "subtitle": "体验原产品界面中的完整操作流程",
+        "order": 1,
+        "blockIds": [
+          "p2-agent-demo"
+        ],
+        "enabled": true,
+        "kind": "demo"
+      }
+    ],
+    "pageIds": [
+      "p2-demo"
+    ],
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": false
+    }
+  },
+  {
+    "id": "project-3",
+    "title": "AI Skill 业务能力体系",
+    "subtitle": "把真实业务经验，沉淀成可复用、可调用、可持续迭代的 AI 能力模块",
+    "order": 3,
+    "desktopSlot": "project_slot_03",
+    "enabled": false,
+    "tarot": {
+      "id": "tarot-3",
+      "name": "A3｜星币八",
+      "image": "/assets/tarot/a3.webp",
+      "hint": "勤恳的打磨skill，兜里总会长出金币的。"
+    },
+    "blocks": [
+      {
+        "id": "p3-summary",
+        "type": "text",
+        "markdown": "围绕内容生产、投放文案与广告数据分析，将业务经验封装为可复用、可调用、可持续迭代的 AI Skill。"
+      }
+    ]
+  },
+  {
+    "id": "project-4",
+    "title": "爱思益｜留学生求职内容运营",
+    "subtitle": "留学生求职赛道｜2 个导师 IP｜3 大平台｜8 个账号",
+    "order": 4,
+    "desktopSlot": "project_slot_04",
+    "enabled": false,
+    "presentation": "report",
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": true
+    },
+    "tarot": {
+      "id": "tarot-4",
+      "name": "A4｜权杖骑士",
+      "image": "/assets/tarot/a4.webp",
+      "hint": "用户不为我停留？那我追着用户狂奔如何呢"
+    },
+    "pages": [
+      {
+        "id": "a4-overview",
+        "projectId": "project-4",
+        "internalName": "A4 P1 矩阵运营",
+        "title": "8 个账号的内容矩阵运营",
+        "navLabel": "矩阵运营",
+        "subtitle": "留学生求职赛道｜2 个导师 IP｜3 大平台｜8 个账号",
+        "order": 1,
+        "kind": "overview",
+        "blockIds": [
+          "a4-intro",
+          "a4-materials",
+          "a4-metrics",
+          "a4-platforms",
+          "a4-capacity",
+          "a4-position"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a4-sop",
+        "projectId": "project-4",
+        "internalName": "A4 P2 内容生产 SOP",
+        "title": "内容怎么做：全链路内容生产 SOP",
+        "navLabel": "内容生产 SOP",
+        "subtitle": "从选题策划、人设定位，到多平台分发与 AI 产能升级",
+        "order": 2,
+        "kind": "process",
+        "blockIds": [
+          "a4-sop-flow",
+          "a4-sop-details",
+          "a4-distribution",
+          "a4-ai",
+          "a4-production-materials"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a4-cases",
+        "projectId": "project-4",
+        "internalName": "A4 P3 高价值 Case",
+        "title": "什么内容能带来线索",
+        "navLabel": "高价值 Case",
+        "subtitle": "高价值内容 Case 复盘｜打声量 · 抓转化 · 做变现",
+        "order": 3,
+        "kind": "evidence",
+        "blockIds": [
+          "a4-case-status",
+          "a4-cases-list",
+          "a4-case-principle"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a4-results",
+        "projectId": "project-4",
+        "internalName": "A4 P4 结果与闭环",
+        "title": "内容运营结果：数据反哺与闭环矩阵",
+        "navLabel": "结果与闭环",
+        "subtitle": "从内容产能与声量，到线索获取与商业转化",
+        "order": 4,
+        "kind": "result",
+        "blockIds": [
+          "a4-content-results",
+          "a4-leads-results",
+          "a4-results-match",
+          "a4-feedback-loop",
+          "a4-review-principle"
+        ],
+        "enabled": true
+      }
+    ],
+    "pageIds": [
+      "a4-overview",
+      "a4-sop",
+      "a4-cases",
+      "a4-results"
+    ],
+    "blocks": [
+      {
+        "id": "a4-intro",
+        "type": "text",
+        "markdown": "负责小红书、视频号、抖音矩阵内容运营，全链路覆盖选题策划、IP 人设定位、图文 / 口播脚本生产、发布维护、私信留资承接、投流及数据复盘。"
+      },
+      {
+        "id": "a4-materials",
+        "type": "cards",
+        "title": "矩阵账号素材 · 待补充",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "小红书",
+            "body": "账号主页与搜索型图文截图"
+          },
+          {
+            "title": "微信视频号",
+            "body": "导师 IP 主页与口播内容截图"
+          },
+          {
+            "title": "抖音",
+            "body": "账号主页与投流内容截图"
+          }
+        ]
+      },
+      {
+        "id": "a4-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "账号规模",
+            "value": "8 个",
+            "note": "跨平台矩阵式分布，覆盖不同意向度人群"
+          },
+          {
+            "label": "覆盖平台",
+            "value": "3 大平台",
+            "note": "小红书 · 微信视频号 · 抖音"
+          },
+          {
+            "label": "月均有效留资",
+            "value": "100–200 条",
+            "note": "小红书 + 视频号有效私信留资"
+          },
+          {
+            "label": "头部账号粉丝",
+            "value": "3 万+",
+            "note": "单视频号头部粉丝积累"
+          },
+          {
+            "label": "单条最高播放 / 阅读",
+            "value": "10 万+",
+            "note": "矩阵内容最高传播表现"
+          }
+        ]
+      },
+      {
+        "id": "a4-platforms",
+        "type": "text",
+        "markdown": "平台分发｜小红书 · 微信视频号 · 抖音"
+      },
+      {
+        "id": "a4-capacity",
+        "type": "callout",
+        "title": "稳定产能",
+        "text": "信息流图文约 **3 条 / 日**｜口播视频约 **15 条 / 周**",
+        "tone": "note"
+      },
+      {
+        "id": "a4-position",
+        "type": "callout",
+        "title": "项目定位",
+        "text": "从内容生产直接负责到线索获取，持续运营留学生求职内容矩阵。",
+        "tone": "key"
+      },
+      {
+        "id": "a4-sop-flow",
+        "type": "flow",
+        "title": "全链路 SOP",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "选题策划"
+          },
+          {
+            "title": "IP 人设"
+          },
+          {
+            "title": "图文生产"
+          },
+          {
+            "title": "口播生产"
+          },
+          {
+            "title": "多平台分发"
+          },
+          {
+            "title": "AI 降本增效"
+          }
+        ]
+      },
+      {
+        "id": "a4-sop-details",
+        "type": "cards",
+        "title": "内容生产的 4 个基础环节",
+        "layout": "list",
+        "items": [
+          {
+            "title": "选题策划",
+            "body": "聚焦秋招 / 春招节点、央国企 / 外企专项招聘、海归人才引进行动、求职时间线规划、简历 / 面试 / 实习技巧、海归留服认证与落户政策。"
+          },
+          {
+            "title": "IP 人设定位",
+            "body": "**人设观点**：导师求职经验、行业趋势判断、职场视角输出。\n**资料干货**：招聘公告、岗位需求、人才政策、薪酬数据。\n**专业增信**：行业实操案例、学员履历背景、名企录取喜报。\n**转化引导**：咨询痛点暴露、服务体系介绍、私信领取资料。"
+          },
+          {
+            "title": "图文内容生产",
+            "body": "负责爆款标题、高光首图、信息结构图解、正文文案、末尾 CTA 留资卡片。\n**产能：日均约 3 条。**"
+          },
+          {
+            "title": "口播内容生产",
+            "body": "负责选题提炼、事实资料整理、口播脚本撰写、文案润色、数字人视频制作与发布。\n**产能：周均约 15 条。**"
+          }
+        ]
+      },
+      {
+        "id": "a4-distribution",
+        "type": "table",
+        "title": "05｜多平台差异化分发",
+        "columns": [
+          "平台",
+          "内容定位"
+        ],
+        "rows": [
+          [
+            "小红书",
+            "搜索型图文、求职干货与政策信息流图解"
+          ],
+          [
+            "微信视频号",
+            "导师 IP 信任度、家长向口播与求职趋势剖析"
+          ],
+          [
+            "抖音",
+            "高节奏口播与付费投流素材测试"
+          ]
+        ]
+      },
+      {
+        "id": "a4-ai",
+        "type": "callout",
+        "title": "06｜AI 辅助产能升级",
+        "text": "接入 AI 口播生成、洗稿重构、合规审核与数字人管线，将高频重复环节标准化。\n个人数字人视频产能由 **1–2 条 / 天** 提升至 **3–5 条 / 天**。",
+        "tone": "key"
+      },
+      {
+        "id": "a4-production-materials",
+        "type": "cards",
+        "title": "生产过程素材 · 待补充",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "选题与人设",
+            "body": "真实选题库表格、3 个代表性爆款选题、2 个导师 IP 内容封面及人设主页。"
+          },
+          {
+            "title": "内容与分发",
+            "body": "图文爆款截图、口播脚本精选片段、数字人成片画面、三平台发布页面及前台互动截图。"
+          }
+        ]
+      },
+      {
+        "id": "a4-case-status",
+        "type": "callout",
+        "title": "案例素材待补充",
+        "text": "以下保留已提供的选题逻辑与运营复盘；真实封面、原始内容标题、单条留资数量与转化记录待补充。",
+        "tone": "note"
+      },
+      {
+        "id": "a4-cases-list",
+        "type": "cards",
+        "title": "三类高价值内容",
+        "layout": "list",
+        "items": [
+          {
+            "title": "CASE 01｜高传播内容：打声量",
+            "body": "**平台**：视频号 / 小红书｜**播放 / 阅读：10 万+**\n**选题逻辑**：抓准留学生及家长对央国企 / 外企海外专项招聘的强信息差需求。\n**运营复盘**：验证招聘节点信息具备稳定大流量属性，适合作为矩阵破圈与拉新入口。\n**封面与原始标题**：待补充。"
+          },
+          {
+            "title": "CASE 02｜高留资内容：抓转化",
+            "body": "**平台**：小红书 / 视频号｜**单条留资：待补充**\n**用户痛点**：海归应届生身份界定模糊、缺少实习经验等明确求职焦虑。\n**内容处理**：将解决方案前置，在结尾设计明确的单点需求，如“回复 1 领求职时间线”，提升私信开口率。\n**封面与原始标题**：待补充。"
+          },
+          {
+            "title": "CASE 03｜高质量线索内容：做变现",
+            "body": "**平台**：视频号 / 小红书｜**线索特征：高意向度匹配**\n**人群画像**：求职目标明确的留学生 / 家长，如锁定金融、咨询或管培生；对接意愿与付费能力强。\n**运营复盘**：将精准选题、人设表达与人群画像持续纳入后续内容库复用。\n**封面、原始标题与转化率**：待补充。"
+          }
+        ]
+      },
+      {
+        "id": "a4-case-principle",
+        "type": "callout",
+        "title": "商业转化沉淀",
+        "text": "**高播放 ≠ 高价值。** 内容复盘持续追溯私信留资与后续顾问对接结果。",
+        "tone": "key"
+      },
+      {
+        "id": "a4-content-results",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "CONTENT｜信息流图文",
+            "value": "≈ 3 条 / 日",
+            "note": "稳定内容输出"
+          },
+          {
+            "label": "CONTENT｜口播视频",
+            "value": "≈ 15 条 / 周",
+            "note": "全网分发"
+          },
+          {
+            "label": "CONTENT｜单条最高传播",
+            "value": "10 万+",
+            "note": "播放 / 阅读量"
+          },
+          {
+            "label": "CONTENT｜头部粉丝积累",
+            "value": "3 万+",
+            "note": "单视频号"
+          }
+        ]
+      },
+      {
+        "id": "a4-leads-results",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "LEADS｜月均有效留资",
+            "value": "100–200 条",
+            "note": "小红书 + 视频号"
+          }
+        ]
+      },
+      {
+        "id": "a4-results-match",
+        "type": "cards",
+        "title": "LEADS｜线索与商业转化",
+        "layout": "list",
+        "items": [
+          {
+            "title": "高意向度匹配",
+            "body": "线索覆盖海归求职与家长咨询。"
+          },
+          {
+            "title": "转化链路打通",
+            "body": "私信 → 微信社群 / 顾问接单。"
+          },
+          {
+            "title": "高留存人设",
+            "body": "建立强导师信任资产。"
+          }
+        ]
+      },
+      {
+        "id": "a4-feedback-loop",
+        "type": "flow",
+        "title": "数据反哺闭环",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "内容发布"
+          },
+          {
+            "title": "播放 / 阅读 / 互动"
+          },
+          {
+            "title": "私信 / 留资"
+          },
+          {
+            "title": "对接转化结果"
+          },
+          {
+            "title": "反推与迭代",
+            "body": "选题方向 · 人群画像 · 表达方式"
+          },
+          {
+            "title": "回到内容发布"
+          }
+        ]
+      },
+      {
+        "id": "a4-review-principle",
+        "type": "callout",
+        "title": "复盘准则",
+        "text": "内容是否继续复制，不只由播放量决定，更取决于留资数量、用户需求匹配度及后续业务对接反馈。",
+        "tone": "key"
+      }
+    ]
+  },
+  {
+    "id": "project-5",
+    "title": "光环国际｜用户运营与私域转化",
+    "subtitle": "成人教育私域｜PMP / 国际硕士",
+    "order": 5,
+    "desktopSlot": "project_slot_05",
+    "enabled": false,
+    "presentation": "report",
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": true
+    },
+    "tarot": {
+      "id": "tarot-5",
+      "name": "A5｜圣杯二",
+      "image": "/assets/tarot/a5.webp",
+      "hint": "谈客户和谈恋爱没什么两样，硬件和感情都重要"
+    },
+    "pages": [
+      {
+        "id": "a5-overview",
+        "projectId": "project-5",
+        "internalName": "A5 P1 社群运营",
+        "title": "50+ 社群里的用户运营",
+        "navLabel": "社群运营",
+        "subtitle": "成人教育私域｜PMP / 国际硕士",
+        "order": 1,
+        "kind": "overview",
+        "blockIds": [
+          "a5-intro",
+          "a5-materials",
+          "a5-metrics",
+          "a5-sop",
+          "a5-position"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a5-segments",
+        "projectId": "project-5",
+        "internalName": "A5 P2 用户分层",
+        "title": "用户分层与运营动作",
+        "navLabel": "用户分层",
+        "subtitle": "不同意向阶段，对应不同承接方式",
+        "order": 2,
+        "kind": "process",
+        "blockIds": [
+          "a5-segments-table",
+          "a5-segment-materials",
+          "a5-segment-principle"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a5-results",
+        "projectId": "project-5",
+        "internalName": "A5 P3 咨询与转化",
+        "title": "从直播到成交",
+        "navLabel": "咨询与转化",
+        "subtitle": "用户运营最终落到咨询与转化",
+        "order": 3,
+        "kind": "result",
+        "blockIds": [
+          "a5-conversion-flow",
+          "a5-result-metrics",
+          "a5-outcomes",
+          "a5-goal"
+        ],
+        "enabled": true
+      }
+    ],
+    "pageIds": [
+      "a5-overview",
+      "a5-segments",
+      "a5-results"
+    ],
+    "blocks": [
+      {
+        "id": "a5-intro",
+        "type": "text",
+        "markdown": "负责私域社群日常运营与用户一对一咨询跟进，从社群基础维护、活跃度提升到高意向用户识别与课程匹配转化，实现私域端全流程闭环承接。"
+      },
+      {
+        "id": "a5-materials",
+        "type": "cards",
+        "title": "私域运营素材 · 待补充",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "社群日常",
+            "body": "学员讨论与日常互动截图"
+          },
+          {
+            "title": "探马 SCRM",
+            "body": "协同管理后台截图"
+          },
+          {
+            "title": "一对一咨询",
+            "body": "工作微信好友与脱敏对话截图"
+          }
+        ]
+      },
+      {
+        "id": "a5-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "运营社群",
+            "value": "50+",
+            "note": "覆盖 PMP 及国际硕士学员"
+          },
+          {
+            "label": "工作微信",
+            "value": "2 个",
+            "note": "探马 SCRM 协同管理"
+          },
+          {
+            "label": "单群用户",
+            "value": "200+",
+            "note": "保持高留存与活跃度"
+          },
+          {
+            "label": "高频 FAQ",
+            "value": "50+",
+            "note": "标准化用户问题答疑库"
+          },
+          {
+            "label": "直播活动",
+            "value": "5–6 场",
+            "note": "策划、助教与社群联动"
+          }
+        ]
+      },
+      {
+        "id": "a5-sop",
+        "type": "flow",
+        "title": "社群转化 SOP",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "社群触达"
+          },
+          {
+            "title": "用户互动"
+          },
+          {
+            "title": "需求识别"
+          },
+          {
+            "title": "私聊跟进"
+          },
+          {
+            "title": "课程匹配"
+          },
+          {
+            "title": "成交"
+          }
+        ]
+      },
+      {
+        "id": "a5-position",
+        "type": "callout",
+        "title": "项目定位",
+        "text": "从社群维护到一对一咨询，负责用户承接、需求判断与转化跟进。",
+        "tone": "key"
+      },
+      {
+        "id": "a5-segments-table",
+        "type": "table",
+        "title": "用户阶段 × 行为信号 × 运营动作",
+        "columns": [
+          "分层对象",
+          "用户行为信号",
+          "针对性运营动作"
+        ],
+        "rows": [
+          [
+            "01｜泛兴趣用户",
+            "进群、看内容、少互动，咨询问题偏基础。",
+            "发送课程基础资料，推送直播预告，回复基础 FAQ，保持日常持续触达。"
+          ],
+          [
+            "02｜需求用户",
+            "主动提问、按时参加直播、持续关注社群，开始询问具体课程。",
+            "确认学习 / 升学目标，补充深度课程信息，判断产品匹配度，引导进入私聊。"
+          ],
+          [
+            "03｜犹豫用户",
+            "反复咨询、横向比较竞品、高度关注价格，频繁询问服务细节。",
+            "针对性答疑，拆解考证周期 / 通过率等核心顾虑，补充服务保障，持续跟进。"
+          ],
+          [
+            "04｜高意向用户",
+            "主动询问报名流程、确认课程方案、讨论具体优惠 / 付款方式，明确购买节点。",
+            "一对一专属跟进，精准课程方案匹配，异议处理，最终推动订单成交。"
+          ]
+        ]
+      },
+      {
+        "id": "a5-segment-materials",
+        "type": "cards",
+        "title": "承接过程素材 · 待补充",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "50+ FAQ 知识库",
+            "body": "高频问题与标准答疑截图片段。"
+          },
+          {
+            "title": "真实咨询对话",
+            "body": "脱敏展示用户从犹豫到消除顾虑的提问与承接过程。"
+          }
+        ]
+      },
+      {
+        "id": "a5-segment-principle",
+        "type": "callout",
+        "title": "核心准则",
+        "text": "用户分层的核心是决定下一步给什么信息、做什么动作。",
+        "tone": "key"
+      },
+      {
+        "id": "a5-conversion-flow",
+        "type": "flow",
+        "title": "全链路转化节点",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "社群触达"
+          },
+          {
+            "title": "直播活动"
+          },
+          {
+            "title": "用户互动"
+          },
+          {
+            "title": "高意向筛选"
+          },
+          {
+            "title": "私聊承接"
+          },
+          {
+            "title": "需求确认"
+          },
+          {
+            "title": "课程匹配"
+          },
+          {
+            "title": "最终成交"
+          }
+        ]
+      },
+      {
+        "id": "a5-result-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "直播活动",
+            "value": "5–6 场",
+            "note": "单场覆盖 200+ 人"
+          },
+          {
+            "label": "高频问题沉淀",
+            "value": "≈ 50 个",
+            "note": "标准化 FAQ"
+          },
+          {
+            "label": "独立成交订单",
+            "value": "1 万+ / 2000+",
+            "note": "多阶课程产品订单金额"
+          }
+        ]
+      },
+      {
+        "id": "a5-outcomes",
+        "type": "cards",
+        "title": "实际业务落地成果",
+        "layout": "list",
+        "items": [
+          {
+            "title": "直播运营",
+            "body": "参与 5–6 场直播活动，单场覆盖 200+ 人，全程深度参与主讲、助教互动、控场与会后跟进。"
+          },
+          {
+            "title": "需求沉淀",
+            "body": "梳理沉淀约 50 个高频 FAQ，覆盖课程内容、适合人群、学习安排、价格体系、服务流程与报名细节。"
+          },
+          {
+            "title": "私域转化",
+            "body": "完成独立私域成交，成功转化包含 1 万+ 订单、2000+ 订单在内的多阶课程产品。"
+          }
+        ]
+      },
+      {
+        "id": "a5-goal",
+        "type": "callout",
+        "title": "核心目标",
+        "text": "从群里的人识别到有需求的人，再把高意向用户推进到成交。",
+        "tone": "key"
+      }
+    ]
+  },
+  {
+    "id": "project-6",
+    "title": "写真店运营合伙项目",
+    "subtitle": "个人写真 / 婚纱摄影｜产品 · 获客 · 成交",
+    "order": 6,
+    "desktopSlot": "project_slot_06",
+    "enabled": false,
+    "presentation": "report",
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": true
+    },
+    "tarot": {
+      "id": "tarot-6",
+      "name": "A6｜星币三",
+      "image": "/assets/tarot/a6.webp",
+      "hint": "想做好小生意，就得靠合作和规矩"
+    },
+    "pages": [
+      {
+        "id": "a6-overview",
+        "projectId": "project-6",
+        "internalName": "A6 P1 经营概览",
+        "title": "从线上获客到预约成交",
+        "navLabel": "经营概览",
+        "subtitle": "写真店运营合伙项目｜个人写真 / 婚纱摄影",
+        "order": 1,
+        "kind": "overview",
+        "blockIds": [
+          "a6-intro",
+          "a6-materials",
+          "a6-store-metrics",
+          "a6-sop",
+          "a6-scope",
+          "a6-position"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a6-business",
+        "projectId": "project-6",
+        "internalName": "A6 P2 全链路经营",
+        "title": "产品 × 获客 × 成交",
+        "navLabel": "全链路经营",
+        "subtitle": "从产品结构调优，到内容获客、私域销售与达人合作",
+        "order": 2,
+        "kind": "process",
+        "blockIds": [
+          "a6-product-intro",
+          "a6-products",
+          "a6-product-tuning",
+          "a6-acquisition",
+          "a6-personal-metrics",
+          "a6-sales",
+          "a6-kol-flow",
+          "a6-kol-metrics",
+          "a6-loop"
+        ],
+        "enabled": true
+      }
+    ],
+    "pageIds": [
+      "a6-overview",
+      "a6-business"
+    ],
+    "blocks": [
+      {
+        "id": "a6-intro",
+        "type": "text",
+        "markdown": "围绕个人写真与婚纱摄影业务，负责产品设计、线上获客、私域销售与达人合作，落地完整线上经营闭环。"
+      },
+      {
+        "id": "a6-materials",
+        "type": "cards",
+        "title": "店铺视觉素材 · 待补充",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "真实客片",
+            "body": "个人写真与婚纱摄影代表作品"
+          },
+          {
+            "title": "主推套餐",
+            "body": "套餐主视觉与产品卖点图"
+          },
+          {
+            "title": "店铺账号",
+            "body": "小红书 / 抖音店铺账号主页截图"
+          }
+        ]
+      },
+      {
+        "id": "a6-store-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "店铺月均咨询",
+            "value": "300+ 条",
+            "note": "整体经营数据"
+          },
+          {
+            "label": "店铺月均预约",
+            "value": "80+ 单",
+            "note": "整体预约规模"
+          },
+          {
+            "label": "产品客单",
+            "value": "¥500–2500",
+            "note": "套餐价格区间"
+          },
+          {
+            "label": "店铺月营收",
+            "value": "¥6–15 万",
+            "note": "店铺整体月营收"
+          }
+        ]
+      },
+      {
+        "id": "a6-sop",
+        "type": "flow",
+        "title": "经营 SOP",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "产品设计"
+          },
+          {
+            "title": "内容获客"
+          },
+          {
+            "title": "咨询承接"
+          },
+          {
+            "title": "预约成交"
+          }
+        ]
+      },
+      {
+        "id": "a6-scope",
+        "type": "cards",
+        "title": "核心经营范围",
+        "layout": "list",
+        "items": [
+          {
+            "title": "产品套餐设计",
+            "body": "引流款 / 主推款 / 高客单款。"
+          },
+          {
+            "title": "矩阵内容产出",
+            "body": "小红书 / 抖音内容运营。"
+          },
+          {
+            "title": "私域咨询",
+            "body": "咨询跟进与预约成交。"
+          },
+          {
+            "title": "达人商务合作",
+            "body": "KOL / KOC 合作与效果复盘。"
+          },
+          {
+            "title": "精准投放",
+            "body": "信息流广告精准投放。"
+          }
+        ]
+      },
+      {
+        "id": "a6-position",
+        "type": "callout",
+        "title": "项目定位",
+        "text": "从卖什么、怎么获客，到怎么把咨询变成订单。",
+        "tone": "key"
+      },
+      {
+        "id": "a6-product-intro",
+        "type": "callout",
+        "title": "01 PRODUCT｜产品策略",
+        "text": "根据用户咨询反馈、成交数据与市场流行趋势，动态调整写真产品结构。",
+        "tone": "note"
+      },
+      {
+        "id": "a6-products",
+        "type": "table",
+        "title": "产品结构",
+        "columns": [
+          "产品类型",
+          "核心作用"
+        ],
+        "rows": [
+          [
+            "引流款",
+            "低门槛痛点套餐，快速吸引线上咨询。"
+          ],
+          [
+            "主推款",
+            "高性价比与口碑款，承担日常主力预约成交。"
+          ],
+          [
+            "高客单款",
+            "多场景与高端妆造，提升整体客单价与品牌层级。"
+          ],
+          [
+            "主题款",
+            "季节性与节日限定款，制造短期爆款与讨论度。"
+          ]
+        ]
+      },
+      {
+        "id": "a6-product-tuning",
+        "type": "callout",
+        "title": "产品调优维度",
+        "text": "价格 · 妆造 · 精修张数 · 拍摄场景 · 风格摄影 · 赠品组合 · 套餐核心卖点",
+        "tone": "note"
+      },
+      {
+        "id": "a6-acquisition",
+        "type": "cards",
+        "title": "02 ACQUISITION｜内容获客",
+        "layout": "list",
+        "items": [
+          {
+            "title": "矩阵化内容产出",
+            "body": "围绕真实客片、拍摄风格与主题套餐，在小红书、抖音、微信持续输出内容。\n**获客载体**：爆款客片展示、真实拍摄花絮、套餐性价比拆解、风格测评。"
+          }
+        ]
+      },
+      {
+        "id": "a6-personal-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "个人渠道自然咨询",
+            "value": "80+ 条 / 月",
+            "note": "个人渠道贡献"
+          },
+          {
+            "label": "个人独立成交",
+            "value": "≈ 10 单 / 月",
+            "note": "个人销售贡献"
+          },
+          {
+            "label": "个人成交额",
+            "value": "≈ ¥1 万 / 月",
+            "note": "独立成交金额"
+          }
+        ]
+      },
+      {
+        "id": "a6-sales",
+        "type": "flow",
+        "title": "03 SALES｜私域成交 SOP",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "需求判断"
+          },
+          {
+            "title": "套餐推荐"
+          },
+          {
+            "title": "档期确认"
+          },
+          {
+            "title": "预约成交"
+          },
+          {
+            "title": "售后跟进"
+          }
+        ],
+        "caption": "接管用户线上咨询，执行全流程销售转化。"
+      },
+      {
+        "id": "a6-kol-flow",
+        "type": "flow",
+        "title": "04 KOL / KOC｜达人合作",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "达人筛选"
+          },
+          {
+            "title": "商务沟通"
+          },
+          {
+            "title": "合作确认"
+          },
+          {
+            "title": "内容上线"
+          },
+          {
+            "title": "效果复盘"
+          }
+        ],
+        "caption": "建立本地达人推广链路，低成本获取精准同城流量。"
+      },
+      {
+        "id": "a6-kol-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "累计合作资源",
+            "value": "20+",
+            "note": "本地达人资源积累"
+          },
+          {
+            "label": "签约 / 合作达人",
+            "value": "15+",
+            "note": "KOL / KOC 合作"
+          },
+          {
+            "label": "已上线合作内容",
+            "value": "15+",
+            "note": "合作内容落地"
+          }
+        ]
+      },
+      {
+        "id": "a6-loop",
+        "type": "callout",
+        "title": "核心闭环",
+        "text": "打通卖什么（产品）、怎么引流（获客）到怎么变现（成交）的全链路经营逻辑。",
+        "tone": "key"
+      }
+    ]
+  },
+  {
+    "id": "project-7",
+    "title": "ABOUT SEKI｜个人介绍",
+    "subtitle": "AI 应用产品 ｜ AI 产品运营 ｜ 内容运营",
+    "order": 7,
+    "desktopSlot": "about-seki",
+    "enabled": true,
+    "presentation": "report",
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": false
+    },
+    "resourceLinks": [
+      {
+        "label": "VIEW RESUME.pdf"
+      },
+      {
+        "label": "GITHUB"
+      },
+      {
+        "label": "CONTACT ME"
+      }
+    ],
+    "tarot": {
+      "id": "tarot-7",
+      "name": "A7｜星星",
+      "image": "/assets/tarot/a7.webp",
+      "hint": "抛开求职者的身份，你是否好奇我究竟是怎样的人"
+    },
+    "pages": [
+      {
+        "id": "a7-profile",
+        "projectId": "project-7",
+        "internalName": "A7 P1 PROFILE",
+        "title": "SEKI",
+        "navLabel": "PROFILE",
+        "subtitle": "AI 应用产品 ｜ AI 产品运营 ｜ 内容运营",
+        "order": 1,
+        "kind": "overview",
+        "blockIds": [
+          "a7-intro",
+          "a7-profile-table"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-background",
+        "projectId": "project-7",
+        "internalName": "A7 P2 BACKGROUND",
+        "title": "BACKGROUND",
+        "navLabel": "BACKGROUND",
+        "order": 2,
+        "kind": "background",
+        "blockIds": [
+          "a7-language",
+          "a7-study"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-research",
+        "projectId": "project-7",
+        "internalName": "A7 P3 RESEARCH",
+        "title": "RESEARCH",
+        "navLabel": "RESEARCH",
+        "order": 3,
+        "kind": "evidence",
+        "blockIds": [
+          "a7-publications",
+          "a7-thesis",
+          "a7-projects"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-path",
+        "projectId": "project-7",
+        "internalName": "A7 P4 MY PATH",
+        "title": "MY PATH",
+        "navLabel": "MY PATH",
+        "order": 4,
+        "kind": "process",
+        "blockIds": [
+          "a7-path-flow"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-work",
+        "projectId": "project-7",
+        "internalName": "A7 P5 WHAT I WORK ON",
+        "title": "WHAT I WORK ON",
+        "navLabel": "WHAT I WORK ON",
+        "order": 5,
+        "kind": "custom",
+        "blockIds": [
+          "a7-work-cards"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-toolbox",
+        "projectId": "project-7",
+        "internalName": "A7 P6 TOOLBOX",
+        "title": "TOOLBOX",
+        "navLabel": "TOOLBOX",
+        "order": 6,
+        "kind": "custom",
+        "blockIds": [
+          "a7-toolbox-cards"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a7-focus",
+        "projectId": "project-7",
+        "internalName": "A7 P7 CURRENT FOCUS",
+        "title": "CURRENT FOCUS",
+        "navLabel": "CURRENT FOCUS",
+        "order": 7,
+        "kind": "reflection",
+        "blockIds": [
+          "a7-focus-callout"
+        ],
+        "enabled": true
+      }
+    ],
+    "pageIds": [
+      "a7-profile",
+      "a7-background",
+      "a7-research",
+      "a7-path",
+      "a7-work",
+      "a7-toolbox",
+      "a7-focus"
+    ],
+    "blocks": [
+      {
+        "id": "a7-intro",
+        "type": "text",
+        "markdown": "从内容、用户与真实业务出发，持续把一线经验沉淀为 Skill、Workflow、Tool 与 Agent。"
+      },
+      {
+        "id": "a7-profile-table",
+        "type": "table",
+        "title": "01 PROFILE",
+        "columns": [
+          "项目",
+          "信息"
+        ],
+        "rows": [
+          [
+            "居住地",
+            "天津"
+          ],
+          [
+            "目标城市",
+            "北京 / 天津"
+          ],
+          [
+            "硕士",
+            "南宁师范大学｜职业技术教育学｜2022.09–2025.06"
+          ],
+          [
+            "本科",
+            "青岛科技大学｜日语｜2018.09–2022.06"
+          ]
+        ]
+      },
+      {
+        "id": "a7-language",
+        "type": "cards",
+        "title": "语言能力",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "日语",
+            "body": "JLPT N1"
+          },
+          {
+            "title": "英语",
+            "body": "CET-6 590+"
+          },
+          {
+            "title": "普通话",
+            "body": "二级甲等"
+          }
+        ]
+      },
+      {
+        "id": "a7-study",
+        "type": "table",
+        "title": "研究背景",
+        "columns": [
+          "方向",
+          "内容"
+        ],
+        "rows": [
+          [
+            "硕士研究方向",
+            "职业本科 · 课程建设 · 能力本位"
+          ],
+          [
+            "研究方法",
+            "文献研究 · 深度访谈 · 问卷调查"
+          ]
+        ]
+      },
+      {
+        "id": "a7-publications",
+        "type": "cards",
+        "title": "期刊",
+        "layout": "list",
+        "items": [
+          {
+            "title": "能力本位视域下职业本科专业课程体系建设",
+            "body": "《大学教育》2025 年第 6 期"
+          },
+          {
+            "title": "道·术·法：“工匠之师”教育家精神的三维生成路径与培育策略",
+            "body": "《机械职业教育》2025 年第 8 期"
+          }
+        ]
+      },
+      {
+        "id": "a7-thesis",
+        "type": "callout",
+        "title": "学位论文",
+        "text": "《基于能力本位的职业本科专业课程建设策略研究》｜南宁师范大学硕士学位论文，2025｜研究方法：文献研究 / 深度访谈 / 问卷调查",
+        "tone": "key"
+      },
+      {
+        "id": "a7-projects",
+        "type": "cards",
+        "title": "研究项目",
+        "layout": "list",
+        "items": [
+          {
+            "title": "广西职业教育教学改革研究重点项目",
+            "body": "GXZZJG2023A053｜核心成员"
+          },
+          {
+            "title": "广西教育科学“十四五”专项课题",
+            "body": "项目成员"
+          }
+        ]
+      },
+      {
+        "id": "a7-path-flow",
+        "type": "flow",
+        "title": "04 MY PATH",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "2018–2022｜日语本科",
+            "body": "JLPT N1 / CET-6 590+"
+          },
+          {
+            "title": "2022–2025｜职教硕士",
+            "body": "课程设计 / 职教研究 / 论文"
+          },
+          {
+            "title": "2025–2026｜内容与用户运营",
+            "body": "全链路内容生产 / 私域运营 / 广告投放 / 咨询转化与销售"
+          },
+          {
+            "title": "NOW｜AI 应用落地",
+            "body": "AI Skill / Workflow 自动化 / Multi-Agent / AI 应用产品"
+          }
+        ]
+      },
+      {
+        "id": "a7-work-cards",
+        "type": "cards",
+        "title": "05 WHAT I WORK ON",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "AI APPLICATION",
+            "body": "Skill 打造 / Workflow 工作流 / Multi-Agent 搭建 / AI Tool 落地"
+          },
+          {
+            "title": "CONTENT",
+            "body": "选题策划 / IP 人设定位 / 图文口播脚本 / 内容获客与爆款"
+          },
+          {
+            "title": "USER & BUSINESS",
+            "body": "私域社群运营 / 用户分层与 SOP / 广告投放（聚光、巨量）/ 独立咨询与销售成交"
+          },
+          {
+            "title": "EDUCATION",
+            "body": "课程体系设计 / 职业教育研究 / 教育产品内容制作 / AI × 教育应用落地"
+          }
+        ]
+      },
+      {
+        "id": "a7-toolbox-cards",
+        "type": "cards",
+        "title": "06 TOOLBOX",
+        "layout": "list",
+        "items": [
+          {
+            "title": "大模型与 Agent 框架",
+            "body": "ChatGPT · DeepSeek · Codex · API · Prompt / Skill · OpenAI Agents SDK · LangChain / LangGraph"
+          },
+          {
+            "title": "工作流与开发",
+            "body": "n8n · Coze · GitHub"
+          }
+        ]
+      },
+      {
+        "id": "a7-focus-callout",
+        "type": "callout",
+        "title": "07 CURRENT FOCUS",
+        "text": "AI 应用产品经理｜AI 产品运营｜AI 内容 / AIGC 运营｜AI × Education",
+        "tone": "key"
+      }
+    ]
+  },
+  {
+    "id": "project-8",
+    "title": "SIDE QUESTS",
+    "subtitle": "TodoList.exe / Tarot_Project / 小说推文 / 同人女 & 资深二次元",
+    "order": 8,
+    "desktopSlot": "misc-media",
+    "enabled": true,
+    "presentation": "report",
+    "finalAction": {
+      "label": "阅读完毕",
+      "disabled": false
+    },
+    "tarot": {
+      "id": "tarot-8",
+      "name": "A8｜愚人",
+      "image": "/assets/tarot/a8.webp",
+      "hint": "不确定你是否会对真实的我感兴趣，但我仍选择踏出这一步。"
+    },
+    "pages": [
+      {
+        "id": "a8-todolist",
+        "projectId": "project-8",
+        "internalName": "A8 SIDE01 TodoList.exe",
+        "title": "TodoList.exe",
+        "navLabel": "TodoList.exe",
+        "subtitle": "AI 辅助开发的小型桌面应用｜Vibe Coding / Desktop App",
+        "order": 1,
+        "kind": "demo",
+        "blockIds": [
+          "a8-todo-intro",
+          "a8-todo-features",
+          "a8-todo-flow",
+          "a8-todo-note"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a8-tarot",
+        "projectId": "project-8",
+        "internalName": "A8 SIDE02 Tarot Consultation",
+        "title": "塔罗咨询项目｜Tarot Consultation",
+        "navLabel": "Tarot_Project",
+        "order": 2,
+        "kind": "result",
+        "blockIds": [
+          "a8-tarot-metrics",
+          "a8-tarot-profile",
+          "a8-tarot-flow",
+          "a8-tarot-note"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a8-novel",
+        "projectId": "project-8",
+        "internalName": "A8 SIDE03 NOVEL CONTENT",
+        "title": "小说推文｜NOVEL CONTENT",
+        "navLabel": "小说推文",
+        "order": 3,
+        "kind": "evidence",
+        "blockIds": [
+          "a8-novel-status",
+          "a8-novel-tags"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "a8-acg",
+        "projectId": "project-8",
+        "internalName": "A8 SIDE04 ACG & Fan Culture",
+        "title": "同人女 & 资深二次元｜ACG & Fan Culture",
+        "navLabel": "同人女 & 资深二次元",
+        "order": 4,
+        "kind": "reflection",
+        "blockIds": [
+          "a8-acg-intro",
+          "a8-acg-insights",
+          "a8-acg-flow",
+          "a8-acg-vocab",
+          "a8-acg-value",
+          "a8-acg-status"
+        ],
+        "enabled": true
+      }
+    ],
+    "pageIds": [
+      "a8-todolist",
+      "a8-tarot",
+      "a8-novel",
+      "a8-acg"
+    ],
+    "blocks": [
+      {
+        "id": "a8-todo-intro",
+        "type": "text",
+        "markdown": "AI 辅助开发的小型桌面应用｜Vibe Coding / Desktop App\n\n从具体个人效率需求出发，通过 Vibe Coding 快速闭环，完成逻辑设计、代码生成到本地打包部署全流程。"
+      },
+      {
+        "id": "a8-todo-features",
+        "type": "cards",
+        "title": "已实现",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "任务管理",
+            "body": "任务新增 / 完成 / 删除 / 分类"
+          },
+          {
+            "title": "时间能力",
+            "body": "截止时间 / 提醒"
+          },
+          {
+            "title": "本地能力",
+            "body": "本地存储 / EXE 已打包"
+          }
+        ]
+      },
+      {
+        "id": "a8-todo-flow",
+        "type": "flow",
+        "title": "使用路径",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "新建任务"
+          },
+          {
+            "title": "设置时间"
+          },
+          {
+            "title": "完成任务"
+          }
+        ]
+      },
+      {
+        "id": "a8-todo-note",
+        "type": "callout",
+        "title": "素材状态",
+        "text": "真实界面截图 / 操作动图待补。",
+        "tone": "note"
+      },
+      {
+        "id": "a8-tarot-metrics",
+        "type": "metrics",
+        "items": [
+          {
+            "label": "累计服务用户",
+            "value": "200+"
+          },
+          {
+            "label": "累计收入",
+            "value": "¥3,000+"
+          },
+          {
+            "label": "用户来源",
+            "value": "私域 / 社群 / 转介绍"
+          }
+        ]
+      },
+      {
+        "id": "a8-tarot-profile",
+        "type": "cards",
+        "title": "高频议题",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "情感与关系",
+            "body": "情感 / 关系"
+          },
+          {
+            "title": "事业与选择",
+            "body": "事业 / 选择"
+          },
+          {
+            "title": "自我成长",
+            "body": "自我成长"
+          }
+        ]
+      },
+      {
+        "id": "a8-tarot-flow",
+        "type": "flow",
+        "title": "咨询 SOP",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "需求接收"
+          },
+          {
+            "title": "问题定义与拆解"
+          },
+          {
+            "title": "牌阵解读与分析"
+          },
+          {
+            "title": "深度共情沟通"
+          },
+          {
+            "title": "用户反馈与沉淀"
+          }
+        ],
+        "caption": "从个人兴趣出发的微型商业实践，积累高倾诉欲用户沟通经验与私域复购转化能力。"
+      },
+      {
+        "id": "a8-tarot-note",
+        "type": "callout",
+        "title": "素材状态",
+        "text": "真实服务页面 / 脱敏对话 / 用户反馈待补。",
+        "tone": "note"
+      },
+      {
+        "id": "a8-novel-status",
+        "type": "callout",
+        "title": "素材状态",
+        "text": "账号主页、封面墙、精选 3–5 条作品的封面 / 标题 / Hook / 真实播放点赞互动数据均待补。",
+        "tone": "note"
+      },
+      {
+        "id": "a8-novel-tags",
+        "type": "cards",
+        "title": "内容标签",
+        "layout": "grid",
+        "items": [
+          {
+            "title": "选题",
+            "body": "选题 · 标题 · Hook"
+          },
+          {
+            "title": "情绪",
+            "body": "情绪爆点"
+          },
+          {
+            "title": "叙事",
+            "body": "叙事节奏"
+          }
+        ]
+      },
+      {
+        "id": "a8-acg-intro",
+        "type": "text",
+        "markdown": "10+ 年资深二次元｜亚文化圈层观察者｜情绪内容受众与创作者"
+      },
+      {
+        "id": "a8-acg-insights",
+        "type": "cards",
+        "title": "三段圈层洞察",
+        "layout": "list",
+        "items": [
+          {
+            "title": "圈层经济与情感代偿（谷圈与实体凭证）",
+            "body": "当代二次元文化已从简单的“内容消费”转化为“高浓度情感代偿与符号消费”。线下“吃谷（Goods）”、痛包、摆阵与快闪，不仅是周边购买，更是用户将虚拟感情实体化的“身份凭证”与同频社交语言。"
+          },
+          {
+            "title": "乙女赛道：绝对偏爱与主体存在感",
+            "body": "乙女与女性向受众的内核需求已从“旁观甜宠剧情”转向“建立绝对的安全感与自我存在感”。用户对角色人设一致性有极高要求，看重“独占性”与“无条件的情感回应”，对任何破除沉浸感的运营事故有极强的社区反噬力。"
+          },
+          {
+            "title": "陪伴赛道：AIGC 驱动的“生成式拟态陪伴”",
+            "body": "大语言模型（LLM）正在彻底重构二次元陪伴体验。角色的长短期记忆、24/7 即时响应以及个性化对话，让受众从传统的“单向台词接收”升级为“拥有专属共同记忆的长期拟态伴侣”，提供了极高强度的即时情绪包裹。"
+          }
+        ]
+      },
+      {
+        "id": "a8-acg-flow",
+        "type": "flow",
+        "title": "圈层理解图谱",
+        "variant": "linear",
+        "steps": [
+          {
+            "title": "圈层理解"
+          },
+          {
+            "title": "情绪抓取"
+          },
+          {
+            "title": "符号解构"
+          },
+          {
+            "title": "爆点表达"
+          },
+          {
+            "title": "圈层共鸣"
+          }
+        ]
+      },
+      {
+        "id": "a8-acg-vocab",
+        "type": "text",
+        "markdown": "词汇｜IP 解构 · 情绪价值 · 二次创作 · 谷圈生态 · 拟态陪伴 · CP 哲学"
+      },
+      {
+        "id": "a8-acg-value",
+        "type": "callout",
+        "title": "价值",
+        "text": "懂圈层、懂情绪、懂亚文化语言，才能在二次元与 AI 陪伴赛道做出真正击中高黏性人群的心智爆款。",
+        "tone": "key"
+      },
+      {
+        "id": "a8-acg-status",
+        "type": "callout",
+        "title": "素材状态",
+        "text": "收藏 / 脱敏互动截图待补。",
+        "tone": "note"
+      }
+    ]
   }
 ]

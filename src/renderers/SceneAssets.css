@@ -339,6 +339,8 @@
 @media (prefers-reduced-motion: reduce) {
   .visual-novel .novel-character,
   .visual-novel .dialogue-box,
+  .visual-novel .typing-cursor,
+  .visual-novel.computer-transition .novel-stage,
   .visual-novel .advance-hint::before,
   .visual-novel .computer-screen-target::before,
   .visual-novel .computer-screen-target::after {

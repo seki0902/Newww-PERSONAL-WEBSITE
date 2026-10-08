@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { cp, mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
-import { basename, dirname, extname, join, normalize, resolve } from "node:path";
+import { basename, dirname, extname, isAbsolute, join, normalize, relative as relativePath, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
 import { validateContentBundle } from "../src/schema/content-contract.mjs";
@@ -32,8 +32,11 @@ export function validateContent(content, { verifyFiles = true } = {}) {
 }
 
 function safePath(base, relative) {
-  const target = resolve(base, normalize(relative));
-  if (!target.startsWith(`${resolve(base)}\\`) && target !== resolve(base)) throw new Error("Invalid asset path");
+  const basePath = resolve(base);
+  if (isAbsolute(relative)) throw new Error("Invalid asset path");
+  const target = resolve(basePath, normalize(relative));
+  const fromBase = relativePath(basePath, target);
+  if (fromBase === ".." || fromBase.startsWith(`..${sep}`) || isAbsolute(fromBase)) throw new Error("Invalid asset path");
   return target;
 }
 export async function readDraft() { return JSON.parse(await readFile(draftFile, "utf8")); }

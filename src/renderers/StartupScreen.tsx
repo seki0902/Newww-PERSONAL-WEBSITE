@@ -48,10 +48,11 @@ export function StartupScreen({ onRevealDesktop, onComplete }: { onRevealDesktop
   const completed = progress >= 100;
   return <main className={`startup-screen${leaving ? " is-leaving" : ""}`} aria-label="SEKI OS 系统启动中">
     <div className="startup-sky" aria-hidden="true" />
+    <div className="startup-artwork" aria-hidden="true">
     <div className="startup-scene" aria-hidden="true" />
     <div className="startup-cloud startup-cloud-left" aria-hidden="true" />
     <div className="startup-cloud startup-cloud-right" aria-hidden="true" />
-    <svg className="startup-original-layer" viewBox="0 0 1672 941" preserveAspectRatio="none" aria-hidden="true">
+    <svg className="startup-original-layer" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <image href="/assets/canva-original/MAHV_kZZuSY.png" x="0" y="0" width="239" height="295" />
       <image href="/assets/canva-original/MAHV_mLKkCQ.png" x="238" y="0" width="260" height="157" />
       <image href="/assets/canva-original/MAHV_mFriGQ.png" x="0" y="372" width="20" height="79" />
@@ -67,6 +68,7 @@ export function StartupScreen({ onRevealDesktop, onComplete }: { onRevealDesktop
     </svg>
     <div className="startup-darkening" aria-hidden="true" />
     <i className="startup-twinkle startup-twinkle-a" aria-hidden="true" /><i className="startup-twinkle startup-twinkle-b" aria-hidden="true" />
+    </div>
     <section className="startup-ui" aria-live="polite">
       <h1>SEKI OS</h1>
       <div className={`startup-slogan${switched ? " is-switched" : ""}`}><span>Explore. Build. Grow.</span><span>探索 · 构建 · 成长</span></div>

@@ -13,9 +13,17 @@ export const demoRuntimeStateSchema = z.object({
   progress: z.number().min(0).max(100),
 });
 export type DemoRuntimeState = z.infer<typeof demoRuntimeStateSchema>;
-export interface RuntimeState { version: 1; stage: RuntimeStage; activeProjectId?: string; activePageId?: string; completedProjectIds: string[]; completedTarotIds: string[]; unlockedProjectIds: string[]; inventoryItemIds: string[]; demoStates?: Record<string, DemoRuntimeState>; }
+const desktopWindowBase = { id: z.string().min(1), iconId: z.string().min(1), minimized: z.boolean(), maximized: z.boolean(), order: z.number().int().nonnegative() };
+export const desktopWindowSchema = z.discriminatedUnion("kind", [
+  z.object({ ...desktopWindowBase, kind: z.literal("folder") }),
+  z.object({ ...desktopWindowBase, kind: z.literal("document"), projectId: z.string().min(1), fileLabel: z.string().min(1), pageId: z.string().optional() }),
+  z.object({ ...desktopWindowBase, kind: z.literal("tarot"), projectId: z.string().min(1), fileLabel: z.string().min(1), revealed: z.boolean().optional() }),
+  z.object({ ...desktopWindowBase, kind: z.literal("progress") }),
+]);
+export type DesktopWindowState = z.infer<typeof desktopWindowSchema>;
+export interface RuntimeState { version: 1; stage: RuntimeStage; selectedDesktopId?: string; activeFolderIconId?: string; activeFolderFileLabel?: string; activeProjectId?: string; activePageId?: string; completedProjectIds: string[]; completedTarotIds: string[]; unlockedProjectIds: string[]; inventoryItemIds: string[]; demoStates?: Record<string, DemoRuntimeState>; desktopWindows?: DesktopWindowState[]; focusedWindowId?: string; desktopReadProjectIds?: Record<string, string[]>; }
 export const initialRuntimeState: RuntimeState = { version: 1, stage: "intro", completedProjectIds: [], completedTarotIds: [], unlockedProjectIds: [], inventoryItemIds: [], demoStates: {} };
-const runtimeStateSchema = z.object({ version: z.literal(1), stage: z.enum(["intro", "video", "desktop", "tarot", "project", "complete"]), activeProjectId: z.string().optional(), activePageId: z.string().optional(), completedProjectIds: z.array(z.string()), completedTarotIds: z.array(z.string()), unlockedProjectIds: z.array(z.string()), inventoryItemIds: z.array(z.string()), demoStates: z.record(demoRuntimeStateSchema).optional() });
+const runtimeStateSchema = z.object({ version: z.literal(1), stage: z.enum(["intro", "video", "desktop", "tarot", "project", "complete"]), selectedDesktopId: z.string().optional(), activeFolderIconId: z.string().optional(), activeFolderFileLabel: z.string().optional(), activeProjectId: z.string().optional(), activePageId: z.string().optional(), completedProjectIds: z.array(z.string()), completedTarotIds: z.array(z.string()), unlockedProjectIds: z.array(z.string()), inventoryItemIds: z.array(z.string()), demoStates: z.record(demoRuntimeStateSchema).optional(), desktopWindows: z.array(desktopWindowSchema).optional(), focusedWindowId: z.string().optional(), desktopReadProjectIds: z.record(z.array(z.string())).optional() });
 type StorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 function browserStorage(): StorageLike | undefined {

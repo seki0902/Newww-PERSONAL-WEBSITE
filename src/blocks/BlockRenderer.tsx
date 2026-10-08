@@ -5,6 +5,8 @@ import { ImageBlock } from "./ImageBlock";
 import { MetricsBlock } from "./MetricsBlock";
 import { TextBlock } from "./TextBlock";
 import { VideoBlock } from "./VideoBlock";
+import { StructuredBlock } from "./StructuredBlock";
+import { AgentDemoBlock } from "./AgentDemoBlock";
 
 export function BlockRenderer({ block, projectId, resolveAsset }: { block: Block; projectId: string; resolveAsset?: (assetId: string) => string | undefined }) {
   switch (block.type) {
@@ -14,5 +16,7 @@ export function BlockRenderer({ block, projectId, resolveAsset }: { block: Block
     case "metrics": return <MetricsBlock block={block} />;
     case "comparison": return <ComparisonBlock block={block} />;
     case "interactive_demo": return <InteractiveDemoBlock block={block} projectId={projectId} resolveAsset={resolveAsset} />;
+    case "agent_demo": return <AgentDemoBlock block={block} />;
+    default: return <StructuredBlock block={block} />;
   }
 }

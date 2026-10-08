@@ -1,0 +1,81 @@
+.desktop-screen.seki-desktop {
+  --desktop-bar-height: clamp(34px, 6.27vh, 59px);
+  position: relative;
+  isolation: isolate;
+  display: block;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: 0;
+  color: #102f3c;
+  background: #83d2f7;
+  font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+}
+
+.desktop-screen.seki-desktop.desktop-screen--canva-reference { background: #142d3b; }
+.desktop-reference-canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100%, calc(100dvh * 1.776833)); aspect-ratio: 1672 / 941; container-type: inline-size; overflow: hidden; }
+.desktop-wallpaper { position: absolute; z-index: -2; inset: var(--desktop-bar-height) 0; overflow: hidden; background-position: center; background-size: cover; image-rendering: pixelated; }
+.desktop-wallpaper::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(8,63,85,.05)); pointer-events: none; }
+.desktop-wallpaper-overlay { position: absolute; display: block; object-fit: fill; image-rendering: pixelated; pointer-events: none; user-select: none; }
+.desktop-wallpaper-overlay--top { top: 0; left: 0; width: 35.8%; height: 23.3%; object-position: left top; }
+.desktop-wallpaper-overlay--bottom { right: 0; bottom: 0; left: 0; width: 100%; height: 49%; object-position: center bottom; }
+
+.desktop-menubar,.desktop-taskbar { position: absolute; z-index: 4; right: 0; left: 0; height: var(--desktop-bar-height); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(12px, 2.25vw, 38px); backdrop-filter: blur(8px); }
+.desktop-menubar { top: 0; border-bottom: 1px solid rgba(46,102,119,.2); background: rgba(216,240,247,.9); box-shadow: 0 2px 10px rgba(17,69,89,.08); }
+.desktop-taskbar { bottom: 0; color: #f1fbff; background: rgba(22,49,57,.91); box-shadow: 0 -2px 12px rgba(4,36,48,.22); }
+.desktop-brand,.desktop-status,.desktop-taskbar-brand,.desktop-taskbar-actions { display: flex; align-items: center; gap: clamp(8px, 1vw, 16px); min-width: 0; font-size: clamp(11px, .9vw, 15px); white-space: nowrap; }
+.desktop-brand > img { width: clamp(22px, 2.4vw, 40px); height: clamp(22px, 2.4vw, 40px); object-fit: contain; image-rendering: pixelated; }
+.desktop-brand > strong { font-size: inherit; letter-spacing: .04em; }
+.desktop-brand > i,.desktop-taskbar-brand > i { width: 1px; height: 1.5em; background: currentColor; opacity: .48; }
+.desktop-brand > span:last-child,.desktop-taskbar-brand > span:last-child { overflow: hidden; text-overflow: ellipsis; }
+.desktop-status { gap: clamp(7px, .75vw, 13px); }
+.desktop-status time { font: inherit; }
+.desktop-taskbar-brand > span:first-child { font-size: clamp(17px, 1.5vw, 25px); }
+.desktop-taskbar-actions button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; color: inherit; background: transparent; border-radius: 3px; }
+.desktop-taskbar-actions button:hover,.desktop-taskbar-actions button:focus-visible { background: rgba(255,255,255,.15); }
+
+.desktop-workspace { position: absolute; z-index: 1; inset: var(--desktop-bar-height) 0; overflow: auto; }
+.seki-desktop .desktop-icons { display: grid; grid-template-columns: repeat(2, clamp(82px, 8.45vw, 142px)); grid-auto-rows: clamp(98px, 15.5vh, 150px); align-content: start; justify-content: start; gap: 0 clamp(16px, 1.15vw, 20px); width: max-content; padding: clamp(18px, 3.7vh, 35px) clamp(18px, 2.33vw, 39px); }
+.seki-desktop .desktop-icon { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: end; gap: 2px; width: 100%; min-height: 0; padding: 0; border: 0; color: #092c38; background: transparent; border-radius: 3px; text-align: center; text-shadow: 0 1px rgba(255,255,255,.9); }
+.seki-desktop .desktop-icon:hover,.seki-desktop .desktop-icon:focus-visible { background: rgba(176,229,255,.3); box-shadow: inset 0 0 0 1px rgba(40,112,146,.45); }
+.seki-desktop .desktop-icon[aria-disabled="true"] { cursor: default; }
+.desktop-icon-art { position: relative; display: grid; place-items: end center; width: 100%; min-height: 0; }
+.desktop-icon-art > img { display: block; width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 2px 0 rgba(11,57,73,.15)); }
+.desktop-icon-art > span { display: grid; place-items: center; width: 70%; aspect-ratio: 1; color: #196480; border: 4px solid #24627b; border-radius: 8px; background: #f9fcf5; font-size: 2.2rem; }
+.seki-desktop .desktop-icon b { max-width: 100%; overflow: hidden; color: inherit; font-size: clamp(11px, 1.04vw, 17px); line-height: 1.35; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.desktop-guide-trail { position: absolute; z-index: 2; left: 5%; top: 7%; width: 90%; height: 74%; overflow: visible; pointer-events: none; }
+.desktop-guide-trail rect { fill: none; stroke-linecap: round; }
+.desktop-guide-trail-tail { stroke: #00e5ff; stroke-width: 2.1; stroke-dasharray: 18 82; animation: desktop-guide-trail 1.05s linear infinite; }
+.desktop-guide-trail-head { stroke: #eaffff; stroke-width: 2.7; stroke-dasharray: 3 97; animation: desktop-guide-trail-head 1.05s linear infinite; }
+.seki-desktop .desktop-icon > b { position: relative; z-index: 1; }
+.seki-desktop .desktop-icon.is-completed::after { content: "✓"; position: absolute; top: 4px; right: 5px; display: grid; place-items: center; width: 20px; height: 20px; color: #fff; border-radius: 50%; background: #16805d; text-shadow: none; }
+.seki-desktop .desktop-icon.is-activating { animation: desktop-icon-open .34s cubic-bezier(.2,.8,.2,1); }
+
+.desktop-window-layer { position: absolute; z-index: 3; inset: var(--desktop-bar-height) 0; display: grid; place-items: center; overflow: auto; padding: clamp(12px, 2.3vw, 36px); background: rgba(8,41,55,.16); animation: desktop-window-enter .28s cubic-bezier(.2,.8,.2,1) both; }
+.desktop-window-layer > .screen { width: 100%; min-height: 100%; padding: 0; background: transparent; }
+.desktop-window-layer .tarot-panel,.desktop-window-layer .project-window,.desktop-window-layer .complete-window { box-shadow: 0 24px 60px rgba(4,38,52,.36); }
+.complete-window { width: min(100%, 720px); padding: clamp(1.5rem, 4vw, 3.5rem); color: #f4f6ff; border: 1px solid #52618b; border-radius: 12px; background: rgba(17,26,53,.94); text-align: center; }
+.complete-window h1 { margin: .2rem 0 1.5rem; font-size: clamp(2rem, 5vw, 3.4rem); }
+.complete-actions { display: flex; justify-content: center; gap: .75rem; flex-wrap: wrap; }
+
+@keyframes desktop-icon-open { 45% { transform: translateY(3px) scale(.94); filter: brightness(1.15); } 100% { transform: translateY(0) scale(1); } }
+@keyframes desktop-guide-trail { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -100; } }
+@keyframes desktop-guide-trail-head { from { stroke-dashoffset: -15; } to { stroke-dashoffset: -115; } }
+@keyframes desktop-window-enter { from { opacity: 0; transform: scale(.975) translateY(10px); } }
+@keyframes desktop-reference-click { 0%,100% { background: transparent; box-shadow: none; } 45% { background: rgba(225,249,255,.4); box-shadow: inset 0 0 0 2px #edfaff, 0 0 15px #c0f4ff; } }
+
+@media (max-width: 640px) {
+  .desktop-screen.seki-desktop { --desktop-bar-height: 42px; }
+  .desktop-brand > span:last-child,.desktop-status > span:nth-child(-n+3),.desktop-status > span:nth-child(4) { display: none; }
+  .desktop-menubar,.desktop-taskbar { padding-inline: 10px; }
+  .desktop-status { margin-left: auto; }
+  .seki-desktop .desktop-icons { grid-template-columns: repeat(2, 88px); grid-auto-rows: 108px; gap: 4px 12px; padding: 18px 14px 70px; }
+  .desktop-taskbar-brand > span:last-child { max-width: 42vw; }
+  .desktop-taskbar-actions { gap: 4px; }
+  .desktop-taskbar-actions > span:nth-last-child(2) { display: none; }
+  .desktop-window-layer { align-items: start; padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seki-desktop .desktop-icon.is-activating,.desktop-reference-hotspot.is-activating,.desktop-window-layer,.desktop-guide-trail-tail,.desktop-guide-trail-head { animation: none; }
+}

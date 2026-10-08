@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 192" role="img" aria-label="虚构数字人占位图">
+  <rect width="144" height="192" rx="16" fill="#f2f1fd"/>
+  <circle cx="72" cy="67" r="29" fill="#d7d5f8"/>
+  <path d="M24 177c3-35 22-55 48-55s45 20 48 55" fill="#b7b4ed"/>
+  <circle cx="62" cy="67" r="3" fill="#5958d9"/><circle cx="82" cy="67" r="3" fill="#5958d9"/>
+  <path d="M62 81q10 8 20 0" fill="none" stroke="#5958d9" stroke-width="3" stroke-linecap="round"/>
+</svg>

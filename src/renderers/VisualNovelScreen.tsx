@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getAsset, type ContentBundle } from "../content-bundle/schema";
 import { assetUrl } from "../content-bundle/loader";
 import "./SceneAssets.css";
 import { usePortraitMask } from "./usePortraitMask";
+import { useReducedMotion } from "./useReducedMotion";
 
-export function VisualNovelScreen({ bundle, preview, onComplete }: { bundle: ContentBundle; preview: boolean; onComplete: () => void }) {
+export function VisualNovelScreen({ bundle, preview, onComplete, muted, onMutedChange }: { bundle: ContentBundle; preview: boolean; onComplete: () => void; muted: boolean; onMutedChange: (muted: boolean) => void }) {
   const scenes = useMemo(() => bundle.intro.scenes.filter((scene) => scene.enabled).sort((a, b) => a.order - b.order), [bundle]);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [shown, setShown] = useState(0);
   const [revealedSceneIndex, setRevealedSceneIndex] = useState<number>();
-  const [muted, setMuted] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
+  const reducedMotion = useReducedMotion();
   const audioRef = useRef<HTMLAudioElement>(null);
   const textSoundRef = useRef<HTMLAudioElement>(null);
   const clickSoundRef = useRef<HTMLAudioElement>(null);
@@ -29,24 +30,25 @@ export function VisualNovelScreen({ bundle, preview, onComplete }: { bundle: Con
   const bgm = assetUrl(bundle, bundle.intro.settings.bgmAssetId, preview);
   const textSound = assetUrl(bundle, bundle.intro.settings.textSoundAssetId, preview);
   const clickSound = assetUrl(bundle, bundle.intro.settings.clickSoundAssetId, preview);
-  const playEffect = (audio: HTMLAudioElement | null) => {
+  const playEffect = useCallback((audio: HTMLAudioElement | null) => {
     if (!audio || muted) return;
     audio.currentTime = 0;
     void audio.play().catch(() => undefined);
-  };
+  }, [muted]);
 
   useEffect(() => { setShown(0); }, [sceneIndex]);
   useEffect(() => {
     if (!sceneRevealed || isFinished || !text) return;
+    if (reducedMotion) { setShown(text.length); return; }
     const speed = bundle.intro.settings.typewriterSpeed ?? 28;
     const timer = window.setTimeout(() => setShown((value) => Math.min(value + 1, text.length)), speed);
     return () => window.clearTimeout(timer);
-  }, [shown, text, isFinished, sceneRevealed, bundle.intro.settings.typewriterSpeed]);
+  }, [shown, text, isFinished, sceneRevealed, reducedMotion, bundle.intro.settings.typewriterSpeed]);
   useEffect(() => {
     const interval = bundle.intro.settings.textSoundInterval ?? 4;
     if (shown === 0 || shown >= text.length || shown % interval !== 0) return;
     playEffect(textSoundRef.current);
-  }, [shown, text.length, muted, bundle.intro.settings.textSoundInterval]);
+  }, [shown, text.length, playEffect, bundle.intro.settings.textSoundInterval]);
   useEffect(() => { if (audioRef.current) audioRef.current.volume = bundle.intro.settings.bgmVolume ?? 0.24; }, [bundle.intro.settings.bgmVolume]);
 
   const advance = () => {
@@ -54,14 +56,19 @@ export function VisualNovelScreen({ bundle, preview, onComplete }: { bundle: Con
     if (!isFinished) { setShown(text.length); return; }
     if (!isLast) { setSceneIndex((value) => value + 1); return; }
   };
-  const enterDesktop = () => { playEffect(clickSoundRef.current); setTransitioning(true); window.setTimeout(onComplete, 620); };
+  const enterDesktop = () => {
+    if (transitioning) return;
+    playEffect(clickSoundRef.current);
+    if (reducedMotion) { onComplete(); return; }
+    setTransitioning(true);
+    window.setTimeout(onComplete, 620);
+  };
   const startBgm = () => { if (audioRef.current && !muted) void audioRef.current.play().catch(() => undefined); };
   const toggleMuted = () => {
-    setMuted((value) => {
-      const next = !value;
-      for (const audio of [audioRef.current, textSoundRef.current, clickSoundRef.current]) if (audio) audio.muted = next;
-      return next;
-    });
+    const next = !muted;
+    for (const audio of [audioRef.current, textSoundRef.current, clickSoundRef.current]) if (audio) audio.muted = next;
+    onMutedChange(next);
+    if (!next && audioRef.current) void audioRef.current.play().catch(() => undefined);
   };
 
   if (!scene) return <main className="bundle-error">没有可播放的开场 Scene。</main>;

@@ -104,7 +104,7 @@ try {
     await new Promise((resolve) => setTimeout(resolve, 500));
     before = await read(stateExpression);
     const beforeGesturePlay = await read(`(async () => { try { await document.querySelector('audio').play(); return 'resolved'; } catch(e) { return e.name; } })()`);
-    await sample.page.getByText(stage === 'desktop' ? '欢迎，Jenny' : '核心项目体验已完成', { exact: true }).click();
+    await sample.page.getByText(stage === 'desktop' ? 'SEKI OS' : '核心项目体验已完成', { exact: true }).click();
     await sample.page.waitForTimeout(500);
     const afterGesture = await read(stateExpression);
     const manualRetry = await read(`(async () => { try { await document.querySelector('audio').play(); return 'resolved'; } catch(e) { return e.name; } })()`);

@@ -4,8 +4,13 @@ import type { Block, Project } from "../schema/content";
 import { currentDemoState, demoKey, initialDemoState } from "./demo";
 import { addUnique, getEnabledProjectPages, getNextProject, getProjectPageNavigation } from "./flow";
 import { clearRuntimeState, initialRuntimeState, restoreRuntimeState, saveRuntimeState, type DemoRuntimeState, type RuntimeState } from "./persist";
+import { reconcileDesktopState, reduceDesktopState, type DesktopAction, type DesktopContent } from "./desktop";
 
 interface RuntimeStore extends RuntimeState {
+  desktopWindowAction: (action: DesktopAction) => void;
+  selectDesktop: (desktopId: string) => void;
+  openFolder: (iconId: string) => void; closeFolder: () => void;
+  openProjectFromFolder: (projectId: string, iconId: string, fileLabel: string) => void; closeProject: () => void;
   finishIntro: () => void; finishVisualNovel: () => void; finishVideo: () => void; startTarot: (projectId: string) => void; completeTarot: (projectId: string) => void;
   openProject: (projectId: string) => void; gotoPage: (pageId: string) => void; nextPage: () => void; prevPage: () => void;
   selectDemoPreset: (projectId: string, blockId: string, presetId: string) => void;
@@ -23,6 +28,7 @@ const commit = (set: (state: Partial<RuntimeStore>) => void, update: Partial<Run
 type DemoBlock = Extract<Block, { type: "interactive_demo" }>;
 const demoTimers = new Map<string, ReturnType<typeof setTimeout>[]>();
 let runtimeProjects: Project[] = baseProjects;
+let runtimeDesktop: DesktopContent | undefined;
 
 function getDemoBlock(projectId: string, blockId: string): DemoBlock | undefined {
   const block = runtimeProjects.find((project) => project.id === projectId)?.blocks.find((item) => item.id === blockId);
@@ -57,6 +63,24 @@ function getRestoredState() {
 
 export const useRuntimeStore = create<RuntimeStore>((set, get) => ({
   ...getRestoredState(),
+  desktopWindowAction: (action) => {
+    if (!runtimeDesktop) return;
+    const update = reduceDesktopState(get(), action, runtimeProjects, runtimeDesktop);
+    if (Object.keys(update).length) commit(set, update);
+  },
+  selectDesktop: (desktopId) => commit(set, { selectedDesktopId: desktopId, activeFolderIconId: undefined, activeFolderFileLabel: undefined, stage: "desktop", activeProjectId: undefined, activePageId: undefined, desktopWindows: [], focusedWindowId: undefined }),
+  openFolder: (iconId) => {
+    if (runtimeDesktop) { get().desktopWindowAction({ type: "open-folder", iconId }); return; }
+    commit(set, { stage: "desktop", activeFolderIconId: iconId, activeFolderFileLabel: undefined, activeProjectId: undefined, activePageId: undefined });
+  },
+  closeFolder: () => commit(set, { activeFolderIconId: undefined, activeFolderFileLabel: undefined }),
+  openProjectFromFolder: (projectId, iconId, fileLabel) => {
+    if (runtimeDesktop) { get().desktopWindowAction({ type: "open-document", projectId, iconId, fileLabel }); return; }
+    const project = runtimeProjects.find((candidate) => candidate.id === projectId);
+    if (!project) { console.error(`Project "${projectId}" not found`); return; }
+    commit(set, { stage: "project", activeFolderIconId: iconId, activeFolderFileLabel: fileLabel, activeProjectId: projectId, activePageId: getEnabledProjectPages(project)[0]?.id });
+  },
+  closeProject: () => commit(set, { stage: "desktop", activeProjectId: undefined, activePageId: undefined }),
   finishIntro: () => commit(set, { stage: "video", activePageId: undefined }),
   finishVisualNovel: () => commit(set, { stage: "desktop", activeProjectId: undefined, activePageId: undefined }),
   finishVideo: () => commit(set, { stage: "desktop", activeProjectId: undefined, activePageId: undefined }),
@@ -70,7 +94,7 @@ export const useRuntimeStore = create<RuntimeStore>((set, get) => ({
     if (!get().unlockedProjectIds.includes(projectId)) return;
     const project = runtimeProjects.find((candidate) => candidate.id === projectId);
     const activePageId = project ? getEnabledProjectPages(project)[0]?.id : undefined;
-    commit(set, { stage: "project", activeProjectId: projectId, activePageId });
+    commit(set, { stage: "project", activeFolderIconId: undefined, activeFolderFileLabel: undefined, activeProjectId: projectId, activePageId });
   },
   gotoPage: (pageId) => {
     const state = get();
@@ -191,11 +215,17 @@ export const useRuntimeStore = create<RuntimeStore>((set, get) => ({
     const next = getNextProject(runtimeProjects, completedProjectIds);
     commit(set, { completedProjectIds, inventoryItemIds, stage: next ? "tarot" : "complete", activeProjectId: next?.id, activePageId: undefined });
   },
-  resetProgress: () => { for (const key of demoTimers.keys()) clearDemoTimers(key); clearRuntimeState(); set({ ...initialRuntimeState, activeProjectId: undefined, activePageId: undefined }); },
+  resetProgress: () => { for (const key of demoTimers.keys()) clearDemoTimers(key); clearRuntimeState(); set({ ...initialRuntimeState, selectedDesktopId: undefined, activeFolderIconId: undefined, activeFolderFileLabel: undefined, activeProjectId: undefined, activePageId: undefined, desktopWindows: [], focusedWindowId: undefined, desktopReadProjectIds: {} }); },
 }));
 
-export function setRuntimeProjects(projects: Project[]) {
+export function setRuntimeProjects(projects: Project[], desktop?: DesktopContent, desktopId?: string) {
   runtimeProjects = projects;
+  runtimeDesktop = desktop;
+  const previous = useRuntimeStore.getState();
+  if (desktop && desktopId && previous.selectedDesktopId !== desktopId && (previous.selectedDesktopId || previous.stage !== "intro")) {
+    commit(useRuntimeStore.setState, { selectedDesktopId: desktopId, desktopWindows: previous.selectedDesktopId ? [] : previous.desktopWindows, focusedWindowId: previous.selectedDesktopId ? undefined : previous.focusedWindowId });
+  }
+  if (desktop) commit(useRuntimeStore.setState, reconcileDesktopState(useRuntimeStore.getState(), projects, desktop));
   const state = useRuntimeStore.getState();
   if (state.stage !== "project" || !state.activeProjectId) return;
   const project = runtimeProjects.find((candidate) => candidate.id === state.activeProjectId);

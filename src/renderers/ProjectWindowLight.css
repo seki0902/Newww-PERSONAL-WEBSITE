@@ -1,0 +1,22 @@
+.project-screen .project-window { border-color: #b9ccd3; color: #304c5b; background: #fffdf8; }
+.project-screen .project-window-header { border-color: #d6e2e7; background: #f8fbfc; }
+.project-screen .project-sidebar { border-color: #d6e2e7; background: #edf5f7; }
+.project-screen .project-sidebar h2 { color: #526d7a; }
+.project-screen .project-nav-item { color: #3e5b69; }
+.project-screen .project-nav-item:hover { border-color: #acc6cb; background: #e3efef; }
+.project-screen .project-nav-item.is-active { border-color: #adc8c0; background: #dcece5; color: #2f5549; }
+.project-screen .project-nav-number { color: #59745b; }
+.project-screen .project-window-path,.project-screen .project-window-subtitle { color: #536d7a; }
+.project-screen .project-window-path strong { color: #314e5a; }
+.project-screen .project-window-count,.project-screen .project-pager-count { color: #526d7a; }
+.project-screen .project-window--paged > .project-pager { border-color: #d6e2e7; background: #f8fbfc; }
+.project-screen .project-pager-button { border-color: #b7cdd2; color: #365b66; background: #f3f8f8; }
+.project-screen .project-pager-button:hover:not(:disabled) { border-color: #83a89c; background: #e5efea; }
+.project-screen .project-pager-button:focus-visible,.project-screen .project-window-controls button:focus-visible { outline-color: #315f76; }
+.project-screen .project-empty-pages { color: #526d7a; }
+.project-screen .primary-button { background: #50786c; color: #fff; }
+.project-restore-tray > button { border-color: #b7cdd2; color: #365b66; background: #f3f8f8; }
+.project-resource-links { display: flex; flex-wrap: wrap; gap: .6rem; padding: .65rem 1rem; border-top: 1px solid #d6e2e7; background: #f8fbfc; }
+.project-resource-links a,.project-resource-links button { display: inline-flex; align-items: center; gap: .45rem; padding: .5rem .65rem; border: 1px solid #9db5bf; border-radius: 4px; color: #36545c; background: transparent; font: inherit; font-size: .75rem; text-decoration: none; }
+.project-resource-links small { color: #607780; font-size: .7rem; }
+.project-window--paged.has-resource-links { grid-template-rows: auto minmax(0, 1fr) auto auto; }

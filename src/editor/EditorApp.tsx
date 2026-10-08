@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { contentBundleSchema, validateContentBundle, type ContentBundle, type IntroScene } from "../content-bundle/schema";
 import { projects as baseProjects } from "../content";
 import { ProjectPagesEditor } from "./ProjectPagesEditor";
+import { WelcomeEditor } from "./WelcomeEditor";
+import { FolderEditor } from "./FolderEditor";
 import "./EditorApp.css";
 
 const api = "http://127.0.0.1:4174/api";
@@ -10,8 +12,9 @@ const blankScene = (): IntroScene => ({ id: `scene-${Date.now()}`, order: 1, ena
 const editorSections = [
   { id: "intro", label: "开场剧情", detail: "场景、人物与对话" },
   { id: "onboarding", label: "新人引导", detail: "开机后的两页欢迎弹窗" },
-  { id: "desktop", label: "桌面系统", detail: "桌面名称、壁纸与图标" },
-  { id: "projects", label: "项目页面", detail: "项目内容页与区块" },
+  { id: "welcome", label: "欢迎页", detail: "引导后的文案、选项与素材" },
+  { id: "desktop", label: "桌面系统", detail: "三个桌面的独立内容" },
+  { id: "projects", label: "项目页面", detail: "三个桌面的项目页面与区块" },
   { id: "assets", label: "素材库", detail: "图片、音频与视频" },
   { id: "settings", label: "全局设置", detail: "开场音效与打字速度" },
 ] as const;
@@ -21,7 +24,11 @@ type EditorSection = (typeof editorSections)[number]["id"];
 export function EditorApp() {
   const [bundle, setBundle] = useState<ContentBundle>();
   const [selectedId, setSelectedId] = useState<string>();
-  const [activeSection, setActiveSection] = useState<EditorSection>("intro");
+  const [selectedDesktopId, setSelectedDesktopId] = useState<string>();
+  const [activeSection, setActiveSection] = useState<EditorSection>(() => {
+    const section = new URLSearchParams(window.location.search).get("section");
+    return section === "desktop" || section === "projects" ? section : "intro";
+  });
   const [status, setStatus] = useState("正在读取 Draft…");
   const [publishing, setPublishing] = useState(false);
   const selected = useMemo(() => bundle?.intro.scenes.find((scene) => scene.id === selectedId) ?? bundle?.intro.scenes[0], [bundle, selectedId]);
@@ -60,8 +67,10 @@ export function EditorApp() {
   const preview = async () => {
     const target = window.open("about:blank", "_blank");
     if (await save()) {
-      if (target) target.location.href = "/?preview=1";
-      else window.open("/?preview=1", "_blank");
+      const desktopId = selectedDesktopId ?? bundle?.welcome.choices[0].id;
+      const url = (activeSection === "desktop" || activeSection === "projects") && desktopId ? `/?preview=1&desktop=${encodeURIComponent(desktopId)}` : "/?preview=1";
+      if (target) target.location.href = url;
+      else window.open(url, "_blank");
     } else target?.close();
   };
   const publish = async () => {
@@ -104,12 +113,20 @@ export function EditorApp() {
 
   if (!bundle) return <main className="editor-shell"><p>{status}</p></main>;
 
+  const desktopChoice = bundle.welcome.choices.find((choice) => choice.id === selectedDesktopId) ?? bundle.welcome.choices[0];
+  const desktopContent = bundle.desktops[desktopChoice.id] ?? bundle.desktop;
   const audioAssets = bundle.assets.filter((asset) => asset.type === "audio");
+  const imageAssets = bundle.assets.filter((asset) => asset.type === "image");
   const updateOnboarding = (patch: Partial<ContentBundle["onboarding"]>) => setBundle({ ...bundle, onboarding: { ...bundle.onboarding, ...patch } });
   const updateOnboardingCaption = (id: string, caption: string) => updateOnboarding({ pages: bundle.onboarding.pages.map((page) => page.id === id ? { ...page, caption } : page) });
   const updateIntroSettings = (patch: Partial<ContentBundle["intro"]["settings"]>) => setBundle({ ...bundle, intro: { ...bundle.intro, settings: { ...bundle.intro.settings, ...patch } } });
-  const updateDesktop = (patch: Partial<ContentBundle["desktop"]>) => setBundle({ ...bundle, desktop: { ...bundle.desktop, ...patch } });
-  const updateDesktopIcon = (id: string, patch: Partial<ContentBundle["desktop"]["icons"][number]>) => updateDesktop({ icons: bundle.desktop.icons.map((icon) => icon.id === id ? { ...icon, ...patch } : icon) });
+  const updateDesktop = (patch: Partial<ContentBundle["desktop"]>) => {
+    const changesWallpaper = ["wallpaperAssetId", "wallpaperTopOverlayAssetId", "wallpaperBottomOverlayAssetId"].some((key) => key in patch);
+    setBundle((latest) => latest ? { ...latest, desktops: { ...latest.desktops, [desktopChoice.id]: { ...(latest.desktops[desktopChoice.id] ?? latest.desktop), ...patch, ...(changesWallpaper ? { referenceAssetId: undefined } : {}) } } } : latest);
+  };
+  const updateDesktopIcon = (id: string, patch: Partial<ContentBundle["desktop"]["icons"][number]>) => updateDesktop({ icons: desktopContent.icons.map((icon) => icon.id === id ? { ...icon, ...patch } : icon) });
+  const addDesktopIcon = () => updateDesktop({ icons: [...desktopContent.icons, { id: `desktop-icon-${Date.now()}`, label: "新图标", type: "portfolio", locked: true, folder: { items: [] } }] });
+  const removeDesktopIcon = (id: string) => updateDesktop({ icons: desktopContent.icons.filter((icon) => icon.id !== id) });
   const moveSection = (direction: -1 | 1) => {
     const target = activeSectionIndex + direction;
     if (target >= 0 && target < editorSections.length) setActiveSection(editorSections[target].id);
@@ -169,14 +186,46 @@ export function EditorApp() {
             </div>
           </section>}
 
+          {activeSection === "welcome" && <WelcomeEditor content={bundle.welcome} assets={bundle.assets} bgmAssetId={bundle.desktop.bgmAssetId} onChange={(welcome) => setBundle((latest) => latest ? { ...latest, welcome } : latest)} onBgmChange={(bgmAssetId) => setBundle((latest) => latest ? { ...latest, desktop: { ...latest.desktop, bgmAssetId } } : latest)} onEditDesktop={(id) => { setSelectedDesktopId(id); setActiveSection("desktop"); }} />}
+
           {activeSection === "desktop" && <section className="desktop-editor editor-standalone-section">
-            <label>系统名称<input value={bundle.desktop.systemName} onChange={(event) => updateDesktop({ systemName: event.target.value })} /></label>
-            <label>桌面壁纸<select value={bundle.desktop.wallpaperAssetId ?? ""} onChange={(event) => updateDesktop({ wallpaperAssetId: event.target.value || undefined })}><option value="">无</option>{bundle.assets.filter((asset) => asset.type === "image").map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
-            <label>桌面探索 BGM<select value={bundle.desktop.bgmAssetId ?? ""} onChange={(event) => updateDesktop({ bgmAssetId: event.target.value || undefined })}><option value="">无</option>{audioAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
-            <div className="desktop-icon-editor"><h3>桌面图标</h3>{bundle.desktop.icons.map((icon) => <div key={icon.id} className="desktop-icon-field"><label>{icon.type}<input value={icon.label} onChange={(event) => updateDesktopIcon(icon.id, { label: event.target.value })} /></label><label className="check"><input type="checkbox" checked={icon.locked} onChange={(event) => updateDesktopIcon(icon.id, { locked: event.target.checked })} /> 锁定</label></div>)}</div>
+            <div className="desktop-selector" role="group" aria-label="选择要编辑的桌面">{bundle.welcome.choices.map((choice) => <button key={choice.id} type="button" aria-pressed={desktopChoice.id === choice.id} onClick={() => setSelectedDesktopId(choice.id)}>{choice.label}</button>)}</div>
+            <div className="editor-section-intro"><h3>{desktopChoice.label} · 桌面</h3><p>当前桌面的文字、壁纸、图标、项目关联和音效独立保存。欢迎页点击「{desktopChoice.label}」进入此桌面；点击顶部「预览」可直接查看。</p></div>
+            <div className="editor-two-columns">
+              <label>系统名称<input value={desktopContent.systemName} onChange={(event) => updateDesktop({ systemName: event.target.value })} /></label>
+              <label>桌面标语<input value={desktopContent.tagline ?? ""} onChange={(event) => updateDesktop({ tagline: event.target.value })} /></label>
+              <label>底栏文案<input value={desktopContent.footerSlogan ?? ""} onChange={(event) => updateDesktop({ footerSlogan: event.target.value })} /></label>
+              <label>进度文案<input value={desktopContent.progressLabel ?? ""} onChange={(event) => updateDesktop({ progressLabel: event.target.value })} /></label>
+              <label>日期时间<input value={desktopContent.dateTimeLabel ?? ""} onChange={(event) => updateDesktop({ dateTimeLabel: event.target.value })} /></label>
+            </div>
+            <div className="editor-two-columns">
+              <label>桌面原图<select value={desktopContent.referenceAssetId ?? ""} onChange={(event) => updateDesktop({ referenceAssetId: event.target.value || undefined })}><option value="">使用分层壁纸</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select><small>保留原图构图，文字和图标可在下方编辑；更换分层壁纸时会切换显示方式。</small></label>
+              <label>桌面壁纸<select value={desktopContent.wallpaperAssetId ?? ""} onChange={(event) => updateDesktop({ wallpaperAssetId: event.target.value || undefined })}><option value="">无</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+              <label>顶部装饰层<select value={desktopContent.wallpaperTopOverlayAssetId ?? ""} onChange={(event) => updateDesktop({ wallpaperTopOverlayAssetId: event.target.value || undefined })}><option value="">无</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+              <label>底部装饰层<select value={desktopContent.wallpaperBottomOverlayAssetId ?? ""} onChange={(event) => updateDesktop({ wallpaperBottomOverlayAssetId: event.target.value || undefined })}><option value="">无</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+              <label>系统栏图标<select value={desktopContent.brandIconAssetId ?? ""} onChange={(event) => updateDesktop({ brandIconAssetId: event.target.value || undefined })}><option value="">无</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+              <label>桌面探索 BGM<select value={desktopContent.bgmAssetId ?? ""} onChange={(event) => updateDesktop({ bgmAssetId: event.target.value || undefined })}><option value="">无</option>{audioAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+              <label>桌面点击音效<select value={desktopContent.clickSoundAssetId ?? ""} onChange={(event) => updateDesktop({ clickSoundAssetId: event.target.value || undefined })}><option value="">无</option>{audioAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+            </div>
+            <div className="desktop-icon-editor">
+              <div className="section-title"><h3>桌面图标</h3><button type="button" onClick={addDesktopIcon}>添加图标</button></div>
+              {desktopContent.icons.map((icon) => <div key={icon.id} className="desktop-icon-field" data-testid={`desktop-icon-editor-${icon.id}`}>
+                <label>图标文字<input value={icon.label} onChange={(event) => updateDesktopIcon(icon.id, { label: event.target.value })} /></label>
+                <label>图标图片<select value={icon.iconAssetId ?? ""} onChange={(event) => updateDesktopIcon(icon.id, { iconAssetId: event.target.value || undefined })}><option value="">默认图标</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
+                <label>关联项目<select value={icon.projectId ?? ""} onChange={(event) => updateDesktopIcon(icon.id, { projectId: event.target.value || undefined, type: event.target.value ? "project" : icon.type })}><option value="">不关联项目</option>{baseProjects.map((project) => <option key={project.id} value={project.id}>{project.title}</option>)}</select></label>
+                <label>入口类型<select value={icon.type} onChange={(event) => updateDesktopIcon(icon.id, { type: event.target.value as typeof icon.type, projectId: event.target.value === "project" ? icon.projectId : undefined })}><option value="project">项目</option><option value="system">系统</option><option value="inventory">物品</option><option value="portfolio">作品集</option></select></label>
+                <label className="check"><input type="checkbox" checked={icon.locked} onChange={(event) => updateDesktopIcon(icon.id, { locked: event.target.checked })} /> 锁定</label>
+                <button type="button" className="danger-button" onClick={() => removeDesktopIcon(icon.id)}>删除图标</button>
+              </div>)}
+            </div>
+            <FolderEditor icons={desktopContent.icons} assets={bundle.assets} projects={baseProjects} onChange={updateDesktopIcon} />
           </section>}
 
-          {activeSection === "projects" && <ProjectPagesEditor bundle={bundle} onChange={setBundle} />}
+          {activeSection === "projects" && <>
+            <div className="desktop-selector" role="group" aria-label="选择要编辑项目页面的桌面">{bundle.welcome.choices.map((choice) => <button key={choice.id} type="button" aria-pressed={desktopChoice.id === choice.id} onClick={() => setSelectedDesktopId(choice.id)}>{choice.label}</button>)}</div>
+            <div className="editor-section-intro"><h3>{desktopChoice.label} · 项目页面</h3><p>这里的页面、顺序和区块内容只应用于当前桌面。切换桌面可分别编辑。</p></div>
+            <ProjectPagesEditor key={desktopChoice.id} bundle={{ ...bundle, projectPages: desktopContent.projectPages ?? bundle.projectPages }} onChange={(updated) => updateDesktop({ projectPages: updated.projectPages })} />
+          </>}
 
           {activeSection === "assets" && <section className="asset-library editor-standalone-section"><h2>素材库</h2><label className="upload-label">上传素材<input type="file" accept="image/*,audio/*,video/*" onChange={(event) => { void upload(event.target.files?.[0]); event.target.value = ""; }} /></label>{bundle.assets.map((asset) => <div className="asset-item" key={asset.id}><small>{asset.type}</small><b>{asset.label ?? asset.originalName}</b><span>{asset.id}</span></div>)}</section>}
 

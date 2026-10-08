@@ -1,0 +1,376 @@
+/* Kami 1.17 portfolio.html + CHEATSHEET.md, adapted to the existing reader.
+   Print points become screen pixels; content and chapter order stay intact. */
+@font-face {
+  font-family: "TsangerJinKai02";
+  src: url("/assets/fonts/kami-seki-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "KamiEducationSerif";
+  src: url("/assets/fonts/kami-education-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "KamiEducationSerif";
+  src: url("/assets/fonts/kami-education-medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "TsangerJinKai02";
+  src: url("/assets/fonts/kami-seki-medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+.kami-portfolio {
+  --parchment: #f5f4ed;
+  --ivory: #faf9f5;
+  --near-black: #141413;
+  --dark-warm: #3d3d3a;
+  --olive: #504e49;
+  --stone: #6b6a64;
+  --brand: #1b365d;
+  --border: #e8e6dc;
+  --border-soft: #e5e3d8;
+  --tag-bg: #e4ecf5;
+  --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+  --mono: "JetBrains Mono", Consolas, "TsangerJinKai02", "SimSun", monospace;
+  --case-ink: var(--near-black);
+  --case-muted: var(--olive);
+  --case-line: var(--border);
+  --case-blue: var(--brand);
+  --case-paper: var(--ivory);
+  --case-tint: var(--ivory);
+}
+.project-screen .kami-portfolio.project-window {
+  border-color: var(--border);
+  background: var(--parchment);
+  color: var(--near-black);
+}
+.kami-portfolio.project-window--legacy { max-height: calc(100dvh - 32px); overflow: auto; padding: 40px 48px; font-family: var(--serif); font-size: 15px; font-weight: 400; line-height: 1.55; }
+.kami-portfolio.project-window--legacy .project-legacy-header h1 { color: var(--near-black); font-size: 30px; font-weight: 500; line-height: 1.25; }
+.kami-portfolio.project-window--legacy .project-legacy-header p { color: var(--olive); }
+.kami-portfolio.project-window--legacy .eyebrow { color: var(--brand); font-size: 12px; }
+.kami-portfolio.project-window--legacy footer { border-color: var(--border); }
+.kami-portfolio.project-window--legacy :is(.primary-button, .text-button) { min-height: 44px; font-size: 14px; font-weight: 400; }
+.kami-portfolio.project-window--legacy .primary-button { background: var(--brand); color: var(--ivory); }
+.kami-portfolio.project-window--legacy .text-button { border-color: var(--border); background: var(--ivory); color: var(--brand); }
+.kami-portfolio.project-window--legacy .reward-note { color: var(--olive); }
+.kami-portfolio.project-window :is(.project-window-header, .project-sidebar, .project-pager, .project-resource-links) {
+  background: var(--ivory);
+  border-color: var(--border);
+  color: var(--olive);
+}
+.kami-portfolio.project-window :is(.project-window-path, .project-window-path strong, .project-sidebar h2, .project-nav-number, .project-pager-count) { color: var(--olive); font-weight: 400; }
+.kami-portfolio.project-window .project-nav-item {
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--olive);
+  min-height: 44px;
+}
+.kami-portfolio.project-window .project-nav-item:hover { background: var(--parchment); color: var(--near-black); }
+.kami-portfolio.project-window .project-nav-item.is-active { border-left-color: var(--brand); background: transparent; color: var(--brand); }
+.kami-portfolio.project-window .project-nav-item.is-active .project-nav-number { color: var(--brand); }
+.kami-portfolio.project-window .project-page-viewport { background: var(--parchment); }
+.kami-portfolio.project-window .project-page-content {
+  max-width: 824px;
+  margin-inline: auto;
+  padding: 40px 48px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: .2pt;
+  color: var(--dark-warm);
+  background: var(--parchment);
+}
+.kami-portfolio.project-window .project-page-heading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px; align-items: start; margin-bottom: 32px; padding: 0; border: 0; }
+.kami-portfolio .project-page-number { padding-top: 3px; font-size: 56px; font-weight: 500; line-height: 1; color: var(--brand); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.kami-portfolio.project-window .project-page-heading .eyebrow { margin: 0 0 8px; font-size: 12px; font-weight: 400; line-height: 1.4; color: var(--brand); letter-spacing: .8pt; }
+.kami-portfolio.project-window .project-page-heading h1 { margin: 0; color: var(--near-black); font-size: 30px; font-weight: 500; line-height: 1.25; letter-spacing: .1pt; overflow-wrap: anywhere; text-wrap: balance; }
+.kami-portfolio.project-window .project-page-subtitle { margin: 10px 0 0; color: var(--olive); font-size: 15px; font-weight: 400; line-height: 1.5; }
+.kami-portfolio.project-window .project-page-content[data-page-kind] .project-content { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin: 0; align-items: start; }
+.kami-portfolio.project-window .project-page-content[data-page-kind] .project-content > .project-content-block { min-width: 0; grid-column: auto; grid-row: auto; }
+.kami-portfolio.project-window :is(.text-block, .case-body) { color: var(--dark-warm); font-size: 15px; font-weight: 400; line-height: 1.55; overflow-wrap: anywhere; }
+.kami-portfolio.project-window .text-block p { margin: 0; }
+.kami-portfolio.project-window :is(.text-block, .case-body) p + p { margin-top: 12px; }
+.kami-portfolio.project-window :is(strong, b) { font-weight: 500; }
+.kami-portfolio.project-window :is(.case-section-title, .case-cards h2, .case-cards h3, .case-hub-root h2, .case-hub-nodes h3, .comparison-panel h2, .demo-panel h2) { margin: 0 0 10px; color: var(--near-black); font-size: 18px; font-weight: 500; line-height: 1.3; text-wrap: balance; }
+.kami-portfolio.project-window .case-section-title { margin-bottom: 16px; font-size: 21px; line-height: 1.25; }
+.kami-portfolio.project-window :is(.case-caption, .media-block figcaption, .demo-hint, .demo-status, .demo-result-meta) { color: var(--stone); font-size: 12px; line-height: 1.45; }
+.kami-portfolio.project-window .case-body code { background: #f0eee6; color: var(--dark-warm); font-family: var(--mono); font-size: 13px; line-height: 1.45; }
+
+/* Tables: whitespace and neutral row rules, with no outer or vertical grid. */
+.kami-portfolio .case-table-scroll { border: 0; border-radius: 0; }
+.kami-portfolio .case-table { min-width: 0; table-layout: auto; font-size: 13px; }
+.kami-portfolio.project-window .case-table :is(th, td) { padding: 10px 12px; border: 0; border-bottom: 1px solid var(--border-soft); background: transparent; text-align: left; vertical-align: top; }
+.kami-portfolio.project-window .case-table thead th { color: var(--dark-warm); font-size: 12px; font-weight: 500; line-height: 1.45; border-bottom-color: var(--border); }
+.kami-portfolio.project-window .case-table thead th:first-child { width: 22%; }
+.kami-portfolio.project-window .case-table thead th:nth-child(2) { width: auto; }
+.kami-portfolio.project-window .case-table tbody th { width: auto; }
+.kami-portfolio.project-window .case-table .case-body { font-size: 14px; line-height: 1.45; color: var(--dark-warm); font-weight: 400; }
+.kami-portfolio.project-window .case-table tbody th .case-body { color: var(--near-black); font-weight: 500; }
+.kami-portfolio .case-table td::before { display: none; }
+
+/* Numbered processes stay readable even with eight or nine steps. */
+.kami-portfolio .case-flow { display: grid; gap: 0; }
+.kami-portfolio .case-flow > li { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 4px 16px; padding: 16px 0; border: 0; border-bottom: 1px solid var(--border-soft); border-radius: 0; background: transparent; }
+.kami-portfolio .case-flow > li:first-child { padding-top: 0; }
+.kami-portfolio .case-flow > li:last-child { padding-bottom: 0; border-bottom: 0; }
+.kami-portfolio .case-flow > li::after { display: none; }
+.kami-portfolio .case-flow-number { grid-column: 1; grid-row: 1 / span 2; padding-top: 2px; font-size: 12px; color: var(--stone); }
+.kami-portfolio .case-flow > li > strong { grid-column: 2; font-size: 16px; font-weight: 500; line-height: 1.3; color: var(--near-black); }
+.kami-portfolio .case-flow > li > .case-body { grid-column: 2; font-size: 14px; line-height: 1.45; }
+.kami-portfolio .case-flow-section--state .case-flow > li { background: transparent; border-color: var(--border-soft); }
+.kami-portfolio .case-flow-section--state .case-flow > li:last-child > strong { color: var(--brand); }
+.kami-portfolio .case-flow[data-flow-layout="sequence"] { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 24px; }
+.kami-portfolio .case-flow[data-flow-layout="sequence"] > li { display: block; padding: 0; border: 0; }
+.kami-portfolio .case-flow[data-flow-layout="sequence"] .case-flow-number { display: block; padding: 0; margin-bottom: 8px; }
+.kami-portfolio .case-flow[data-flow-layout="sequence"] > li > .case-body { margin-top: 6px; }
+
+.kami-portfolio :is(.case-cards--grid, .case-cards--quotes, .case-conversation) { gap: 24px; }
+.kami-portfolio :is(.case-cards--grid > li, .case-conversation > li) { min-width: 0; padding: 24px; border: 0; border-radius: 8px; background: var(--ivory); box-shadow: none; }
+.kami-portfolio :is(.case-cards--grid, .case-conversation, .case-hub-nodes) > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.kami-portfolio .case-item-number { font-size: 12px; font-weight: 400; color: var(--stone); }
+.kami-portfolio .case-cards--list > li { grid-template-columns: 28px minmax(0, 1fr); gap: 16px; padding-block: 20px; border-color: var(--border-soft); }
+.kami-portfolio .case-cards--quotes > li { padding: 8px 16px; border: 0; border-radius: 0; background: transparent; }
+.kami-portfolio :is(.case-cards blockquote > p, .case-conversation blockquote p) { color: var(--olive); font-size: 16px; font-weight: 400; line-height: 1.55; }
+.kami-portfolio .case-callout { display: grid; gap: 8px; padding: 20px 24px; border: 0; border-radius: 8px; background: var(--ivory); }
+.kami-portfolio .case-callout h2 { margin: 0; color: var(--near-black); font-size: 16px; font-weight: 500; line-height: 1.3; }
+.kami-portfolio .case-callout .case-body { color: var(--olive); font-size: 14px; line-height: 1.45; }
+.kami-portfolio .case-hub-root { padding: 24px; border: 0; border-radius: 8px; background: var(--ivory); }
+.kami-portfolio .case-hub-mark { display: none; }
+.kami-portfolio .case-hub-root .case-body { font-size: 15px; }
+.kami-portfolio .case-hub-connector, .kami-portfolio .case-hub-nodes::before, .kami-portfolio .case-hub-nodes > li::before { background: var(--border-soft); }
+.kami-portfolio .case-hub-nodes, .kami-portfolio .case-hub-nodes[data-node-count="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.kami-portfolio .case-hub-nodes::before, .kami-portfolio .case-hub-nodes > li::before { display: none; }
+.kami-portfolio .case-hub-nodes > li { min-width: 0; padding: 20px; border: 0; border-radius: 8px; background: var(--ivory); }
+.kami-portfolio .case-node-index { font-size: 12px; color: var(--stone); }
+.kami-portfolio .case-node-subtitle { font-size: 13px; font-weight: 400; color: var(--brand); }
+.kami-portfolio .case-hub-nodes .case-body { font-size: 14px; line-height: 1.45; }
+.kami-portfolio .case-conversation > li > header { color: var(--stone); font-size: 12px; }
+.kami-portfolio .case-conversation-response { border-color: var(--border); }
+.kami-portfolio .case-response-label { color: var(--brand); font-size: 12px; font-weight: 500; }
+.kami-portfolio .case-conversation-response .case-body { font-size: 14px; }
+.kami-portfolio .case-conversation-output { padding: 12px 0 0; border-radius: 0; background: transparent; }
+
+/* Portfolio result values have their own typographic tier, rather than boxes. */
+.kami-portfolio.project-window .metrics-block { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; padding: 20px 0; border-top: 1px solid var(--border); }
+.kami-portfolio.project-window .metrics-block > div { display: flex; flex-direction: column; min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.kami-portfolio.project-window .metrics-block dd { order: 0; margin: 0 0 6px; color: var(--brand); font-size: 24px; font-weight: 500; line-height: 1.2; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.kami-portfolio.project-window .metrics-block dt { order: 1; color: var(--olive); font-size: 13px; line-height: 1.45; }
+.kami-portfolio.project-window .metrics-block small { order: 2; margin-top: 6px; color: var(--stone); font-size: 12px; line-height: 1.45; }
+.kami-portfolio.project-window .media-block :is(img, video) { width: 100%; height: auto; max-height: none; border: 0; border-radius: 8px; background: var(--ivory); object-fit: contain; }
+.kami-portfolio.project-window :is(.media-fallback, .demo-result-media) { padding: 24px; border: 0; border-radius: 8px; background: var(--ivory); color: var(--stone); font-size: 14px; line-height: 1.45; }
+.kami-portfolio.project-window .comparison-panel { border: 0; border-radius: 8px; background: var(--ivory); }
+.kami-portfolio.project-window .comparison-panel ul { color: var(--dark-warm); font-size: 15px; line-height: 1.55; }
+.kami-portfolio.project-window .comparison-arrow { color: var(--stone); font-weight: 400; }
+.kami-portfolio .interactive-demo { color: var(--dark-warm); }
+.kami-portfolio :is(.demo-mode, .demo-panel) { border: 0; border-radius: 8px; background: var(--ivory); color: var(--olive); box-shadow: none; }
+.kami-portfolio .demo-mode strong { color: var(--brand); }
+.kami-portfolio .demo-steps li { color: var(--stone); border-color: var(--border); font-size: 12px; font-weight: 400; }
+.kami-portfolio .demo-steps li.is-current, .kami-portfolio .demo-steps li.is-done { color: var(--brand); border-color: var(--brand); }
+.kami-portfolio :is(.demo-field, .demo-options legend, .demo-final-script) { color: var(--dark-warm); font-weight: 400; }
+.kami-portfolio :is(.demo-field input, .demo-field textarea, .demo-preset-list button, .demo-options button) { border-color: var(--border); background: var(--parchment); color: var(--near-black); }
+.kami-portfolio :is(.demo-preset-list button, .demo-options button)[aria-pressed="true"] { border-color: var(--brand); background: var(--tag-bg); color: var(--brand); box-shadow: none; }
+.kami-portfolio .demo-primary { background: var(--brand); font-weight: 500; }
+.kami-portfolio .demo-primary:hover:not(:disabled) { background: #2d5a8a; }
+.kami-portfolio .demo-text-button { color: var(--brand); }
+.kami-portfolio .demo-progress-panel progress { accent-color: var(--brand); }
+.kami-portfolio :is(.demo-progress-panel p, .demo-result-media p) { color: var(--olive); }
+
+.kami-portfolio.project-window .project-pager-button { min-height: 44px; padding: 8px 0; border: 0; border-radius: 0; background: transparent; color: var(--brand); }
+.kami-portfolio.project-window .project-pager-button:hover:not(:disabled) { border: 0; background: transparent; color: var(--near-black); text-decoration: underline; text-underline-offset: 4px; }
+.kami-portfolio.project-window .project-resource-links { gap: 12px 24px; padding: 12px 16px; }
+.kami-portfolio.project-window .project-resource-links :is(a, button) { min-height: 44px; padding: 6px 0; border: 0; border-radius: 0; background: transparent; color: var(--brand); font-size: 12px; }
+.kami-portfolio.project-window .project-resource-links small { color: var(--stone); font-size: 12px; }
+.kami-portfolio :is(button, a, input, textarea, .case-table-scroll):focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+@media (max-width: 1100px) {
+  .kami-portfolio.project-window .project-page-content { padding: 32px; }
+}
+@media (max-width: 760px) {
+  .kami-portfolio.project-window--legacy { padding: 24px 20px; }
+  .kami-portfolio.project-window .project-sidebar { padding: 8px 12px; }
+  .kami-portfolio.project-window .project-sidebar h2 { display: none; }
+  .kami-portfolio.project-window .project-nav-item { border-left: 0; border-bottom: 2px solid transparent; padding: 8px 4px; }
+  .kami-portfolio.project-window .project-nav-item.is-active { border-bottom-color: var(--brand); }
+  .kami-portfolio.project-window .project-page-content { padding: 24px 20px; }
+  .kami-portfolio.project-window .project-page-heading { gap: 12px; margin-bottom: 24px; }
+  .kami-portfolio .project-page-number { font-size: 40px; }
+  .kami-portfolio.project-window .project-page-heading h1 { font-size: 25px; }
+  .kami-portfolio.project-window .project-page-heading .eyebrow { letter-spacing: .3pt; }
+  .kami-portfolio.project-window .project-page-content[data-page-kind] .project-content { gap: 24px; }
+  .kami-portfolio :is(.case-cards--grid, .case-cards--quotes, .case-conversation, .case-hub-nodes, .case-hub-nodes[data-node-count="3"]) { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .kami-portfolio .case-flow[data-flow-layout="sequence"] { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .kami-portfolio .case-flow[data-flow-layout="sequence"] > li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 12px; padding-bottom: 16px; border-bottom: 1px solid var(--border-soft); }
+  .kami-portfolio .case-flow[data-flow-layout="sequence"] > li:last-child { padding-bottom: 0; border-bottom: 0; }
+  .kami-portfolio .case-flow[data-flow-layout="sequence"] .case-flow-number { padding-top: 2px; margin: 0; }
+  .kami-portfolio .case-flow[data-flow-layout="sequence"] > li > .case-body { margin: 0; }
+  .kami-portfolio :is(.case-cards--grid > li, .case-conversation > li, .case-callout, .case-hub-root, .case-hub-nodes > li) { padding: 20px; }
+  .kami-portfolio.project-window .metrics-block { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .kami-portfolio.project-window .metrics-block > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .kami-portfolio.project-window .case-table thead th:first-child { width: 30%; }
+  .kami-portfolio.project-window .case-table :is(th, td) { padding: 10px 8px; }
+  .kami-portfolio .case-table:not([data-column-count="2"]), .kami-portfolio .case-table:not([data-column-count="2"]) :is(tbody, tr) { display: block; width: 100%; }
+  .kami-portfolio .case-table:not([data-column-count="2"]) thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .kami-portfolio.project-window .case-table:not([data-column-count="2"]) tr { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .kami-portfolio.project-window .case-table:not([data-column-count="2"]) :is(th, td) { display: block; width: 100%; padding: 6px 0; border: 0; }
+  .kami-portfolio .case-table:not([data-column-count="2"]) tbody th .case-body { font-size: 16px; }
+  .kami-portfolio .case-table:not([data-column-count="2"]) td::before { display: block; margin-bottom: 4px; content: attr(data-label); color: var(--stone); font-size: 12px; font-weight: 400; }
+}
+@media (max-width: 420px) {
+  .project-page-content[data-kami-case="B1"],
+  .project-page-content[data-kami-case="B2"],
+  .project-page-content[data-kami-case="B3"],
+  .project-page-content[data-kami-case="B4"],
+  .project-page-content[data-kami-case="B5"] { padding-inline: 16px; }
+}
+@media (max-width: 420px) {
+  .kami-portfolio.project-window .project-page-content { padding-inline: 16px; }
+  .kami-portfolio.project-window .project-page-heading { display: block; }
+  .kami-portfolio .project-page-number { display: none; }
+  .kami-portfolio.project-window .project-resource-links { column-gap: 16px; padding-block: 4px; }
+}
+
+/* Education B1/B2/B3/B4/B5 portfolio pages: keep Kami treatment inside the正文 viewport only. */
+.project-page-content[data-kami-case="B1"],
+.project-page-content[data-kami-case="B2"],
+.project-page-content[data-kami-case="B3"],
+.project-page-content[data-kami-case="B4"],
+.project-page-content[data-kami-case="B5"] {
+  --serif: "KamiEducationSerif", "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+  padding: 40px 48px;
+  font-family: var(--serif);
+  color: var(--dark-warm);
+}
+.project-page-content[data-kami-case="B1"] .project-content,
+.project-page-content[data-kami-case="B2"] .project-content,
+.project-page-content[data-kami-case="B3"] .project-content,
+.project-page-content[data-kami-case="B4"] .project-content,
+.project-page-content[data-kami-case="B5"] .project-content {
+  gap: 32px;
+}
+.project-page-content[data-kami-case="B1"] .project-page-heading h1,
+.project-page-content[data-kami-case="B2"] .project-page-heading h1,
+.project-page-content[data-kami-case="B3"] .project-page-heading h1,
+.project-page-content[data-kami-case="B4"] .project-page-heading h1,
+.project-page-content[data-kami-case="B5"] .project-page-heading h1 {
+  font-size: 30px;
+  font-weight: 500;
+}
+.project-page-content[data-kami-case="B1"] .text-block,
+.project-page-content[data-kami-case="B2"] .text-block,
+.project-page-content[data-kami-case="B3"] .text-block,
+.project-page-content[data-kami-case="B4"] .text-block,
+.project-page-content[data-kami-case="B5"] .text-block {
+  font-size: 15px;
+  line-height: 1.55;
+  text-align: left;
+}
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-intro"] .text-block {
+  font-size: 16px;
+}
+.project-page-content[data-kami-case="B1"] :is(.case-cards--list, .case-cards--grid),
+.project-page-content[data-kami-case="B2"] :is(.case-cards--list, .case-cards--grid),
+.project-page-content[data-kami-case="B3"] :is(.case-cards--list, .case-cards--grid),
+.project-page-content[data-kami-case="B4"] :is(.case-cards--list, .case-cards--grid),
+.project-page-content[data-kami-case="B5"] :is(.case-cards--list, .case-cards--grid) {
+  gap: 24px;
+}
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-pain"] .case-cards--list,
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-insight"] .case-cards--list,
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-pillars"] .case-cards--list,
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-cases"] .case-cards--list,
+.project-page-content[data-kami-case="B5"] [data-block-id="b5-infra"] .case-cards--list,
+.project-page-content[data-kami-case="B5"] [data-block-id="b5-live"] .case-cards--list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-pain"] .case-cards--list > li,
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-insight"] .case-cards--list > li,
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-pillars"] .case-cards--list > li,
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-cases"] .case-cards--list > li,
+.project-page-content[data-kami-case="B5"] [data-block-id="b5-infra"] .case-cards--list > li,
+.project-page-content[data-kami-case="B5"] [data-block-id="b5-live"] .case-cards--list > li {
+  min-width: 0;
+  padding: 0 0 24px;
+  border: 0;
+  border-bottom: 1px solid var(--border-soft);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.project-page-content[data-kami-case="B1"] :is(.case-item-number),
+.project-page-content[data-kami-case="B2"] :is(.case-item-number),
+.project-page-content[data-kami-case="B3"] :is(.case-item-number),
+.project-page-content[data-kami-case="B4"] :is(.case-item-number),
+.project-page-content[data-kami-case="B5"] :is(.case-item-number) { color: var(--stone); font-size: 12px; }
+.project-page-content[data-kami-case="B1"] :is(.case-cards h3),
+.project-page-content[data-kami-case="B2"] :is(.case-cards h3),
+.project-page-content[data-kami-case="B3"] :is(.case-cards h3),
+.project-page-content[data-kami-case="B4"] :is(.case-cards h3),
+.project-page-content[data-kami-case="B5"] :is(.case-cards h3) { font-size: 18px; font-weight: 500; }
+.project-page-content[data-kami-case="B1"] :is(.case-cards .case-body),
+.project-page-content[data-kami-case="B2"] :is(.case-cards .case-body),
+.project-page-content[data-kami-case="B3"] :is(.case-cards .case-body),
+.project-page-content[data-kami-case="B4"] :is(.case-cards .case-body),
+.project-page-content[data-kami-case="B5"] :is(.case-cards .case-body) { font-size: 14px; line-height: 1.55; }
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(1),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(9) { grid-column: 1 / -1; }
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(2),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(3),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(4),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(5) { grid-column: span 3; }
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(6),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(7),
+.project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li:nth-child(8) { grid-column: span 2; }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation { display: grid; gap: 24px; }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation { grid-template-columns: minmax(0, 1fr); }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation > li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 24px; padding: 24px 0; border: 0; border-bottom: 1px solid var(--border-soft); border-radius: 0; background: transparent; box-shadow: none; }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation > li > header { grid-column: 1 / -1; }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation > li > blockquote { grid-column: 1; margin: 0; }
+.project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation-response { grid-column: 2; padding-top: 0; border-top: 0; }
+.project-page-content[data-kami-case] [data-repeated-title="true"] .case-section-title { display: none; }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block > div:first-child { grid-column: 1 / -1; }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block > div:first-child dd { white-space: nowrap; }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B5"] .metrics-block { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B1"] .metrics-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kami-portfolio.project-window .project-page-content[data-kami-case="B3"] .metrics-block { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.project-page-content[data-kami-case="B1"] .case-cards--grid,
+.project-page-content[data-kami-case="B3"] .case-cards--grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 760px) {
+  .project-page-content[data-kami-case="B1"],
+  .project-page-content[data-kami-case="B2"],
+  .project-page-content[data-kami-case="B3"],
+  .project-page-content[data-kami-case="B4"],
+  .project-page-content[data-kami-case="B5"] { padding: 24px 20px; }
+  .project-page-content[data-kami-case="B1"] :is(.case-cards--list, .case-cards--grid),
+  .project-page-content[data-kami-case="B2"] :is(.case-cards--list, .case-cards--grid),
+  .project-page-content[data-kami-case="B3"] :is(.case-cards--list, .case-cards--grid),
+  .project-page-content[data-kami-case="B4"] :is(.case-cards--list, .case-cards--grid),
+  .project-page-content[data-kami-case="B5"] :is(.case-cards--list, .case-cards--grid),
+  .project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list { grid-template-columns: minmax(0, 1fr); }
+  .project-page-content[data-kami-case="B4"] [data-block-id="b4-production"] .case-cards--list > li { grid-column: auto; }
+  .project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation > li { display: block; }
+  .project-page-content[data-kami-case="B2"] [data-block-id="b2-journey"] .case-conversation-response { padding-top: 16px; border-top: 1px solid var(--border); }
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B3"] .metrics-block,
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block,
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B5"] .metrics-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block > div:first-child { grid-column: 1 / -1; }
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B4"] .metrics-block > div:last-child:nth-child(odd) { grid-column: auto; }
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B5"] .metrics-block > div:nth-last-child(-n + 2) { grid-column: 1 / -1; }
+  .kami-portfolio.project-window .project-page-content[data-kami-case="B5"] .metrics-block > div:nth-last-child(-n + 2) dd { white-space: nowrap; }
+}

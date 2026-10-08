@@ -1,0 +1,38 @@
+.bgm-feedback {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .75rem;
+  max-width: min(28rem, calc(100vw - 2rem));
+  padding: .75rem 1rem;
+  border: 1px solid #ef8db6;
+  border-radius: 8px;
+  background: #fff8f4;
+  color: #753257;
+  font-size: .9rem;
+}
+
+.bgm-feedback button {
+  min-height: 44px;
+  padding: .5rem .75rem;
+  border: 1px solid #c35080;
+  border-radius: 7px;
+  background: #fff;
+  color: #753257;
+}
+
+.desktop-controls,
+.complete-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.desktop-controls .text-button,
+.complete-actions .text-button { margin-left: 0; }
+.complete-actions { justify-content: center; }

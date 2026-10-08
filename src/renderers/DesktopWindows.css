@@ -1,0 +1,15 @@
+.desktop-managed-window { position: fixed; inset: 0; pointer-events: none; }
+.desktop-managed-window[hidden] { display: none; }
+.desktop-managed-window[data-focused="false"] .project-window-header { background: #eef3f5; }
+.desktop-managed-window[data-focused="false"] .folder-window-titlebar { background: #eff2f3; }
+.desktop-minimized-tray { position: fixed; z-index: 80; right: 1rem; bottom: 4.5rem; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; max-width: calc(100vw - 2rem); }
+.desktop-minimized-tray button { display: flex; gap: .4rem; align-items: center; max-width: min(300px, calc(100vw - 2rem)); min-height: 38px; padding: .55rem .8rem; border: 1px solid #8aa6bd; border-radius: 7px; background: #f8fbfc; color: #365b66; font: inherit; font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; box-shadow: 0 6px 18px rgba(8, 34, 51, .2); }
+.desktop-minimized-tray button:focus-visible { outline: 2px solid #f2bd62; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .desktop-folder-layer--managed { padding: .5rem; }
+  .desktop-folder-layer--managed .folder-window { width: calc(100vw - 1rem); height: min(86dvh, 680px); }
+  .desktop-folder-layer--managed .folder-window.is-maximized { width: calc(100vw - 1rem); height: calc(100dvh - 1rem); }
+  .desktop-folder-layer--managed .folder-window-titlebar { grid-template-columns: auto minmax(0, 1fr); }
+  .desktop-folder-layer--managed .folder-window-search { display: flex; grid-column: 1 / -1; margin-bottom: 3.5rem; }
+  .desktop-minimized-tray { right: .5rem; bottom: .5rem; max-width: calc(100vw - 1rem); }
+}

@@ -1,0 +1,92 @@
+.desktop-intro-background {
+  position: fixed;
+  inset: -28px;
+  filter: blur(18px) saturate(.68) brightness(.72);
+  transform: scale(1.055);
+  pointer-events: none;
+}
+
+.welcome-window {
+  position: relative;
+  width: min(92vw, 650px);
+  max-width: calc((100dvh - 48px) * 598 / 472);
+  aspect-ratio: 598 / 472;
+  container-type: inline-size;
+  color: #063568;
+  animation: onboarding-popup-enter .48s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.welcome-window > img {
+  position: absolute;
+  display: block;
+  image-rendering: pixelated;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Positions follow the 598 × 472 content area in the Canva reference. */
+.welcome-character { left: 0; top: 4.237%; width: 23.411%; height: 41.737%; }
+.welcome-dialogue { left: 19.900%; top: 4.237%; width: 76.756%; height: 41.737%; }
+.welcome-nameplate { left: 23.244%; top: 0; width: 20.234%; height: 12.712%; }
+
+.welcome-name {
+  position: absolute;
+  left: 28.471%;
+  top: 4.014%;
+  width: 10.624%;
+  height: 6.155%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: clamp(11px, 3.2cqw, 21px);
+  font-weight: 750;
+  line-height: 1;
+}
+.welcome-name > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.welcome-message {
+  position: absolute;
+  left: 30.148%;
+  top: 14.940%;
+  width: 62.630%;
+  margin: 0;
+  font-size: clamp(13px, 3.9cqw, 25px);
+  font-weight: 800;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.welcome-choice {
+  position: absolute;
+  left: 3.344%;
+  width: 93.311%;
+  height: 20.975%;
+  display: grid;
+  place-items: center;
+  padding: 0 10%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: clamp(15px, 4cqw, 26px);
+  font-weight: 800;
+  line-height: 1.2;
+  transition: transform .16s ease;
+}
+
+.welcome-choice--1 { top: 45.763%; }
+.welcome-choice--2 { top: 62.288%; }
+.welcome-choice--3 { top: 79.025%; }
+.welcome-choice > span { position: relative; z-index: 1; }
+.welcome-choice-art { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; user-select: none; }
+.welcome-choice-cursor { position: absolute; z-index: 2; left: 92.652%; top: 39.394%; width: 10.932%; height: 80.808%; image-rendering: pixelated; pointer-events: none; user-select: none; }
+.welcome-choice:active:not(:disabled) { transform: translateY(2px); }
+.welcome-choice:focus-visible { z-index: 2; outline: 3px solid #ffe26e; outline-offset: -5px; }
+.welcome-choice:disabled { cursor: default; }
+
+@media (max-width: 620px) {
+  .welcome-window { width: min(100%, 480px); max-width: calc((100dvh - 24px) * 598 / 472); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-window,.welcome-choice { animation: none; transition: none; }
+}

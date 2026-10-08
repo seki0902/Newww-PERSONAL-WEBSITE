@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import type { ContentBundle } from "../content-bundle/schema";
 import "./OnboardingOverlay.css";
+import { useReducedMotion } from "./useReducedMotion";
 
-export function OnboardingOverlay({ content, resolveAsset, onComplete }: { content: ContentBundle["onboarding"]; resolveAsset: (assetId: string | undefined) => string | undefined; onComplete: () => void }) {
+export function OnboardingOverlay({ content, resolveAsset, onComplete, muted, onMutedChange }: { content: ContentBundle["onboarding"]; resolveAsset: (assetId: string | undefined) => string | undefined; onComplete: () => void; muted: boolean; onMutedChange: (muted: boolean) => void }) {
   const [page, setPage] = useState(0);
   const [shown, setShown] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useReducedMotion();
   const [leaving, setLeaving] = useState(false);
-  const [muted, setMuted] = useState(false);
   const dialogRef = useRef<HTMLElement>(null);
   const openSoundRef = useRef<HTMLAudioElement>(null);
   const purrSoundRef = useRef<HTMLAudioElement>(null);
@@ -16,14 +16,6 @@ export function OnboardingOverlay({ content, resolveAsset, onComplete }: { conte
   const captionComplete = shown >= current.caption.length;
   const openSound = resolveAsset(content.openSoundAssetId);
   const purrSound = resolveAsset(content.purrSoundAssetId);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
 
   useEffect(() => {
     dialogRef.current?.focus();
@@ -55,7 +47,7 @@ export function OnboardingOverlay({ content, resolveAsset, onComplete }: { conte
     if (shown >= current.caption.length) return;
     const timer = window.setTimeout(() => setShown((value) => Math.min(value + 1, current.caption.length)), content.typewriterSpeed);
     return () => window.clearTimeout(timer);
-  }, [current.caption.length, reducedMotion, shown]);
+  }, [content.typewriterSpeed, current.caption.length, reducedMotion, shown]);
 
   const continueOnboarding = () => {
     if (!captionComplete || leaving) return;
@@ -70,12 +62,10 @@ export function OnboardingOverlay({ content, resolveAsset, onComplete }: { conte
   };
 
   const toggleMuted = () => {
-    setMuted((value) => {
-      const next = !value;
-      if (openSoundRef.current) openSoundRef.current.muted = next;
-      if (purrSoundRef.current) purrSoundRef.current.muted = next;
-      return next;
-    });
+    const next = !muted;
+    if (openSoundRef.current) openSoundRef.current.muted = next;
+    if (purrSoundRef.current) purrSoundRef.current.muted = next;
+    onMutedChange(next);
   };
 
   return (
