@@ -12,7 +12,7 @@ const eslintConfig = defineConfig([
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   {
-    files: ["src/**/*.{js,mjs}", "tools/**/*.mjs", "tests/**/*.mjs", "eslint.config.mjs"],
+    files: ["src/**/*.{js,mjs}", "server/**/*.mjs", "tools/**/*.mjs", "tests/**/*.mjs", "eslint.config.mjs"],
     extends: [js.configs.recommended],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },

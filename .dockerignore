@@ -1,0 +1,17 @@
+.git
+.github
+node_modules
+dist
+coverage
+test-results
+playwright-report
+tests
+tools
+seki-media
+media
+.idea
+.vscode
+*.md
+.env
+.env.*
+npm-debug.log*

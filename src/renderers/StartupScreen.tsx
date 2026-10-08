@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { staticAsset } from "../lib/media";
 import "./StartupScreen.css";
 
 const points: [number, number][] = [[0, 0], [330, 13], [860, 31], [1400, 43], [1690, 44], [1930, 44], [2250, 64], [2680, 76], [2940, 77], [3170, 77], [3530, 94], [3900, 100]];
@@ -53,17 +54,17 @@ export function StartupScreen({ onRevealDesktop, onComplete }: { onRevealDesktop
     <div className="startup-cloud startup-cloud-left" aria-hidden="true" />
     <div className="startup-cloud startup-cloud-right" aria-hidden="true" />
     <svg className="startup-original-layer" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <image href="/assets/canva-original/MAHV_kZZuSY.png" x="0" y="0" width="239" height="295" />
-      <image href="/assets/canva-original/MAHV_mLKkCQ.png" x="238" y="0" width="260" height="157" />
-      <image href="/assets/canva-original/MAHV_mFriGQ.png" x="0" y="372" width="20" height="79" />
-      <image href="/assets/canva-original/MAHV_lPoNak.png" x="0" y="509" width="140" height="256" />
-      <image href="/assets/canva-original/MAHV_iDthYI.png" x="0" y="666" width="518" height="197" />
-      <image href="/assets/canva-original/MAHV_pm1j1g.png" x="0" y="784" width="518" height="157" />
-      <image href="/assets/canva-original/MAHV_saoD2c.png" x="1313" y="744" width="359" height="197" />
+      <image href={staticAsset("canva-original/MAHV_kZZuSY.png")} x="0" y="0" width="239" height="295" />
+      <image href={staticAsset("canva-original/MAHV_mLKkCQ.png")} x="238" y="0" width="260" height="157" />
+      <image href={staticAsset("canva-original/MAHV_mFriGQ.png")} x="0" y="372" width="20" height="79" />
+      <image href={staticAsset("canva-original/MAHV_lPoNak.png")} x="0" y="509" width="140" height="256" />
+      <image href={staticAsset("canva-original/MAHV_iDthYI.png")} x="0" y="666" width="518" height="197" />
+      <image href={staticAsset("canva-original/MAHV_pm1j1g.png")} x="0" y="784" width="518" height="157" />
+      <image href={staticAsset("canva-original/MAHV_saoD2c.png")} x="1313" y="744" width="359" height="197" />
       <defs><clipPath id="startup-cat-body"><rect width="122" height="119" /></clipPath><clipPath id="startup-cat-tail"><rect x="118" width="62" height="119" /></clipPath></defs>
       <g transform="translate(756 215)">
-        <g transform="translate(120 105)"><g className="startup-cat-tail"><g transform="translate(-120 -105)"><image href="/assets/canva-original/MAHV_pfICPo.png" width="180" height="119" clipPath="url(#startup-cat-tail)" /></g></g></g>
-        <image href="/assets/canva-original/MAHV_pfICPo.png" width="180" height="119" clipPath="url(#startup-cat-body)" />
+        <g transform="translate(120 105)"><g className="startup-cat-tail"><g transform="translate(-120 -105)"><image href={staticAsset("canva-original/MAHV_pfICPo.png")} width="180" height="119" clipPath="url(#startup-cat-tail)" /></g></g></g>
+        <image href={staticAsset("canva-original/MAHV_pfICPo.png")} width="180" height="119" clipPath="url(#startup-cat-body)" />
       </g>
     </svg>
     <div className="startup-darkening" aria-hidden="true" />

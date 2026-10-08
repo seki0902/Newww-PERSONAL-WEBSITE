@@ -2,28 +2,28 @@
    Print points become screen pixels; content and chapter order stay intact. */
 @font-face {
   font-family: "TsangerJinKai02";
-  src: url("/assets/fonts/kami-seki-regular.woff2") format("woff2");
+  src: url("/api/assets/static/fonts/kami-seki-regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "KamiEducationSerif";
-  src: url("/assets/fonts/kami-education-regular.woff2") format("woff2");
+  src: url("/api/assets/static/fonts/kami-education-regular.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "KamiEducationSerif";
-  src: url("/assets/fonts/kami-education-medium.woff2") format("woff2");
+  src: url("/api/assets/static/fonts/kami-education-medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
   font-family: "TsangerJinKai02";
-  src: url("/assets/fonts/kami-seki-medium.woff2") format("woff2");
+  src: url("/api/assets/static/fonts/kami-seki-medium.woff2") format("woff2");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
