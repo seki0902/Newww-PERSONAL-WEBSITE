@@ -57,18 +57,22 @@ export function EditorApp() {
   const updateAssetPresentation = (assetId: string, patch: NonNullable<ContentBundle["assets"][number]["presentation"]>) => {
     setBundle((latest) => latest ? { ...latest, assets: latest.assets.map((asset) => asset.id === assetId ? { ...asset, presentation: { ...asset.presentation, ...patch } } : asset) } : latest);
   };
-  const save = async () => {
-    if (!bundle) return false;
+  const saveBundle = async (target: ContentBundle) => {
     try {
-      const content = validateContentBundle(bundle, baseProjects);
+      const content = validateContentBundle(target, baseProjects);
       const response = await fetch(`${api}/content`, { method: "PUT", headers: authHeaders({ "Content-Type": "application/json" }), body: JSON.stringify(content) });
       if (!response.ok) { setStatus(`保存失败：${await response.text()}`); return false; }
-      setStatus("Draft 已保存");
       return true;
     } catch (reason) {
       setStatus(`保存失败：${reason instanceof Error ? reason.message : "内容格式不正确"}`);
       return false;
     }
+  };
+  const save = async () => {
+    if (!bundle) return false;
+    const ok = await saveBundle(bundle);
+    if (ok) setStatus("Draft 已保存");
+    return ok;
   };
   const preview = async () => {
     const target = window.open("about:blank", "_blank");
@@ -109,9 +113,14 @@ export function EditorApp() {
     try {
       const response = await fetch(`${api}/assets`, { method: "POST", headers: authHeaders({ "Content-Type": file.type, "X-File-Name": encodeURIComponent(file.name), "X-Asset-Type": type }), body: file });
       if (!response.ok) { setStatus(`上传失败：${await response.text()}`); return; }
-      const asset = await response.json();
-      setBundle((latest) => latest ? { ...latest, assets: [...latest.assets, asset] } : latest);
-      setStatus("素材已上传，记得保存 Draft");
+      const rawAsset = await response.json();
+      // Cloudflare Functions 旧版可能只返回 kind；补齐内容契约需要的 type
+      const asset = { ...rawAsset, type: rawAsset.type ?? rawAsset.kind } as ContentBundle["assets"][number];
+      const nextBundle = { ...bundle, assets: [...bundle.assets, asset] };
+      setBundle(nextBundle);
+      setStatus("素材已上传，正在保存 Draft…");
+      if (await saveBundle(nextBundle)) setStatus("素材已上传并保存 Draft，点击右上角「发布」后线上生效");
+      else setStatus("素材已上传，但 Draft 保存失败，请手动点击「保存 Draft」重试");
     } catch (reason) {
       setStatus(`上传失败：${reason instanceof Error ? reason.message : "网络连接异常"}`);
     }
