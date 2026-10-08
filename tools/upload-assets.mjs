@@ -104,25 +104,35 @@ if (publish) {
 }
 
 const endpoint = `https://api.cloudflare.com/client/v4/accounts/${accountId}/storage/kv/namespaces/${namespaceId}`;
-async function bulk(items) {
-  const response = await fetch(`${endpoint}/bulk`, {
-    method: "PUT",
-    headers: { authorization: `Bearer ${apiToken}`, "content-type": "application/json" },
-    body: JSON.stringify(items),
-  });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok || payload.success === false) {
-    console.error("上传失败：", JSON.stringify(payload.errors ?? payload).slice(0, 400));
+async function bulk(items, attempt = 1) {
+  try {
+    const response = await fetch(`${endpoint}/bulk`, {
+      method: "PUT",
+      headers: { authorization: `Bearer ${apiToken}`, "content-type": "application/json" },
+      body: JSON.stringify(items),
+      signal: AbortSignal.timeout(180000),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || payload.success === false) {
+      throw new Error(JSON.stringify(payload.errors ?? payload).slice(0, 400));
+    }
+  } catch (error) {
+    if (attempt < 4) {
+      console.warn(`批量上传失败（第 ${attempt} 次）：${error?.message ?? error}，10 秒后重试`);
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      return bulk(items, attempt + 1);
+    }
+    console.error("上传失败：", error?.message ?? error);
     process.exit(1);
   }
 }
 
 // KV bulk 单次上限 10000 个 key / 100MB
-const CHUNK = 200;
+const CHUNK = 20;
 let uploaded = 0;
 for (let i = 0; i < pairs.length; i += CHUNK) {
   const chunk = pairs.slice(i, i + CHUNK);
-  await bulk(chunk);
+  await bulk(chunk.map((pair) => ({ ...pair, base64: true })));
   uploaded += chunk.length;
   console.log(`已上传 ${uploaded}/${pairs.length}`);
 }

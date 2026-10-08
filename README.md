@@ -176,8 +176,8 @@ CLOUDFLARE_ACCOUNT_ID=<account id> CLOUDFLARE_API_TOKEN=<token> npm run cf:setup
 # 1) 压缩素材（PNG→WebP、WAV→OGG，约 -90%）
 npm run media:optimize -- --source ../seki-media --out ../seki-media-opt
 
-# 2) 上传内容与素材到 R2（首次需 --publish）
-R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... R2_BUCKET=seki-portfolio   npm run r2:upload -- --source ../seki-media-opt --publish
+# 2) 上传内容与素材到 Workers KV（首次需 --publish）
+CLOUDFLARE_ACCOUNT_ID=... CLOUDFLARE_API_TOKEN=... KV_NAMESPACE_ID=... npm run upload:assets -- --source ../seki-media-opt --publish
 
 # 3) 发布前端（本地或直接合并到 master 让 CI 发布）
 npx wrangler pages deploy dist --project-name seki-portfolio
@@ -211,8 +211,8 @@ npx wrangler pages deployment list --project-name seki-portfolio
 
 | 现象 | 处理 |
 | --- | --- |
-| 页面显示“内容加载失败 / 内容尚未初始化” | 数据库里没有 published 文档：执行第 5.5 节导入，或调 `POST /api/publish` |
-| 图片/音频 404 | 素材未导入该 id：检查 `--source` 目录结构，重新 `npm run content:import` |
+| 页面显示“内容加载失败 / 内容尚未初始化” | KV 里没有 published 文档：执行 5.3 上传或调 `POST /api/publish` |
+| 图片/音频 404 | 素材未导入该 id：检查 `--source` 目录结构，重新 `npm run upload:assets -- --source ... --publish` |
 | 编辑器保存报 403 | 生产环境需要 `?editor=1&token=<ADMIN_TOKEN>` |
 | E2E 起不来 | 检查 `TEST_DATABASE_URL` 可写、`dist/` 已构建、浏览器已 `npx playwright install chromium` |
 | 想换域名 | Cloudflare 控制台 → Pages → Custom domains（自己的域名需先托管到 Cloudflare DNS；**无需 ICP 备案**） |

@@ -1,6 +1,6 @@
-name: Deploy Portfolio (Cloudflare Pages + R2)
+name: Deploy Portfolio (Cloudflare Pages + Workers KV)
 
-# 设计：站点 = Cloudflare Pages（静态 SPA + Pages Functions API），素材 = R2。
+# 设计：站点 = Cloudflare Pages（静态 SPA + Pages Functions API），素材 = Workers KV。
 # 没有 ECS、没有构建服务器、不需要备案；PR 只跑质量门禁，master 合并后自动发布。
 on:
   push:

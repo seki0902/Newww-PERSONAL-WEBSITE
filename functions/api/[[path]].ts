@@ -118,7 +118,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
     const published = await env.KV.getWithMetadata(CONTENT_KEY("published"));
     return json({
       ok: true,
-      storage: "r2",
+      storage: "kv",
       revision: env.APP_REVISION ?? "dev",
       content: { publishedUpdatedAt: (published?.metadata as { uploaded?: string } | null)?.uploaded ?? null },
       assets: { count: index.length, bytes: index.reduce((sum, asset) => sum + (asset.byteSize ?? 0), 0) },
