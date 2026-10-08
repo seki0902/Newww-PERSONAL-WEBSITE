@@ -50,14 +50,14 @@ test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 �
   await passOnboarding(page);
   await enterDesktop(page);
 
-  // 3) 桌面：项目图标可用，锁定图标不可点
-  const projectIcon = page.getByTestId("project-1");
-  await expect(projectIcon).toBeVisible();
+  // 3) 桌面：两个项目图标可用、锁定图标不可点、进度 0%
+  await expect(page.getByTestId("project-1")).toBeVisible();
+  await expect(page.getByTestId("project-2")).toBeVisible();
   await expect(page.getByTestId("desktop-icon-fx-icon-locked")).toBeDisabled();
   await expect(page.getByTestId("desktop-progress")).toContainText("0%");
 
-  // 4) 抽塔罗牌解锁项目（未解锁时打开的是牌桌）
-  await projectIcon.click();
+  // 4) 第一个项目：抽牌解锁 → 阅读两页 → 完成，进度到 50% 且仍在桌面
+  await page.getByTestId("project-1").click();
   const tarotBack = page.getByRole("button", { name: "牌背 1" });
   await expect(tarotBack).toBeVisible();
   const tarotArt = tarotBack.locator("img");
@@ -66,33 +66,39 @@ test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 �
   await expect(page.getByTestId("tarot-quote")).toBeVisible();
   await page.getByRole("button", { name: "完成抽牌" }).click();
 
-  // 5) 项目窗口：第一页正文与图片（图片来自数据库）
   await expect(page.getByRole("dialog", { name: "测试项目一" })).toBeVisible();
   await expect(page.getByText("这是 E2E 夹具项目正文。")).toBeVisible();
-  await expect(page.getByRole("button", { name: "概览" })).toBeVisible();
-
-  // 6) 翻页到第二页：验证图片区块与 iframe 演示小程序（两者都来自数据库素材）
   await page.getByRole("button", { name: "下一页 →" }).click();
   const blockImage = page.locator(".project-content-block[data-block-type='image'] img");
   await expect(blockImage).toBeVisible();
   await expect.poll(async () => blockImage.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
-  const demoFrame = page.frameLocator("iframe.agent-demo-frame");
-  await expect(demoFrame.getByTestId("demo-root")).toHaveText("content-agent demo");
-
-  // 7) 完成项目（最后一页的翻页按钮由 finalAction 文案决定）
+  await expect(page.frameLocator("iframe.agent-demo-frame").getByTestId("demo-root")).toHaveText("content-agent demo");
   await page.getByRole("button", { name: "完成项目" }).click();
-  // 现状：桌面窗口模式下完成项目后停留在桌面，进度变为 100%（原有行为，未做改动）。
-  await expect(page.getByTestId("desktop-progress")).toContainText("100%");
-  await expect(page.getByRole("button", { name: "完成项目" })).toHaveCount(0);
+
+  await expect(page.getByTestId("desktop-progress")).toContainText("50%");
   await page.getByTestId("desktop-progress").click();
-  await expect(page.getByRole("dialog", { name: "探索进度" })).toContainText("1 / 1 个项目已完成");
+  await expect(page.getByRole("dialog", { name: "探索进度" })).toContainText("1 / 2 个项目已完成");
+  await page.keyboard.press("Escape");
+  // 读完一个项目后会自动回到所属文件夹窗口，需要先关掉它才能点到桌面图标
+  await page.getByRole("button", { name: "关闭 测试项目 文件夹" }).click();
 
-  // 8) 刷新后进度仍然保留（localStorage 存档）
+  // 5) 第二个项目：抽牌 → 阅读 → 完成 → 进入结局页
+  await page.getByTestId("project-2").click();
+  await page.getByRole("button", { name: "牌背 2" }).click();
+  await page.getByRole("button", { name: "完成抽牌" }).click();
+  await expect(page.getByRole("dialog", { name: "测试项目二" })).toBeVisible();
+  await expect(page.getByText("这是第二个项目的正文。")).toBeVisible();
+  await page.getByRole("button", { name: "完成项目" }).click();
+
+  await expect(page.getByText("核心项目体验已完成")).toBeVisible();
+  await expect(page.getByTestId("ending-bgm")).toHaveCount(1);
+
+  // 6) 刷新后仍在结局（localStorage 存档）
   await page.reload();
-  await expect(page.getByTestId("desktop-progress")).toContainText("100%");
+  await expect(page.getByText("核心项目体验已完成")).toBeVisible();
 
-  // 9) 重置进度回到开场
-  await page.getByRole("button", { name: "重置探索进度" }).click();
+  // 7) 重新开始回到开场
+  await page.getByRole("button", { name: "重新开始" }).click();
   await expect(page.locator(".visual-novel")).toBeVisible();
 });
 

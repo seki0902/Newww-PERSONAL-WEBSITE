@@ -70,8 +70,22 @@ const realProjectIds = JSON.parse(readFileSync(join(projectRoot, "content", "pro
 
 /** 只保留 project-1 启用，其余项目在夹具里全部关闭，保证 E2E 能走到「全部完成」结局。 */
 const disabledProjectConfigs = realProjectIds
-  .filter((id) => id !== "project-1")
+  .filter((id) => !["project-1", "project-2"].includes(id))
   .map((projectId) => ({ projectId, enabled: false, pages: [] }));
+
+/** 第二个启用项目：用于验证“多项目进度 → 全部完成后进入结局”。 */
+const secondProjectConfig = {
+  projectId: "project-2",
+  enabled: true,
+  title: "测试项目二",
+  presentation: "report",
+  finalAction: { label: "完成项目", disabled: false },
+  pages: [{
+    id: "fx2-page-1", projectId: "project-2", internalName: "概览", title: "项目二概览",
+    navLabel: "概览", order: 1, enabled: true, kind: "overview", blockIds: ["fx-block-text"],
+  }],
+  blocks: [{ id: "fx-block-text", type: "text", markdown: "这是第二个项目的正文。" }],
+};
 
 /** 生成夹具内容 bundle（文本 + 生成的媒体）。 */
 export function fixtureBundle() {
@@ -115,12 +129,16 @@ export function fixtureBundle() {
           id: "fx-icon-project", label: "测试项目", type: "project", locked: false, projectId: "project-1",
           folder: { items: [{ id: "fx-item-project", label: "项目说明", kind: "document", targetProjectId: "project-1" }] },
         },
+        {
+          id: "fx-icon-project-2", label: "测试项目二", type: "project", locked: false, projectId: "project-2",
+          folder: { items: [{ id: "fx-item-project-2", label: "项目说明", kind: "document", targetProjectId: "project-2" }] },
+        },
         { id: "fx-icon-locked", label: "未开放", type: "portfolio", locked: true, folder: { items: [] } },
       ],
     },
     desktops: {},
     ending: { bgmAssetId: "fx-ending" },
-    projectPages: [...disabledProjectConfigs, {
+    projectPages: [...disabledProjectConfigs, secondProjectConfig, {
       projectId: "project-1", enabled: true, title: "测试项目一", presentation: "report", finalAction: { label: "完成项目", disabled: false },
       pages: [
         {
