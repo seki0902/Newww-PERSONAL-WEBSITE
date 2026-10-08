@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("素材全部来自数据库", () => {
+test.describe("素材全部来自 KV", () => {
   test("素材通过 /api/assets 提供：类型、缓存与 304", async ({ request }) => {
     const font = await request.get("/api/assets/static/fonts/kami-seki-regular.woff2");
     expect(font.status()).toBe(200);
@@ -52,10 +52,10 @@ test.describe("素材全部来自数据库", () => {
     expect((await request.get("/api/assets/asset-e2e-delete")).status()).toBe(404);
   });
 
-  test("健康检查报告数据库中的素材数量", async ({ request }) => {
+  test("健康检查报告 KV 中的素材数量", async ({ request }) => {
     const health = await (await request.get("/api/health")).json();
     expect(health.ok).toBe(true);
-    expect(health.db).toBe("up");
+    expect(health.storage).toBe("kv");
     expect(health.assets.count).toBeGreaterThan(10);
     expect(health.assets.bytes).toBeGreaterThan(0);
   });

@@ -23,25 +23,12 @@ env:
   CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT || 'seki-portfolio' }}
 
 jobs:
-  # ---------- 1. 质量门禁：lint + 类型 + 单测 + 浏览器 E2E ----------
+  # ---------- 1. 质量门禁：lint + 类型 + 单测 + 浏览器 E2E（E2E 跑生产同款 Workers 运行时）----------
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: seki
-          POSTGRES_PASSWORD: seki
-          POSTGRES_DB: seki_e2e
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U seki -d seki_e2e"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 12
     env:
-      TEST_DATABASE_URL: postgres://seki:seki@127.0.0.1:5432/seki_e2e
+      WRANGLER_SEND_METRICS: "false"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

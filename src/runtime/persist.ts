@@ -2,8 +2,8 @@ import { z } from "zod";
 import type { RuntimeStage } from "../schema/content";
 
 export const STORAGE_KEY = "interactive-portfolio:state:v1";
-export const demoPhaseSchema = z.enum(["idle", "script_generating", "script_ready", "video_config", "video_generating", "completed"]);
-export const demoRuntimeStateSchema = z.object({
+const demoPhaseSchema = z.enum(["idle", "script_generating", "script_ready", "video_config", "video_generating", "completed"]);
+const demoRuntimeStateSchema = z.object({
   phase: demoPhaseSchema,
   presetId: z.string(),
   topic: z.string(),
@@ -14,7 +14,7 @@ export const demoRuntimeStateSchema = z.object({
 });
 export type DemoRuntimeState = z.infer<typeof demoRuntimeStateSchema>;
 const desktopWindowBase = { id: z.string().min(1), iconId: z.string().min(1), minimized: z.boolean(), maximized: z.boolean(), order: z.number().int().nonnegative() };
-export const desktopWindowSchema = z.discriminatedUnion("kind", [
+const desktopWindowSchema = z.discriminatedUnion("kind", [
   z.object({ ...desktopWindowBase, kind: z.literal("folder") }),
   z.object({ ...desktopWindowBase, kind: z.literal("document"), projectId: z.string().min(1), fileLabel: z.string().min(1), pageId: z.string().optional() }),
   z.object({ ...desktopWindowBase, kind: z.literal("tarot"), projectId: z.string().min(1), fileLabel: z.string().min(1), revealed: z.boolean().optional() }),

@@ -180,8 +180,8 @@ export const assetSchema = z.object({
 export const introSceneSchema = z.object({
   id: z.string().min(1), order: z.number().int(), enabled: z.boolean(), backgroundAssetId: z.string().optional(), characterAssetId: z.string().optional(), characterPosition: z.enum(["left", "center", "right"]).optional(), speaker: z.string().optional(), text: z.string().min(1),
 });
-export const onboardingPageSchema = z.object({ id: z.string().min(1), caption: z.string().min(1) });
-export const onboardingContentSchema = z.object({
+const onboardingPageSchema = z.object({ id: z.string().min(1), caption: z.string().min(1) });
+const onboardingContentSchema = z.object({
   title: z.string().min(1),
   buttonLabel: z.string().min(1),
   hint: z.string().min(1),
@@ -199,12 +199,12 @@ export const onboardingContentSchema = z.object({
     { id: "tarot", caption: "糟了！差点忘记了【前辈】有个小爱好是塔罗牌占卜，在你探索的过程中，需要通过抽取【塔罗牌】获取具体的项目内容。祝你幸运！" },
   ],
 });
-export const welcomeChoiceSchema = z.object({
+const welcomeChoiceSchema = z.object({
   id: z.string().trim().min(1),
   label: z.string().trim().min(1),
   assetId: z.string().min(1).optional(),
 });
-export const welcomeContentSchema = z.object({
+const welcomeContentSchema = z.object({
   speakerName: z.string().trim().min(1),
   message: z.string().min(1).refine((value) => value.trim().length > 0, "Welcome message is required"),
   characterAssetId: z.string().min(1).optional(),
@@ -247,7 +247,7 @@ export const folderItemSchema = z.object({
 export const folderContentSchema = z.object({
   items: z.array(folderItemSchema).default([]),
 }).default({ items: [] });
-export const desktopIconSchema = z.object({
+const desktopIconSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   iconAssetId: z.string().optional(),
@@ -256,7 +256,7 @@ export const desktopIconSchema = z.object({
   locked: z.boolean(),
   folder: folderContentSchema,
 });
-export const desktopContentSchema = z.object({
+const desktopContentSchema = z.object({
   projectPages: z.array(projectPagesConfigSchema).optional(),
   referenceAssetId: z.string().optional(),
   tarotSoundAssetId: z.string().optional(),

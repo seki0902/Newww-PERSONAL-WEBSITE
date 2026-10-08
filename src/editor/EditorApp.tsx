@@ -48,7 +48,7 @@ export function EditorApp() {
     void fetch(`${api}/content?draft=1`, { headers: authHeaders() })
       .then(async (response) => { if (!response.ok) throw new Error(); return contentBundleSchema.parse(await response.json()); })
       .then((data) => { setBundle(data); setSelectedId(data.intro.scenes[0]?.id); setStatus("Draft 已载入"); })
-      .catch(() => setStatus("无法连接内容服务，请确认数据库已配置并运行 npm run server（或 npm run dev:all）。"));
+      .catch(() => setStatus("无法连接内容服务，请确认 API 可用（本地运行 npm run dev:all，线上检查 Pages 部署）。"));
   }, []);
 
   const updateScene = (patch: Partial<IntroScene>) => {

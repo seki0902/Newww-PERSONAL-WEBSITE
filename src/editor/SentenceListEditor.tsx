@@ -1,6 +1,6 @@
 import type { EditableSentence } from "../schema/content";
 
-export function splitSentences(value: string): string[] {
+function splitSentences(value: string): string[] {
   const source = value.replace(/\r\n?/g, "\n");
   const result: string[] = [];
   let current = "";

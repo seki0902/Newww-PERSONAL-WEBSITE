@@ -15,9 +15,10 @@
 /playwright-report/
 /blob-report/
 /.vite/
+/.wrangler/
 *.tsbuildinfo
 
-# 本地媒体源目录：素材不入库（数据库才是素材的唯一来源），仅保留在部署机/本地
+# 本地媒体源目录：素材不入库（KV 才是素材的唯一来源），仅保留在部署机/本地
 /seki-media/
 /media/
 seki-media-backup/

@@ -1,9 +1,9 @@
-// 素材 URL 解析：所有素材（字体/图片/音频/视频/demo 小程序）都由服务端从 PostgreSQL 提供。
+// 素材 URL 解析：所有素材（字体/图片/音频/视频/demo 小程序）都由服务端从 KV 提供。
 // 约定：
 //   /api/assets/<id>            —— 内容 bundle 里的素材 id
 //   /api/assets/static/<path>   —— 代码内固定引用的素材（原 public/assets/**）
 //   /demos/<app>/...            —— agent 演示小程序（原 public/demos/**）
-export const API_ASSET_PREFIX = "/api/assets/";
+const API_ASSET_PREFIX = "/api/assets/";
 export const STATIC_ASSET_PREFIX = `${API_ASSET_PREFIX}static/`;
 export const DEMO_PREFIX = "/demos/";
 
@@ -33,7 +33,7 @@ export function mediaUrl(ref: string | undefined): string | undefined {
  * 便于组件回退到兜底图（保持改造前行为）。
  */
 export function createAssetResolver(bundle: { assets: { id: string }[] } | undefined, _preview = false) {
-  void _preview; // 兼容旧签名（素材统一来自数据库，不再区分 preview 源）
+  void _preview; // 兼容旧签名（素材统一来自 KV，不再区分 preview 源）
   return (ref: string | undefined): string | undefined => {
     if (!ref) return undefined;
     if (/^(https?:|data:|blob:)/i.test(ref) || isLegacyAssetPath(ref)) return mediaUrl(ref);

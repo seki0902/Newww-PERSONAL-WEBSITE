@@ -1,6 +1,6 @@
 /**
- * Cloudflare Pages Function：把原 Node 服务端的 /api/* 完整搬到 Workers 运行时。
- * 数据放 Workers KV（内容 JSON + 素材二进制），公开站点不再依赖 ECS / PostgreSQL。
+ * Cloudflare Pages Function：本站唯一的服务端实现（生产与本地/E2E 共用同一份代码）。
+ * 数据放 Workers KV（内容 JSON + 素材二进制），不依赖 ECS / PostgreSQL，生产也没有 Node 进程。
  * 选 KV 而不是 R2：KV 免费且无需绑定银行卡，素材压缩后总共约 7MB，远在 1GB 免费额度内。
  *
  * 路由：

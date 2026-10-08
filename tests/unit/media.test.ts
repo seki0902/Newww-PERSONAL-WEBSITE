@@ -4,7 +4,7 @@ import { assetUrl, createAssetResolver, isLegacyAssetPath, mediaUrl, staticAsset
 const bundle = { assets: [{ id: "asset-bgm-desktop" }, { id: "asset-bg-office" }] };
 
 describe("staticAsset", () => {
-  it("把历史 public/assets 路径转换为数据库素材地址", () => {
+  it("把历史 public/assets 路径转换为 KV 素材地址", () => {
     expect(staticAsset("fonts/kami-seki-regular.woff2")).toBe("/api/assets/static/fonts/kami-seki-regular.woff2");
     expect(staticAsset("/assets/fonts/kami-seki-regular.woff2")).toBe("/api/assets/static/fonts/kami-seki-regular.woff2");
     expect(staticAsset("assets/tarot/back-1.webp")).toBe("/api/assets/static/tarot/back-1.webp");

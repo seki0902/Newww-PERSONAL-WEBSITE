@@ -16,16 +16,16 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "node tests/support/e2e-server.mjs",
+    // 夹具写入本地 KV 后起 wrangler pages dev：本地 E2E 跑的就是生产那套 Workers 代码。
+    command: "node tests/support/e2e-worker.mjs",
     url: `http://127.0.0.1:${process.env.E2E_PORT ?? "8790"}/api/health`,
-    timeout: 120_000,
+    timeout: 180_000,
     reuseExistingServer: !process.env.CI,
     stdout: "pipe",
     stderr: "pipe",
     env: {
-      TEST_DATABASE_URL: process.env.TEST_DATABASE_URL ?? "",
       E2E_PORT: process.env.E2E_PORT ?? "8790",
-      NODE_ENV: "production",
+      ADMIN_TOKEN: process.env.ADMIN_TOKEN ?? "e2e-token",
     },
   },
 });
