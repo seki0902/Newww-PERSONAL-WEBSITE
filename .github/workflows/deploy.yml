@@ -24,7 +24,7 @@ env:
   # 阿里云容器镜像服务（杭州个人版）；同地域可把 ACR_PULL_REGISTRY 换成 VPC 地址。
   ACR_REGISTRY: ${{ vars.ACR_REGISTRY || 'crpi-nqwu6u57qjindq7p.cn-hangzhou.personal.cr.aliyuncs.com' }}
   ACR_PULL_REGISTRY: ${{ vars.ACR_PULL_REGISTRY || 'crpi-nqwu6u57qjindq7p.cn-hangzhou.personal.cr.aliyuncs.com' }}
-  ACR_REPOSITORY: ${{ vars.ACR_REPOSITORY || 'touhou-trpg/seki-portfolio' }}
+  ACR_REPOSITORY: ${{ vars.ACR_REPOSITORY || 'seki0902/website' }}
   APP_CONTAINER: seki-portfolio-app
 
 jobs:
@@ -156,11 +156,13 @@ jobs:
             python3 - "$APP_IMAGE" "$DATABASE_URL_B64" "$ADMIN_TOKEN_B64" <<'PY'
             import base64, os, sys
             image, db_b64, token_b64 = sys.argv[1], sys.argv[2], sys.argv[3]
-            values = {
-              "APP_IMAGE": image,
-              "DATABASE_URL": base64.b64decode(db_b64).decode() if db_b64 else "",
-              "ADMIN_TOKEN": base64.b64decode(token_b64).decode() if token_b64 else "",
-            }
+            # 只覆盖显式提供的值：DATABASE_URL / ADMIN_TOKEN 默认沿用服务器上的 .env，
+            # 这样数据库口令与编辑器令牌无需进入 GitHub Secrets。
+            values = {"APP_IMAGE": image}
+            if db_b64:
+              values["DATABASE_URL"] = base64.b64decode(db_b64).decode()
+            if token_b64:
+              values["ADMIN_TOKEN"] = base64.b64decode(token_b64).decode()
             path = ".env"
             existing = {}
             if os.path.exists(path):
@@ -175,6 +177,8 @@ jobs:
                 fh.write(f"{key}={value}\n")
             os.chmod(path, 0o600)
             PY
+
+            grep -q '^DATABASE_URL=' .env || { echo "缺少 DATABASE_URL（服务器 .env 未配置）"; exit 1; }
 
             docker compose -f docker-compose.prod.yml pull app
             docker compose -f docker-compose.prod.yml up -d --no-deps app
