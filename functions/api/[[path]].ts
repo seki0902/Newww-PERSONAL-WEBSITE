@@ -20,6 +20,7 @@ interface Env {
 
 interface AssetMeta {
   id: string;
+  type?: string;
   kind?: string;
   path?: string;
   mimeType?: string;
@@ -166,7 +167,7 @@ export const onRequest: PagesFunction<Env> = async ({ request, env, params }) =>
       const contentType = request.headers.get("content-type") ?? "application/octet-stream";
       await env.KV.put(MEDIA_KEY(id), buffer, { metadata: { contentType, fileName: originalName, size: buffer.byteLength } });
       const entry = {
-        id, kind, path, mimeType: contentType, fileName: originalName, originalName,
+        id, type: kind, kind, path, mimeType: contentType, fileName: originalName, originalName,
         byteSize: buffer.byteLength, label: originalName.replace(/\.[^.]+$/, ""), url: `/api/assets/${id}`,
       };
       await env.KV.put(ASSET_INDEX_KEY, JSON.stringify([...index.filter((asset) => asset.id !== id), entry], null, 2), {

@@ -84,14 +84,14 @@ for (const file of listFiles(join(sourceDir, "demos"))) {
 
 // 4) 素材索引（含 static/**，供 /api/assets 列表与 Content-Type 使用）
 const index = bundle.assets.map((asset) => ({
-  id: asset.id, kind: asset.type, path: asset.path, mimeType: asset.mimeType,
+  id: asset.id, type: asset.type, kind: asset.type, path: asset.path, mimeType: asset.mimeType,
   fileName: asset.fileName, originalName: asset.originalName, label: asset.label,
   presentation: asset.presentation, url: `/api/assets/${asset.id}`,
 }));
 for (const file of listFiles(join(sourceDir, "static"))) {
   const rel = relative(join(sourceDir, "static"), file).split(sep).join("/");
   const mime = mimeFor(file);
-  index.push({ id: `static/${rel}`, kind: kindFor(mime), path: `static/${rel}`, mimeType: mime, fileName: rel.split("/").pop(), originalName: rel.split("/").pop(), url: `/api/assets/static/${rel}` });
+  index.push({ id: `static/${rel}`, type: kindFor(mime), kind: kindFor(mime), path: `static/${rel}`, mimeType: mime, fileName: rel.split("/").pop(), originalName: rel.split("/").pop(), url: `/api/assets/static/${rel}` });
 }
 const indexWithSize = index.map((entry) => {
   const file = entry.path.startsWith("static/") ? join(sourceDir, "static", entry.path.slice("static/".length)) : join(sourceDir, entry.path);
