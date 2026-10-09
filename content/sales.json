@@ -1,0 +1,2807 @@
+{
+  "desktopId": "sales",
+  "icons": [
+    {
+      "id": "content-agent",
+      "label": "内容Agent",
+      "iconAssetId": "asset-icon-content-agent",
+      "projectId": "project-1",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "content-agent-project-info",
+            "label": "项目说明",
+            "content": "点击后进入这个项目的项目说明页。",
+            "kind": "document",
+            "targetProjectId": "project-1",
+            "disabled": false
+          },
+          {
+            "id": "content-agent-interactive-demo",
+            "label": "交互 Demo",
+            "content": "打开原产品界面的可操作演示。",
+            "kind": "demo",
+            "disabled": false,
+            "targetProjectId": "project-1",
+            "targetPageId": "p1-demo"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ads-agent",
+      "label": "内容生产 Agent",
+      "iconAssetId": "asset-icon-ads-agent",
+      "projectId": "project-2",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "ads-agent-project-info",
+            "label": "项目说明",
+            "content": "AI 内容生产系统案例说明与 Multi-Agent 架构演进。",
+            "kind": "document",
+            "targetProjectId": "project-2",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "content-growth",
+      "label": "爱思益",
+      "iconAssetId": "asset-icon-content-growth",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "content-growth-project-info",
+            "label": "项目说明",
+            "content": "留学生求职内容获客与线索转化解决方案｜2 个导师 IP｜8 个账号｜月均 100–200 条私信留资",
+            "kind": "document",
+            "targetProjectId": "project-3",
+            "disabled": false
+          },
+          {
+            "id": "content-growth-interactive-demo",
+            "label": "交互 Demo",
+            "content": "交互 Demo 暂未开放。",
+            "kind": "demo",
+            "disabled": true
+          }
+        ]
+      },
+      "projectId": "project-3"
+    },
+    {
+      "id": "full-funnel",
+      "label": "光环私域",
+      "iconAssetId": "asset-icon-full-funnel",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "aisi-career-project-info",
+            "label": "项目说明",
+            "content": "成人教育私域运营｜50+ 社群｜PMP / 国际硕士｜顾问式咨询销售",
+            "kind": "document",
+            "targetProjectId": "project-4",
+            "disabled": false
+          }
+        ]
+      },
+      "projectId": "project-4"
+    },
+    {
+      "id": "global",
+      "label": "写真店",
+      "iconAssetId": "asset-icon-global",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "portrait-business-project-info",
+            "label": "项目说明",
+            "content": "个人写真 / 婚纱摄影｜产品 · 获客 · 成交",
+            "kind": "document",
+            "targetProjectId": "project-5",
+            "disabled": false
+          }
+        ]
+      },
+      "projectId": "project-5"
+    },
+    {
+      "id": "about-seki",
+      "label": "关于 SEKI",
+      "iconAssetId": "asset-icon-about",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "about-seki-project-info",
+            "label": "项目说明",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-6",
+            "disabled": false
+          }
+        ]
+      },
+      "projectId": "project-6"
+    },
+    {
+      "id": "misc-media",
+      "label": "杂项 / 影音",
+      "iconAssetId": "asset-icon-media",
+      "type": "project",
+      "locked": false,
+      "folder": {
+        "items": [
+          {
+            "id": "misc-media-project-info",
+            "label": "项目说明",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-7",
+            "disabled": false
+          },
+          {
+            "id": "misc-media-a8-todolist",
+            "label": "TodoList.exe",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-7",
+            "targetPageId": "c7-todolist",
+            "disabled": false
+          },
+          {
+            "id": "misc-media-a8-tarot",
+            "label": "Tarot_Project",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-7",
+            "targetPageId": "c7-tarot",
+            "disabled": false
+          },
+          {
+            "id": "misc-media-a8-novel",
+            "label": "小说推文",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-7",
+            "targetPageId": "c7-novel",
+            "disabled": false
+          },
+          {
+            "id": "misc-media-a8-acg",
+            "label": "同人女 & 资深二次元",
+            "content": "",
+            "kind": "document",
+            "targetProjectId": "project-7",
+            "targetPageId": "c7-acg",
+            "disabled": false
+          }
+        ]
+      },
+      "projectId": "project-7"
+    }
+  ],
+  "projectPages": [
+    {
+      "projectId": "project-1",
+      "pages": [
+        {
+          "id": "p1-overview",
+          "projectId": "project-1",
+          "internalName": "AI工作台-项目概览",
+          "title": "AI 内容生产工作台",
+          "navLabel": "项目概览",
+          "order": 1,
+          "blockIds": [
+            "p1-text",
+            "p1-role",
+            "p1-metrics",
+            "p1-screenshot"
+          ],
+          "enabled": true,
+          "kind": "overview"
+        },
+        {
+          "id": "p1-background",
+          "projectId": "project-1",
+          "internalName": "AI工作台-业务背景",
+          "title": "从分散工具到连续生产流程",
+          "navLabel": "业务背景",
+          "order": 2,
+          "blockIds": [
+            "p1-background-text",
+            "p1-comparison"
+          ],
+          "enabled": true,
+          "kind": "background"
+        },
+        {
+          "id": "p1-demo",
+          "projectId": "project-1",
+          "internalName": "AI工作台-交互演示",
+          "title": "从选题到数字人视频",
+          "navLabel": "交互 Demo",
+          "order": 3,
+          "blockIds": [
+            "p1-agent-demo"
+          ],
+          "enabled": true,
+          "kind": "demo"
+        },
+        {
+          "id": "p1-evidence",
+          "projectId": "project-1",
+          "internalName": "AI工作台-真实证据",
+          "title": "真实证据",
+          "navLabel": "真实证据",
+          "order": 4,
+          "blockIds": [
+            "p1-evidence-note",
+            "p1-evidence-image",
+            "p1-video"
+          ],
+          "enabled": true,
+          "kind": "evidence"
+        },
+        {
+          "id": "p1-result",
+          "projectId": "project-1",
+          "internalName": "AI工作台-成果验证",
+          "title": "成果验证",
+          "navLabel": "成果验证",
+          "order": 5,
+          "blockIds": [
+            "p1-result-note",
+            "p1-metrics"
+          ],
+          "enabled": true,
+          "kind": "result"
+        },
+        {
+          "id": "p1-reflection",
+          "projectId": "project-1",
+          "internalName": "AI工作台-项目复盘",
+          "title": "项目复盘",
+          "navLabel": "项目复盘",
+          "order": 6,
+          "blockIds": [
+            "p1-reflection-text",
+            "p1-reflection-role"
+          ],
+          "enabled": true,
+          "kind": "reflection"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "p1-text",
+          "type": "text",
+          "markdown": "把「选题 → 口播稿 → 编辑 → 数字人生成」从跨平台流程重构为一站式网页工作台。"
+        },
+        {
+          "id": "p1-role",
+          "type": "text",
+          "markdown": "个人职责：待补充。"
+        },
+        {
+          "id": "p1-screenshot",
+          "type": "image",
+          "asset": "/assets/project-placeholder.svg",
+          "alt": "产品主界面截图待补充",
+          "caption": "产品主界面截图待补充"
+        },
+        {
+          "id": "p1-background-text",
+          "type": "text",
+          "markdown": "原有内容生产链路需要在多个平台间切换，Prompt 分散，口播稿反复复制粘贴，后续生成步骤也彼此割裂。工作台把核心步骤集中到一个网页流程。"
+        },
+        {
+          "id": "p1-comparison",
+          "type": "comparison",
+          "before": {
+            "label": "改造前",
+            "items": [
+              "多个平台间切换",
+              "Prompt 分散管理",
+              "反复复制粘贴",
+              "生成链路割裂"
+            ]
+          },
+          "after": {
+            "label": "改造后",
+            "items": [
+              "网页内完成核心流程",
+              "Skill 与 Prompt 统一管理",
+              "直接进入下一生产步骤"
+            ]
+          }
+        },
+        {
+          "id": "p1-interactive-demo",
+          "type": "interactive_demo",
+          "presets": [
+            {
+              "id": "campus-recruitment",
+              "label": "央企秋招信息",
+              "input": "央企秋招信息",
+              "scriptOutput": "【待补充真实口播稿】这里展示“央企秋招信息”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
+              "avatarOptions": [
+                {
+                  "id": "avatar-a",
+                  "label": "数字人形象 A（演示占位）"
+                },
+                {
+                  "id": "avatar-b",
+                  "label": "数字人形象 B（演示占位）"
+                }
+              ],
+              "ratioOptions": [
+                {
+                  "id": "vertical",
+                  "label": "9:16 竖屏"
+                },
+                {
+                  "id": "horizontal",
+                  "label": "16:9 横屏"
+                }
+              ],
+              "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
+            },
+            {
+              "id": "product-intro",
+              "label": "产品功能介绍",
+              "input": "产品功能介绍",
+              "scriptOutput": "【待补充真实口播稿】这里展示“产品功能介绍”的预设口播稿。你可以直接修改这段演示文本，体验后续制作流程。",
+              "avatarOptions": [
+                {
+                  "id": "avatar-a",
+                  "label": "数字人形象 A（演示占位）"
+                }
+              ],
+              "ratioOptions": [
+                {
+                  "id": "vertical",
+                  "label": "9:16 竖屏"
+                },
+                {
+                  "id": "square",
+                  "label": "1:1 方形"
+                }
+              ],
+              "resultPlaceholder": "【待补充真实数字人视频】此处将展示本选题的预设视频结果。"
+            }
+          ]
+        },
+        {
+          "id": "p1-evidence-note",
+          "type": "text",
+          "markdown": "本页将使用原始产品界面、实际产出成品与团队使用记录支撑项目说明。真实材料尚未提供，以下位置均为待替换占位，不作为正式证明材料。"
+        },
+        {
+          "id": "p1-evidence-image",
+          "type": "image",
+          "asset": "/assets/project-placeholder.svg",
+          "alt": "工作台真实界面截图待补充",
+          "caption": "待补充：工作台真实界面截图（发布前需隐藏敏感信息）"
+        },
+        {
+          "id": "p1-video",
+          "type": "video",
+          "asset": "/assets/placeholder-project.mp4",
+          "poster": "/assets/project-placeholder.svg",
+          "caption": "待补充：从选题到数字人视频的真实操作录屏或代表成品"
+        },
+        {
+          "id": "p1-result-note",
+          "type": "text",
+          "markdown": "以下数据沿用当前项目总结口径。统计时间、样本范围与原始记录待补充后，再作为可核验成果对外展示。"
+        },
+        {
+          "id": "p1-reflection-text",
+          "type": "text",
+          "markdown": "项目复盘内容待补充。需要由项目本人补充：关键判断、做对了什么、实际遇到的问题，以及下一轮最值得优化的环节。"
+        },
+        {
+          "id": "p1-reflection-role",
+          "type": "text",
+          "markdown": "个人职责与协作边界待补充。"
+        },
+        {
+          "id": "p1-metrics",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "日常使用团队",
+              "value": "4 人"
+            },
+            {
+              "label": "效率提升",
+              "value": "约 50%"
+            },
+            {
+              "label": "数字人视频产出",
+              "value": "1–2 → 3–5 条/天",
+              "note": "个人日均产出"
+            },
+            {
+              "label": "生产流程",
+              "value": "集中到一个网页",
+              "note": "原流程跨多个平台"
+            }
+          ]
+        },
+        {
+          "id": "p1-agent-demo",
+          "type": "agent_demo",
+          "app": "content-agent"
+        }
+      ]
+    },
+    {
+      "projectId": "project-4",
+      "enabled": true,
+      "title": "光环国际｜成人教育私域分层运营与咨询销售闭环",
+      "subtitle": "成人教育私域运营｜顾问式咨询销售｜客户分层探需与全链路转化",
+      "presentation": "report",
+      "finalAction": {
+        "label": "阅读完毕",
+        "disabled": true
+      },
+      "pages": [
+        {
+          "id": "c4-01",
+          "projectId": "project-4",
+          "internalName": "C4 P1 业务场景与痛点诊断",
+          "title": "为什么私域流量需要分层与探需？",
+          "navLabel": "业务场景与痛点",
+          "subtitle": "从泛意向用户承接转向高客单咨询成交",
+          "order": 1,
+          "kind": "overview",
+          "blockIds": [
+            "c4-01-intro",
+            "c4-01-metrics",
+            "c4-01-pains",
+            "c4-01-goals"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c4-02",
+          "projectId": "project-4",
+          "internalName": "C4 P2 私域分层运营",
+          "title": "从流量承接到商机精确识别",
+          "navLabel": "私域分层运营",
+          "subtitle": "社群、直播、工作微信与探马 SCRM 标签体系",
+          "order": 2,
+          "kind": "process",
+          "blockIds": [
+            "c4-02-channels",
+            "c4-02-tags",
+            "c4-02-explore",
+            "c4-02-faq"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c4-03",
+          "projectId": "project-4",
+          "internalName": "C4 P3 顾问式咨询销售",
+          "title": "从需求诊断到高客单成交",
+          "navLabel": "顾问式咨询销售",
+          "subtitle": "用 Consultative Selling 组织产品匹配、价值沟通与异议处理",
+          "order": 3,
+          "kind": "process",
+          "blockIds": [
+            "c4-03-flow",
+            "c4-03-products",
+            "c4-03-objections"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c4-04",
+          "projectId": "project-4",
+          "internalName": "C4 P4 成交成果与价值复盘",
+          "title": "把私域运营沉淀为销售闭环",
+          "navLabel": "成交成果与复盘",
+          "subtitle": "从前台咨询、需求判断到异议处理与支付决策",
+          "order": 4,
+          "kind": "result",
+          "blockIds": [
+            "c4-04-results",
+            "c4-04-capabilities",
+            "c4-04-loop",
+            "c4-04-summary"
+          ],
+          "enabled": true
+        }
+      ],
+      "blocks": [
+        {
+          "id": "c4-01-intro",
+          "type": "text",
+          "markdown": "项目定位：成人教育私域运营｜顾问式咨询销售｜客户分层探需与全链路转化。服务场景：PMP 项目管理认证 / 国际硕士学位项目的私域流量承接与高客单转化。目标客群是寻求职场晋升、管理转型或学历提升的职场中高层及骨干专业人士。产品具备高客单价、长决策周期、强信任依赖的特性。能力标签：私域客户分层｜探马 SCRM 标签体系｜一对一需求挖掘｜顾问式销售 (Consultative Selling)｜异议处理与高客单成交。"
+        },
+        {
+          "id": "c4-01-metrics",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "私域社群",
+              "value": "50+ 个",
+              "note": "单群用户 200+ 人"
+            },
+            {
+              "label": "工作微信",
+              "value": "2 个",
+              "note": "全天候咨询承接"
+            },
+            {
+              "label": "大咖直播",
+              "value": "月均 5–6 场",
+              "note": "单场覆盖用户 200+ 人"
+            },
+            {
+              "label": "销售知识库",
+              "value": "≈50 条 FAQ",
+              "note": "标准化答疑资产"
+            }
+          ]
+        },
+        {
+          "id": "c4-01-pains",
+          "type": "cards",
+          "title": "AS-IS｜三项核心业务痛点",
+          "layout": "list",
+          "items": [
+            {
+              "title": "需求高度离散，硬推转化率低",
+              "body": "PMP 用户侧重跳槽、晋升与项目实操；国际硕士用户侧重学历跳板、管理视野与积分落户。一刀切推销无法打动不同背景的成人学员，容易造成私域用户流失。"
+            },
+            {
+              "title": "意向识别滞后，跟进效率低",
+              "body": "社群用户活跃度不一，缺乏系统的用户行为与背景标签记录，顾问难以筛选高意向商机，大量精力消耗在低意向或非目标用户上。"
+            },
+            {
+              "title": "长决策周期，异议阻力大",
+              "body": "数千元至数万元的高客单费用带来学习周期、考试通过率、时间精力投入及性价比等顾虑；缺少专业且标准化的答疑与异议处理，临门一脚容易流产。"
+            }
+          ]
+        },
+        {
+          "id": "c4-01-goals",
+          "type": "table",
+          "title": "商业目标与运营重构",
+          "columns": [
+            "业务目标",
+            "执行重点"
+          ],
+          "rows": [
+            [
+              "流量承接",
+              "通过私域社群、课程直播与 2 个工作微信沉淀潜在学员"
+            ],
+            [
+              "客户分层",
+              "使用探马 SCRM 记录背景、动机、产品意向与跟进阶段"
+            ],
+            [
+              "深度探需",
+              "一对一厘清职业目标、学习限制、预算与真实购买顾虑"
+            ],
+            [
+              "高客单转化",
+              "以顾问式销售匹配 PMP 或国际硕士，处理异议并完成支付"
+            ]
+          ]
+        },
+        {
+          "id": "c4-02-channels",
+          "type": "cards",
+          "title": "多渠道流量承接与沉淀",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "私域社群日常运营",
+              "body": "维护 50+ 垂直社群，单群用户 200+ 人；定期推送项目管理资讯、行业干货与备考资料，维持社群活跃度并承接咨询。"
+            },
+            {
+              "title": "课程直播引流承接",
+              "body": "每月打造 5–6 场课程大咖直播，单场覆盖用户 200+ 人；通过直播间互动与资料领取福利，将泛流量精准引入工作微信。"
+            },
+            {
+              "title": "工作微信一对一承接",
+              "body": "运营 2 个工作微信，持续记录用户背景、需求、互动行为与跟进进展，形成从社群和直播到个人咨询的承接入口。"
+            }
+          ]
+        },
+        {
+          "id": "c4-02-tags",
+          "type": "table",
+          "title": "探马 SCRM 客户标签分层体系",
+          "columns": [
+            "标签维度",
+            "具体记录信息",
+            "业务运营价值"
+          ],
+          "rows": [
+            [
+              "基础背景标签",
+              "当前岗位 / 行业、工作年限、现有学历、管理年限",
+              "评估课程产品门槛匹配度"
+            ],
+            [
+              "学习动机标签",
+              "职场晋升、跳槽转行、企业硬性要求、个人能力提升、学历落户",
+              "确定咨询销售的痛点切入点"
+            ],
+            [
+              "产品意向标签",
+              "PMP 培训、国际在职硕士、暂观望",
+              "精准推送内容并定向触达"
+            ],
+            [
+              "跟进阶段标签",
+              "初次触达 → 意向探明 → 方案比对 → 深度异议 → 待付款",
+              "明确当前动作与销售优先级"
+            ]
+          ]
+        },
+        {
+          "id": "c4-02-explore",
+          "type": "cards",
+          "title": "一对一深度需求挖掘与信任建立",
+          "layout": "list",
+          "items": [
+            {
+              "title": "询问痛点与目标",
+              "body": "“您目前所在的企业对项目管理有硬性证书要求吗？”、“您希望通过国际硕士解决的是学历认证还是实际企业管理问题？”"
+            },
+            {
+              "title": "评估学习限制",
+              "body": "询问“您每周能投入的学习时间大概是多少？”，结合工作节奏判断课程安排、备考计划与督学方式是否可执行。"
+            },
+            {
+              "title": "从信息采集到信任建立",
+              "body": "将用户岗位、行业、工作年限、管理年限、学历、动机与时间约束沉淀为可追踪画像，再用匹配方案回应真实需求，降低高客单咨询的决策压力。"
+            }
+          ]
+        },
+        {
+          "id": "c4-02-faq",
+          "type": "callout",
+          "title": "销售辅助资产｜≈50 条高频 FAQ 知识库",
+          "text": "围绕课程报考条件、学习周期、考试通过率、费用明细、退费政策及服务流程沉淀标准化答疑，确保私聊与社群回答精准一致，提升一对一沟通效率。",
+          "tone": "key"
+        },
+        {
+          "id": "c4-03-flow",
+          "type": "flow",
+          "title": "Consultative Selling｜咨询销售全流程闭环",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "需求确认",
+              "body": "私聊深度诊断，厘清真实痛点、资金预算与时间约束"
+            },
+            {
+              "title": "课程方案匹配",
+              "body": "基于痛点精准匹配 PMP 或国际硕士，定制个性化学习方案"
+            },
+            {
+              "title": "价值沟通",
+              "body": "围绕职业回报率（ROI）、证书含金量与企业认可度阐述课程价值"
+            },
+            {
+              "title": "异议处理",
+              "body": "消除费用、备考难度与工作时间冲突等实际顾虑"
+            },
+            {
+              "title": "促成成交",
+              "body": "锁定优惠名额与班期，引导报名并完成支付"
+            }
+          ]
+        },
+        {
+          "id": "c4-03-products",
+          "type": "cards",
+          "title": "差异化产品匹配与卖点组织",
+          "layout": "list",
+          "items": [
+            {
+              "title": "PMP 项目管理培训｜中客单高频产品",
+              "body": "适用人群：IT / 互联网 / 制造等行业项目经理、敏捷团队骨干、欲转管理的技术人员。核心卖点：官方授权机构保障 + 备考时间缩短 + 续证无忧服务 + 职场硬通货认证；结合备考计划表降低学习门槛。"
+            },
+            {
+              "title": "国际硕士项目｜高客单深度产品",
+              "body": "适用人群：企业中高层管理者、创业者、有学历提升与高端人脉拓展诉求的用户。核心卖点：免联考 / 申请制 + 国际认可名校 + 灵活线上 / 在职学习 + 优质高管校友圈，强调学历背景对职业天花板的突破作用。"
+            }
+          ]
+        },
+        {
+          "id": "c4-03-objections",
+          "type": "cards",
+          "title": "常见异议处理与跟进技巧",
+          "layout": "list",
+          "items": [
+            {
+              "title": "价格异议｜“学费有点贵 / 超出预算”",
+              "body": "拆解单月 / 单天学习成本，强调课程带来的薪资涨幅与晋升机会，进行职业 ROI 锚定；同时对比市面同类机构的服务保障。"
+            },
+            {
+              "title": "时间异议｜“工作太忙，怕没时间学 / 考不过”",
+              "body": "展示成熟的碎片化学习方案与班主任督学服务，提供往期相似背景学员的成功通关案例，增强学习信心。"
+            }
+          ]
+        },
+        {
+          "id": "c4-04-results",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "独立成交笔数",
+              "value": "3 单",
+              "note": "完整私域课程销售成交"
+            },
+            {
+              "label": "高客单代表订单",
+              "value": "1 万+ 元",
+              "note": "国际硕士项目成交"
+            },
+            {
+              "label": "标准化代表订单",
+              "value": "2000+ 元",
+              "note": "PMP 项目管理课程成交"
+            }
+          ]
+        },
+        {
+          "id": "c4-04-capabilities",
+          "type": "cards",
+          "title": "项目能力复盘与迁移价值",
+          "layout": "list",
+          "items": [
+            {
+              "title": "精细化私域运营能力",
+              "body": "熟练掌握探马 SCRM 等自动化营销工具，能够基于用户标签体系进行精细化分层与意向识别。"
+            },
+            {
+              "title": "顾问式销售实战能力",
+              "body": "具备咨询探需与顾问式销售功底，能够精准把握客户真实心理，组织个性化卖点并匹配产品。"
+            },
+            {
+              "title": "高客单谈判与异议消除",
+              "body": "掌握长决策周期高客单产品的异议处理框架，能够建立客户信任并促成最终支付决策。"
+            }
+          ]
+        },
+        {
+          "id": "c4-04-loop",
+          "type": "flow",
+          "title": "私域运营与销售闭环",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "社群 / 直播引流",
+              "body": "内容、资料与互动沉淀潜在学员"
+            },
+            {
+              "title": "SCRM 标签分层",
+              "body": "记录背景、动机、产品意向与跟进阶段"
+            },
+            {
+              "title": "一对一深度探需",
+              "body": "确认职业目标、学习限制、预算与顾虑"
+            },
+            {
+              "title": "方案匹配与价值沟通",
+              "body": "围绕 PMP / 国际硕士组织个性化卖点"
+            },
+            {
+              "title": "异议处理与跟进",
+              "body": "持续回应费用、时间、难度与性价比问题"
+            },
+            {
+              "title": "报名支付与经验沉淀",
+              "body": "完成成交，将 FAQ 与成交经验反哺下一轮咨询"
+            }
+          ]
+        },
+        {
+          "id": "c4-04-summary",
+          "type": "callout",
+          "title": "项目价值",
+          "text": "将社群 / 直播引流、SCRM 标签分层、深度探需与针对性异议处理结合起来，完成从前台咨询、需求判断、产品推荐到跟进成交的完整私域销售闭环。",
+          "tone": "key"
+        }
+      ]
+    },
+    {
+      "projectId": "project-2",
+      "enabled": true,
+      "title": "AI 内容生产系统：从单点工作台到 Multi-Agent 解决方案演进",
+      "subtitle": "企业级 AIGC 内容生产管线重构与持续对话式协作系统",
+      "presentation": "report",
+      "pages": [
+        {
+          "id": "c2-01",
+          "projectId": "project-2",
+          "internalName": "C2 01 方案演进路径与业务概览",
+          "title": "从跨平台人工生产到持续协同的 AI 内容系统",
+          "navLabel": "方案演进",
+          "subtitle": "先解决高频生产，再升级为 Multi-Agent 协作",
+          "order": 1,
+          "kind": "background",
+          "enabled": true,
+          "blockIds": [
+            "c2-01-intro",
+            "c2-01-flow",
+            "c2-01-insight"
+          ]
+        },
+        {
+          "id": "c2-02",
+          "projectId": "project-2",
+          "internalName": "C2 02 V1 网页工作台 MVP",
+          "title": "先把最高频、最标准化的制作环节整合起来",
+          "navLabel": "V1 MVP",
+          "subtitle": "统一入口 · 在线编辑 · 一键生成数字人视频",
+          "order": 2,
+          "kind": "custom",
+          "enabled": true,
+          "blockIds": [
+            "c2-02-intro",
+            "c2-02-pains",
+            "c2-02-mapping",
+            "c2-02-roi"
+          ]
+        },
+        {
+          "id": "c2-03",
+          "projectId": "project-2",
+          "internalName": "C2 03 V2 二次诊断与 Multi-Agent 架构",
+          "title": "从“执行操作更快”转向“理解任务并持续协同”",
+          "navLabel": "V2 架构",
+          "subtitle": "二次诊断、动态路由与专业 Agent 协作",
+          "order": 3,
+          "kind": "process",
+          "enabled": true,
+          "blockIds": [
+            "c2-03-intro",
+            "c2-03-pains",
+            "c2-03-goal",
+            "c2-04-flow",
+            "c2-04-agents",
+            "c2-04-tradeoffs"
+          ]
+        },
+        {
+          "id": "c2-04",
+          "projectId": "project-2",
+          "internalName": "C2 04 PoC 全链路闭环验证",
+          "title": "四轮真实对话验证状态保持与动态路由",
+          "navLabel": "PoC 验证",
+          "subtitle": "从模糊指代到局部改写，再到审核闭环",
+          "order": 4,
+          "kind": "evidence",
+          "enabled": true,
+          "blockIds": [
+            "c2-05-intro",
+            "c2-05-rounds",
+            "c2-05-state"
+          ]
+        },
+        {
+          "id": "c2-05",
+          "projectId": "project-2",
+          "internalName": "C2 05 方案价值与实施路线",
+          "title": "从基础提效走向生产级持续演进",
+          "navLabel": "价值与路线",
+          "subtitle": "量化 ROI、四阶段落地与全面推广",
+          "order": 5,
+          "kind": "result",
+          "enabled": true,
+          "blockIds": [
+            "c2-06-intro",
+            "c2-06-values",
+            "c2-06-roi",
+            "c2-07-roadmap",
+            "c2-07-close"
+          ]
+        }
+      ],
+      "blocks": [
+        {
+          "id": "c2-01-intro",
+          "type": "text",
+          "markdown": [
+            "项目定位：企业级 AIGC 内容生产管线重构与 Multi-Agent 系统落地。",
+            "服务场景：海归及留学生求职咨询机构的多平台 IP 短视频 / 口播矩阵运营团队，覆盖招聘资讯、求职干货、政策解读及导师 IP 热点口播。",
+            "项目完成了从“跨平台人工生产”到“轻量级网页工作台（MVP）”，再到“Multi-Agent 持续对话式生产系统”的二次架构升级。"
+          ]
+        },
+        {
+          "id": "c2-01-flow",
+          "type": "flow",
+          "title": "方案演进路径",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "AS-IS｜传统跨平台模式",
+              "body": "多平台人工切换 → 数据频繁搬运 → 单点 AI 工具孤立运行 → 产能瓶颈明显"
+            },
+            {
+              "title": "TO-BE v1｜流程集成工具",
+              "body": "统一 Web 入口 → 口播在线生成与编辑 → 一键调用数字人 API → 产能提升约 50%"
+            },
+            {
+              "title": "TO-BE v2｜智能体协作系统",
+              "body": "自然语言单入口 → Supervisor 意图路由 → 4 类专业 Agent 协作 → State / Memory 全程继承"
+            }
+          ]
+        },
+        {
+          "id": "c2-01-insight",
+          "type": "callout",
+          "title": "核心判断",
+          "text": [
+            "先用轻量 MVP 解决高频标准化问题，再依据真实生产反馈升级架构；系统始终围绕业务目标与人工把控权演进。"
+          ],
+          "tone": "key"
+        },
+        {
+          "id": "c2-02-intro",
+          "type": "text",
+          "markdown": [
+            "初期团队需要频繁完成“选题策划 → 资料整理 → 口播稿生成 → 人工润色 → 数字人视频制作 → 视频下载发布”。单条视频要在 3 个以上平台 / 软件间切换，个人产能容易触及 1–2 条 / 天上限。",
+            "V1 选择最高频、最标准化的制作环节，封装为轻量级 Web Workbench，保留运营人员的审稿与局部润色自由度。"
+          ]
+        },
+        {
+          "id": "c2-02-pains",
+          "type": "cards",
+          "title": "业务痛点诊断",
+          "layout": "list",
+          "items": [
+            {
+              "title": "链路割裂",
+              "body": [
+                "跨 3 个以上工具复制文案与格式，搬运消耗大量无意义人力。"
+              ]
+            },
+            {
+              "title": "重复劳动过高",
+              "body": [
+                "需求增加时，人工串联平台让个人产能很快触及 1–2 条 / 天。"
+              ]
+            },
+            {
+              "title": "AI 能力未成闭环",
+              "body": [
+                "已有 Prompt 与 Skill 依赖手动复制串联，尚未形成标准化生产力。"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-02-mapping",
+          "type": "table",
+          "title": "V1 功能映射",
+          "columns": [
+            "原始业务诉求",
+            "解决方案",
+            "业务交付价值"
+          ],
+          "rows": [
+            [
+              [
+                "减少跨平台重复复制"
+              ],
+              [
+                "统一主题输入入口，直接生成口播文案"
+              ],
+              [
+                "消除约 80% 的跨工具文案搬运工作"
+              ]
+            ],
+            [
+              [
+                "保留内容把控权"
+              ],
+              [
+                "网页内嵌文本编辑器，支持在线修改确认"
+              ],
+              [
+                "保留人工审稿与局部润色自由度"
+              ]
+            ],
+            [
+              [
+                "缩短视频生成链路"
+              ],
+              [
+                "直连数字人服务 API，一键提交渲染"
+              ],
+              [
+                "解决文案到视频制作的断层"
+              ]
+            ],
+            [
+              [
+                "降低团队使用门槛"
+              ],
+              [
+                "Web 页面封装大模型与工作流 API"
+              ],
+              [
+                "非技术人员零学习成本上手"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-02-roi",
+          "type": "table",
+          "title": "V1 实际交付与 ROI",
+          "columns": [
+            "指标",
+            "结果"
+          ],
+          "rows": [
+            [
+              [
+                "团队应用落地"
+              ],
+              [
+                "4 人内容运营小组全面投入日常生产使用"
+              ]
+            ],
+            [
+              [
+                "综合生产效率"
+              ],
+              [
+                "估算提升约 50%"
+              ]
+            ],
+            [
+              [
+                "单人数字人视频产能"
+              ],
+              [
+                "从 1–2 条 / 天提升至 3–5 条 / 天"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-03-intro",
+          "type": "text",
+          "markdown": [
+            "V1 解决了“执行操作能不能更快”，但生产量增加后，固定工作流的局限开始显现。系统需要从自动化工具升级为理解当前任务并持续协同的 AI 助手。",
+            "能力标签：业务需求诊断、MVP 轻量交付、Multi-Agent 架构设计、上下文状态管理、企业级 AI 资产重构。"
+          ]
+        },
+        {
+          "id": "c2-03-pains",
+          "type": "cards",
+          "title": "二次生产痛点",
+          "layout": "list",
+          "items": [
+            {
+              "title": "人工路由仍然存在",
+              "body": [
+                "运营仍需自行判断何时搜索选题、补充事实或审核合规。"
+              ]
+            },
+            {
+              "title": "非线性场景适配差",
+              "body": [
+                "真实创作可能只改第二段，或直接输入硬核资料生成脚本，不是单一路径。"
+              ]
+            },
+            {
+              "title": "持续上下文缺失",
+              "body": [
+                "多轮修改无法记录稿件进度，每次调整仍要重新提供背景规则。"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-03-goal",
+          "type": "callout",
+          "title": "V2 系统目标",
+          "text": [
+            "用户只需自然语言表达业务目标，系统理解当前任务、读取上下文并持续协同；在灵活调度的同时保留人工确认关口。"
+          ],
+          "tone": "key"
+        },
+        {
+          "id": "c2-04-flow",
+          "type": "flow",
+          "title": "V2 系统架构数据流",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "统一交互层",
+              "body": "运营人员以自然语言从单一入口提出需求"
+            },
+            {
+              "title": "Supervisor 调度中心",
+              "body": "识别真实意图，读取任务 State，并动态路由至所需 Agent"
+            },
+            {
+              "title": "三层基础底座",
+              "body": "Memory 长期记忆｜State 状态管理｜Skill 资产挂载"
+            },
+            {
+              "title": "专业 Agent 矩阵",
+              "body": "Topic｜Research｜Script｜Review，按需协作并回写任务状态"
+            }
+          ]
+        },
+        {
+          "id": "c2-04-agents",
+          "type": "table",
+          "title": "专业 Agent 与底层支撑",
+          "columns": [
+            "层级 / Agent",
+            "核心职责"
+          ],
+          "rows": [
+            [
+              [
+                "Supervisor"
+              ],
+              [
+                "统一入口、意图识别、读取 State、动态路由"
+              ]
+            ],
+            [
+              [
+                "Topic Agent"
+              ],
+              [
+                "招聘热点抓取与结构化选题筛选"
+              ]
+            ],
+            [
+              [
+                "Research Agent"
+              ],
+              [
+                "企业背景、招聘节点等事实资料补充，降低模型幻觉"
+              ]
+            ],
+            [
+              [
+                "Script Agent"
+              ],
+              [
+                "初稿撰写、扩写、缩写及指定段落局部改写"
+              ]
+            ],
+            [
+              [
+                "Review Agent"
+              ],
+              [
+                "平台合规、IP 人设匹配度及表达重复度审查"
+              ]
+            ],
+            [
+              [
+                "Memory / State / Skill"
+              ],
+              [
+                "记住账号定位与语气；追踪候选→初稿→修改中→待审核→FINAL；挂载爆文结构、合规词库与脚本规则"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-04-tradeoffs",
+          "type": "table",
+          "title": "关键架构决策与取舍",
+          "columns": [
+            "决策",
+            "选择与原因"
+          ],
+          "rows": [
+            [
+              [
+                "动态路由 vs 固定工作流"
+              ],
+              [
+                "选择 Supervisor 动态路由，适配增量修改与跳跃节点，按需调用能力。"
+              ]
+            ],
+            [
+              [
+                "按需调度 vs 全量串行"
+              ],
+              [
+                "拒绝每轮触发所有 Agent；“第二段短一点”只调用 Script Agent 局部重写，避免重复搜索与审核。"
+              ]
+            ],
+            [
+              [
+                "自动化 vs Human-in-the-Loop"
+              ],
+              [
+                "选题最终决策、关键事实确认、视频正式发布等关口严格保留人工确认。"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-05-intro",
+          "type": "text",
+          "markdown": [
+            "为验证连续对话下的状态保持与动态路由，设计并完成四轮真实场景 PoC。每轮指令都围绕同一条内容任务，验证系统是否能锁定对象并继承前文。"
+          ]
+        },
+        {
+          "id": "c2-05-rounds",
+          "type": "table",
+          "title": "四轮连续对话验证",
+          "columns": [
+            "轮次与用户指令",
+            "系统判断与路由",
+            "关键验证点"
+          ],
+          "rows": [
+            [
+              [
+                "Round 01｜“今天有什么值得给留学生家长讲的求职信息？”"
+              ],
+              [
+                "Supervisor 识别选题需求 → Topic Agent 抓取热点 → 返回 5 个结构化候选选题"
+              ],
+              [
+                "无上下文初始任务能输出标准化选题"
+              ]
+            ],
+            [
+              [
+                "Round 02｜“第三个写吧。”"
+              ],
+              [
+                "读取 State 定位候选 #03 → Research Agent 补全事实 → Script Agent 生成第一版口播稿"
+              ],
+              [
+                "基于模糊指代锁上前文对象"
+              ]
+            ],
+            [
+              [
+                "Round 03｜“第二段太长，而且有点像新闻稿，改接地气一点。”"
+              ],
+              [
+                "识别局部精准改写 → 锁定当前稿件第二段 → 仅触发 Script Agent"
+              ],
+              [
+                "保持其他段落及整体结构不受影响"
+              ]
+            ],
+            [
+              [
+                "Round 04｜“可以了，检查一下。”"
+              ],
+              [
+                "识别审核意图 → Review Agent 做合规与人设排查 → 用户确认后 State 更新为 FINAL"
+              ],
+              [
+                "风险审查闭环并推进任务生命周期"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-05-state",
+          "type": "callout",
+          "title": "状态机闭环",
+          "text": [
+            "候选选题 → 初稿 → 修改中 → 待审核 → FINAL。State 锁定当前稿件，Memory 保持账号定位、目标受众、IP 语气与禁用词，使多轮对话无需重复提供背景。"
+          ],
+          "tone": "key"
+        },
+        {
+          "id": "c2-06-intro",
+          "type": "text",
+          "markdown": [
+            "方案价值从“减少点击与复制”扩展为业务人员可直接表达目标、系统自动调度能力、团队资产持续复用的生产协同网络。"
+          ]
+        },
+        {
+          "id": "c2-06-values",
+          "type": "cards",
+          "title": "方案商业价值",
+          "layout": "list",
+          "items": [
+            {
+              "title": "降低操作门槛",
+              "body": [
+                "只需表达“修改第二段”等业务目标，Supervisor 自动完成后台调度，非技术人员零学习成本。"
+              ]
+            },
+            {
+              "title": "重复输入归零",
+              "body": [
+                "Memory 与 State 继承账号人设、背景资料与稿件进度，减少跨工具反复粘贴。"
+              ]
+            },
+            {
+              "title": "资产全量复用",
+              "body": [
+                "无缝承接团队既有 Prompt、Skill、选题规则、爆文结构与合规规则。"
+              ]
+            },
+            {
+              "title": "流程闭环可控",
+              "body": [
+                "灵活调用 Agent，同时用状态机管理进度，重要节点可控、可追踪。"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c2-06-roi",
+          "type": "table",
+          "title": "可量化交付结果",
+          "columns": [
+            "维度",
+            "证据"
+          ],
+          "rows": [
+            [
+              [
+                "团队采用"
+              ],
+              [
+                "4 人内容运营小组全面投入 V1 日常生产使用"
+              ]
+            ],
+            [
+              [
+                "效率提升"
+              ],
+              [
+                "综合生产效率估算提升约 50%"
+              ]
+            ],
+            [
+              [
+                "个人产能"
+              ],
+              [
+                "单人数字人视频从 1–2 条 / 天提升到 3–5 条 / 天"
+              ]
+            ],
+            [
+              [
+                "系统能力升级"
+              ],
+              [
+                "从固定网页工作台升级为自然语言单入口、动态路由、State / Memory 继承的 Multi-Agent 生产系统"
+              ]
+            ]
+          ]
+        },
+        {
+          "id": "c2-07-roadmap",
+          "type": "flow",
+          "title": "四阶段落地实施路线图",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "第一阶段｜流程梳理与 MVP 交付",
+              "body": "梳理高频标准化任务 → 交付网页工作台 V1 → 实现约 50% 基础提效"
+            },
+            {
+              "title": "第二阶段｜业务验证与瓶颈识别",
+              "body": "运营团队真实投入生产 → 收集反馈 → 识别固定工作流在非线性场景的局限"
+            },
+            {
+              "title": "第三阶段｜Multi-Agent 升级与 PoC",
+              "body": "搭建 Supervisor 与 4 类 Agent → 挂载现有 Skill → 完成 4 轮连续对话 PoC"
+            },
+            {
+              "title": "第四阶段｜生产级优化与全面演进",
+              "body": "优化 Memory 自动更新 → 强化异常路由恢复 → 推广至多内容类型管线"
+            }
+          ]
+        },
+        {
+          "id": "c2-07-close",
+          "type": "callout",
+          "title": "项目总结",
+          "text": [
+            "本项目展示了从真实业务痛点出发，先以轻量 MVP 解决基础效率问题，再依据真实使用反馈演进为 Multi-Agent 智能系统的完整过程，体现业务诊断、理性架构设计与稳健落地执行力。"
+          ],
+          "tone": "key"
+        },
+        {
+          "id": "p2-agent-demo",
+          "type": "agent_demo",
+          "app": "ads-agent"
+        }
+      ]
+    },
+    {
+      "projectId": "project-3",
+      "enabled": true,
+      "title": "爱思益｜留学生求职内容获客与线索转化解决方案",
+      "subtitle": "教育服务商业化｜内容获客体系构建｜线索质量优化",
+      "presentation": "report",
+      "finalAction": {
+        "label": "阅读完毕",
+        "disabled": true
+      },
+      "pages": [
+        {
+          "id": "c3-01-diagnosis",
+          "projectId": "project-3",
+          "internalName": "C3 P1 业务需求诊断",
+          "title": "为什么有流量不等于有有效客户？",
+          "navLabel": "业务需求诊断",
+          "subtitle": "从泛流量曝光转向商业获客与有效线索",
+          "order": 1,
+          "kind": "overview",
+          "blockIds": [
+            "c3-01-intro",
+            "c3-01-scale",
+            "c3-01-pains",
+            "c3-01-needs"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c3-02-solution",
+          "projectId": "project-3",
+          "internalName": "C3 P2 获客方案设计",
+          "title": "从目标人群到多平台 IP 矩阵",
+          "navLabel": "获客方案设计",
+          "subtitle": "目标人群、导师 IP 与平台分发的协同设计",
+          "order": 2,
+          "kind": "process",
+          "blockIds": [
+            "c3-02-mapping",
+            "c3-02-modules",
+            "c3-02-platforms"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c3-03-validation",
+          "projectId": "project-3",
+          "internalName": "C3 P3 方案验证",
+          "title": "用线索质量判断内容商业价值",
+          "navLabel": "分层验证",
+          "subtitle": "传播表现、线索获取与后端匹配的三层评估",
+          "order": 3,
+          "kind": "evidence",
+          "blockIds": [
+            "c3-03-layers",
+            "c3-03-cases",
+            "c3-03-principle"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c3-04-results",
+          "projectId": "project-3",
+          "internalName": "C3 P4 业务成果与闭环",
+          "title": "从内容产能到线索质量的反馈闭环",
+          "navLabel": "成果与反馈",
+          "subtitle": "前台内容数据反哺后端业务与下一轮选题",
+          "order": 4,
+          "kind": "result",
+          "blockIds": [
+            "c3-04-results",
+            "c3-04-loop",
+            "c3-04-review",
+            "c3-04-summary"
+          ],
+          "enabled": true
+        }
+      ],
+      "blocks": [
+        {
+          "id": "c3-01-intro",
+          "type": "text",
+          "markdown": "项目定位：教育服务商业化｜内容获客体系构建｜线索质量优化。服务场景：留学生及海归求职咨询服务，产品涵盖海归求职规划、校招准备、实习履历提升与岗位申请；目标客群为求职阶段的留学生 / 应届海归与留学生家长。商业目标：通过精准专业内容持续触达潜在客户，引导私信留资并对接后端课程顾问。表层诉求是“如何扩大内容曝光，增加账号粉丝数和私信量？”，经诊断重构为精准人群触达、IP 信任构建、高意向线索转化、需求高度匹配、驱动迭代反哺五项业务需求。导师 IP 矩阵与多平台全链路获客。能力标签：目标人群画像映射｜IP 矩阵运营｜多平台分发策略｜线索质量分层评估｜闭环数据反馈机制。"
+        },
+        {
+          "id": "c3-01-scale",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "导师 IP",
+              "value": "2 个",
+              "note": "悠悠老师、徐老师"
+            },
+            {
+              "label": "运营账号",
+              "value": "8 个",
+              "note": "小红书 3 个、视频号 3 个、抖音 2 个"
+            },
+            {
+              "label": "内容产能",
+              "value": "日均约 3 条图文",
+              "note": "周均约 15 条口播"
+            },
+            {
+              "label": "月均私信留资",
+              "value": "100–200 条",
+              "note": "小红书与视频号"
+            },
+            {
+              "label": "单视频号粉丝",
+              "value": "3 万+",
+              "note": "单条最高播放 / 阅读量 10 万+"
+            }
+          ]
+        },
+        {
+          "id": "c3-01-pains",
+          "type": "cards",
+          "title": "AS-IS｜三项核心业务痛点",
+          "layout": "list",
+          "items": [
+            {
+              "title": "受众需求差异明显",
+              "body": "留学生本人关注招聘机会、简历面试与实习；家长关注毕业就业风险、就业机会与服务可信度，泛内容难以精准覆盖。"
+            },
+            {
+              "title": "高播放不等于高意向",
+              "body": "招聘资讯容易吸引仅看戏或纯收集的泛流量用户，前端曝光无法有效沉淀为商业线索。"
+            },
+            {
+              "title": "前台与后端严重断层",
+              "body": "传统运营只关注播放、点赞、收藏，无法评估内容的实际获客价值与线索和顾问服务的匹配度。"
+            }
+          ]
+        },
+        {
+          "id": "c3-01-needs",
+          "type": "table",
+          "title": "需求降维与重构",
+          "columns": [
+            "真实业务需求",
+            "目标"
+          ],
+          "rows": [
+            [
+              "精准人群触达",
+              "持续覆盖有明确求职规划需求的学生与家长"
+            ],
+            [
+              "IP 信任构建",
+              "以导师专业视角降低私信咨询与沟通门槛"
+            ],
+            [
+              "高意向线索转化",
+              "通过咨询与资料引导将流量转化为私信留资"
+            ],
+            [
+              "需求高度匹配",
+              "提升留资线索与后端顾问服务的匹配度"
+            ],
+            [
+              "驱动迭代反哺",
+              "依据线索质量倒逼前端选题与策略调整"
+            ]
+          ]
+        },
+        {
+          "id": "c3-02-mapping",
+          "type": "table",
+          "title": "客群需求与内容解决方案映射",
+          "columns": [
+            "目标客群",
+            "核心关注痛点",
+            "对应内容解决方案"
+          ],
+          "rows": [
+            [
+              "留学生 / 应届海归",
+              "秋招 / 春招时间线、实习履历、岗位信息、简历面试、应届生身份",
+              "干货与解决型内容：招聘机会、避坑指南、节点提醒、求职技巧"
+            ],
+            [
+              "留学生家长",
+              "毕业就业风险、海归竞争、央国企 / 外企机会、长期规划、服务真实度",
+              "观点与信任型内容：导师观点、趋势分析、真实案例、政策解读"
+            ]
+          ]
+        },
+        {
+          "id": "c3-02-modules",
+          "type": "cards",
+          "title": "导师 IP 矩阵与四类内容模块",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "引流内容",
+              "body": "招聘热点、央国企 / 外企专项招聘、人才引进政策及校招资讯，借力时效性拉新。"
+            },
+            {
+              "title": "专业内容",
+              "body": "求职方法论、行业就业趋势与导师独家观点，构建专业权威。"
+            },
+            {
+              "title": "增信内容",
+              "body": "学员真实求职案例、背景提升路径、导师背景与服务保障，消除顾虑。"
+            },
+            {
+              "title": "转化内容",
+              "body": "切入求职规划痛点，配合《海归秋招时间线地图》等资料领取与行动建议，引导私信留资。"
+            }
+          ]
+        },
+        {
+          "id": "c3-02-platforms",
+          "type": "table",
+          "title": "多平台矩阵协同策略",
+          "columns": [
+            "平台",
+            "平台角色",
+            "内容与承接策略"
+          ],
+          "rows": [
+            [
+              "小红书",
+              "搜索获客",
+              "高价值求职图文，围绕关键词、招聘资讯与避坑问题承接主动搜索"
+            ],
+            [
+              "视频号",
+              "IP 信任与家长触达",
+              "导师出镜口播，就业趋势与家长向观点，引导私信"
+            ],
+            [
+              "抖音",
+              "内容曝光与素材测试",
+              "高信息密度口播，配合巨量本地推与小红书聚光投放测试商业线索"
+            ]
+          ]
+        },
+        {
+          "id": "c3-03-layers",
+          "type": "flow",
+          "title": "内容商业价值的三层评估逻辑",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "传播表现",
+              "body": "曝光、阅读、播放、互动与涨粉，判断触达人群能力"
+            },
+            {
+              "title": "线索获取",
+              "body": "私信咨询量、留资数量与选题留资转化率，判断能否驱动动作"
+            },
+            {
+              "title": "线索质量",
+              "body": "需求明确度、服务匹配度、求职时间节点与顾问对接成功率，判断商业转化价值"
+            }
+          ]
+        },
+        {
+          "id": "c3-03-cases",
+          "type": "cards",
+          "title": "典型内容案例与运营决策",
+          "layout": "list",
+          "items": [
+            {
+              "title": "CASE A｜招聘热点类：高传播，用于大范围拉新",
+              "body": "央国企 / 外企专项招聘、海外人才引进政策、大厂秋招 / 春招资讯；单条最高播放 / 阅读量 10 万+。凭借时效性与信息差实现传播与拉新，不盲目追加预算，持续观察二次私信转化率。"
+            },
+            {
+              "title": "CASE B｜求职痛点类：高留资，用于线索转化",
+              "body": "《海归应届生秋招时间线整理》《实习履历不足如何冲刺大厂》；将痛点前置并给出部分解决方案，尾部配置“私信领取完整版资料”，互动量适中，但私信咨询量与资料留资率极高，是月均 100–200 条私信线索的核心来源。"
+            },
+            {
+              "title": "CASE C｜精准垂直类：高匹配，用于高效转成订单",
+              "body": "金融 / 咨询行业专项求职指南、外企管培生申请解析、央国企海归招聘限制；播放量相对平稳，但目标明确、节点紧迫，后端顾问对接成功率最高。"
+            }
+          ]
+        },
+        {
+          "id": "c3-03-principle",
+          "type": "callout",
+          "title": "评估原则",
+          "text": "摆脱单一的“播放量至上”思维，内容商业价值必须同时看传播表现、线索获取与线索质量。",
+          "tone": "key"
+        },
+        {
+          "id": "c3-04-results",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "矩阵账号",
+              "value": "8 个",
+              "note": "持续标准化输出"
+            },
+            {
+              "label": "内容产能",
+              "value": "日均约 3 条图文",
+              "note": "周均约 15 条口播"
+            },
+            {
+              "label": "高意向私信留资",
+              "value": "月均 100–200 条",
+              "note": "小红书与视频号"
+            },
+            {
+              "label": "IP 沉淀",
+              "value": "3 万+ 粉丝",
+              "note": "单视频号"
+            },
+            {
+              "label": "单条优质内容",
+              "value": "10 万+",
+              "note": "播放 / 阅读量"
+            }
+          ]
+        },
+        {
+          "id": "c3-04-loop",
+          "type": "flow",
+          "title": "前后端数据闭环反馈机制",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "前台内容数据",
+              "body": "播放 / 阅读 / 互动 / 收藏 / 初步私信"
+            },
+            {
+              "title": "用户需求信息",
+              "body": "求职阶段 / 目标行业 / 时间节点 / 核心痛点"
+            },
+            {
+              "title": "后端业务反馈",
+              "body": "顾问对接情况 / 需求匹配度 / 有效咨询率 / 后续转化"
+            },
+            {
+              "title": "内容策略调整",
+              "body": "保留高匹配选题 / 优化咨询引导 / 调整 IP 表达 / 迭代选题库"
+            }
+          ]
+        },
+        {
+          "id": "c3-04-review",
+          "type": "cards",
+          "title": "内容复盘与决策原则",
+          "layout": "list",
+          "items": [
+            {
+              "title": "高曝光、低留资",
+              "body": "触达广但受众不精准或引导太弱：优化尾部咨询引导，增强痛点与资料的关联度。"
+            },
+            {
+              "title": "高留资、低匹配",
+              "body": "吸引了非目标用户：收紧选题门槛，增加垂直筛选词。"
+            },
+            {
+              "title": "传播一般、后端反馈极佳",
+              "body": "精准打中高意向买家：保留为标准化选题，扩充同类垂直方向。"
+            }
+          ]
+        },
+        {
+          "id": "c3-04-summary",
+          "type": "callout",
+          "title": "项目总结",
+          "text": "围绕教育咨询服务的商业获客需求，将用户分层、导师 IP 矩阵、多平台分发、私信承接与后端顾问反馈重构为一体化获客体系，实现从追求泛流量曝光向获客数量与线索质量双提升的商业化转型。",
+          "tone": "key"
+        }
+      ]
+    },
+    {
+      "projectId": "project-5",
+      "enabled": true,
+      "title": "写真店运营合伙项目：线上获客、私域经营与顾问式销售闭环",
+      "subtitle": "线下写真摄影机构｜线上获客体系 0-1 搭建｜私域增长与客户裂变｜顾问式销售转化",
+      "presentation": "report",
+      "finalAction": {
+        "label": "阅读完毕",
+        "disabled": true
+      },
+      "pages": [
+        {
+          "id": "c5-01",
+          "projectId": "project-5",
+          "internalName": "C5 P1 经营逻辑",
+          "title": "从线下门店到线上经营闭环",
+          "navLabel": "经营逻辑",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 1,
+          "kind": "overview",
+          "blockIds": [
+            "c5-intro",
+            "c5-metrics",
+            "c5-logic"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c5-02",
+          "projectId": "project-5",
+          "internalName": "C5 P2 多渠道获客",
+          "title": "自媒体矩阵与达人合作拓客",
+          "navLabel": "多渠道获客",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 2,
+          "kind": "process",
+          "blockIds": [
+            "c5-channels",
+            "c5-kol",
+            "c5-kol-results"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c5-03",
+          "projectId": "project-5",
+          "internalName": "C5 P3 私域增长",
+          "title": "社群运营、活动营销与口碑裂变",
+          "navLabel": "私域增长",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 3,
+          "kind": "process",
+          "blockIds": [
+            "c5-community",
+            "c5-activities",
+            "c5-referral"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c5-04",
+          "projectId": "project-5",
+          "internalName": "C5 P4 顾问式销售",
+          "title": "从需求诊断到预约成交",
+          "navLabel": "顾问式销售",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 4,
+          "kind": "process",
+          "blockIds": [
+            "c5-sales-flow",
+            "c5-objections",
+            "c5-sales-results"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c5-05",
+          "projectId": "project-5",
+          "internalName": "C5 P5 反馈迭代",
+          "title": "让销售反馈反哺获客与产品",
+          "navLabel": "反馈迭代",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 5,
+          "kind": "evidence",
+          "blockIds": [
+            "c5-feedback",
+            "c5-iteration"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c5-06",
+          "projectId": "project-5",
+          "internalName": "C5 P6 能力复盘",
+          "title": "从流量捕捉到全流程经营",
+          "navLabel": "能力复盘",
+          "subtitle": "写真店运营合伙项目｜线上获客与私域成交",
+          "order": 6,
+          "kind": "result",
+          "blockIds": [
+            "c5-capabilities",
+            "c5-summary"
+          ],
+          "enabled": true
+        }
+      ],
+      "blocks": [
+        {
+          "id": "c5-intro",
+          "type": "text",
+          "markdown": "作为写真店运营合伙人，针对传统线下写真门店依赖线下地推/单一平台、获客成本高、线索转化率低及客群粘性差的问题，从 0 到 1 搭建线上获客、私域经营与顾问式销售体系，服务个人写真、主题摄影与品牌视觉营销场景。能力覆盖自媒体内容矩阵、KOL/KOC 达人合作、私域社群运营、活动营销与裂变、售前需求诊断及套餐价值沟通。"
+        },
+        {
+          "id": "c5-metrics",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "线上自然流获客",
+              "value": "80+ 次 / 月",
+              "note": "个人自然流咨询"
+            },
+            {
+              "label": "个人独立成交",
+              "value": "≈10 单 / 月",
+              "note": "月均独立成交订单"
+            },
+            {
+              "label": "个人成交金额",
+              "value": "≈1 万元 / 月",
+              "note": "个人独立成交金额"
+            },
+            {
+              "label": "达人合作规模",
+              "value": "20+ 资源 / 15+ 合作",
+              "note": "累计拓展资源与合作达人"
+            }
+          ]
+        },
+        {
+          "id": "c5-logic",
+          "type": "flow",
+          "title": "全链路商业增长逻辑",
+          "steps": [
+            {
+              "title": "内容触达",
+              "body": "自媒体矩阵与 KOL/KOC 合作引流"
+            },
+            {
+              "title": "私域沉淀",
+              "body": "微信私域池、社群互动与抽奖促活"
+            },
+            {
+              "title": "一对一探需",
+              "body": "诊断拍摄目的、风格、预算与出片时间"
+            },
+            {
+              "title": "套餐成交",
+              "body": "方案匹配、价值沟通、异议处理、预约排期"
+            },
+            {
+              "title": "口碑裂变",
+              "body": "老客分享客照与老带新优惠"
+            }
+          ]
+        },
+        {
+          "id": "c5-channels",
+          "type": "cards",
+          "title": "自有内容渠道运营",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "阵地布局",
+              "body": "主攻小红书与抖音两大视觉与种草平台，运营 2 个官方主账号。"
+            },
+            {
+              "title": "内容策略",
+              "body": "围绕真实客照、摄影风格解析、套餐性价比盘点、节日/季主题活动输出内容。"
+            },
+            {
+              "title": "自然流成果",
+              "body": "通过精准关键词 SEO 与视觉种草，实现 80+ 次 / 月个人自然流客照咨询。"
+            }
+          ]
+        },
+        {
+          "id": "c5-kol",
+          "type": "flow",
+          "title": "KOL / KOC 达人合作闭环",
+          "steps": [
+            {
+              "title": "筛选",
+              "body": "按摄影风格、目标受众画像与粉丝互动率匹配泛生活、颜值及美妆类达人"
+            },
+            {
+              "title": "洽谈",
+              "body": "独立完成商务洽谈与合作方案制定"
+            },
+            {
+              "title": "落地",
+              "body": "跟进拍摄排期与脚本，审核最终图文/视频内容"
+            },
+            {
+              "title": "发布",
+              "body": "将合作内容转化为品牌声量与主动咨询"
+            }
+          ]
+        },
+        {
+          "id": "c5-kol-results",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "拓展资源",
+              "value": "20+ 达人资源",
+              "note": "累计拓展合作资源"
+            },
+            {
+              "label": "成功合作",
+              "value": "15+ KOL/KOC",
+              "note": "实际合作达人"
+            },
+            {
+              "label": "合作内容",
+              "value": "15+ 爆款合作内容",
+              "note": "发布图文/视频"
+            }
+          ]
+        },
+        {
+          "id": "c5-community",
+          "type": "cards",
+          "title": "私域社群精细化经营",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "关系维护",
+              "body": "搭建专属写真交流社群，分享写真风格趋势、拍摄注意事项与妆造搭配建议。"
+            },
+            {
+              "title": "需求承接",
+              "body": "通过日常互动与高频答疑，持续保持潜客触达，唤醒观望用户的拍摄需求。"
+            }
+          ]
+        },
+        {
+          "id": "c5-activities",
+          "type": "cards",
+          "title": "抽奖活动与互动营销",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "活动设计",
+              "body": "结合节假日、新品套餐发布开展抽奖与裂变活动。"
+            },
+            {
+              "title": "具体例子",
+              "body": "转发朋友圈抽免费体验名额；打卡享妆造升级。"
+            },
+            {
+              "title": "获客转化",
+              "body": "活动曝光吸引裂变新客，为一对一沟通创造天然切入话题。"
+            }
+          ]
+        },
+        {
+          "id": "c5-referral",
+          "type": "callout",
+          "title": "客户转介绍与口碑裂变",
+          "text": "针对已拍摄老客户建立满意度跟踪，鼓励在小红书/朋友圈晒精修客照；设计老客获赠精修相框、新客立减等老带新优惠。",
+          "tone": "key"
+        },
+        {
+          "id": "c5-sales-flow",
+          "type": "flow",
+          "title": "售前四步销售法",
+          "steps": [
+            {
+              "title": "需求诊断",
+              "body": "了解拍摄目的（形象照/生日纪念/闺蜜写真/古风等）、风格偏好、预算范围及出片时间"
+            },
+            {
+              "title": "方案匹配",
+              "body": "从引流款、常规款、高客单款及主题套餐精准推荐"
+            },
+            {
+              "title": "价值沟通",
+              "body": "围绕服装套数、精修张数、妆造服务与拍摄体验建立价格锚点"
+            },
+            {
+              "title": "异议处理与跟进",
+              "body": "解答价格、效果与排期问题，促成定金支付并锁定排期"
+            }
+          ]
+        },
+        {
+          "id": "c5-objections",
+          "type": "table",
+          "title": "常见销售异议处理策略",
+          "columns": [
+            "客户核心顾虑",
+            "异议处理策略与沟通技巧"
+          ],
+          "rows": [
+            [
+              "价格顾虑：比其他店贵/超出预算",
+              "拆解套餐价值，强调无隐形消费（包妆造服装/独立拍摄棚），对比精修质量与摄影师资历。"
+            ],
+            [
+              "镜头恐惧：担心效果不好",
+              "展示相似身材/颜值的普通客照，强调摄影师动作引导能力。"
+            ],
+            [
+              "排期与犹豫不决",
+              "以本月优质摄影师排期有限或限时赠送精修/加赠底片，推动即时下单。"
+            ]
+          ]
+        },
+        {
+          "id": "c5-sales-results",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "月均独立成交",
+              "value": "≈10 单 / 月",
+              "note": "独立成交订单"
+            },
+            {
+              "label": "月均成交金额",
+              "value": "≈1 万元 / 月",
+              "note": "个人独立成交金额"
+            },
+            {
+              "label": "咨询承接",
+              "value": "80+ 次 / 月",
+              "note": "从首次问询到定金支付、排期预约"
+            }
+          ]
+        },
+        {
+          "id": "c5-feedback",
+          "type": "flow",
+          "title": "数据驱动的闭环反馈",
+          "steps": [
+            {
+              "title": "获客端",
+              "body": "依据渠道咨询转化率调整小红书/抖音选题与达人类型"
+            },
+            {
+              "title": "产品端",
+              "body": "收集套餐价格、场景风格、精修张数反馈，更新热门主题拍摄风格，调整套餐组合与卖点包装"
+            },
+            {
+              "title": "销售端",
+              "body": "总结排期冲突、风格缺失等未成交原因，调整话术与跟进节奏"
+            },
+            {
+              "title": "私域端",
+              "body": "依据社群活跃度与抽奖参与率优化活动形式与促活频率"
+            }
+          ]
+        },
+        {
+          "id": "c5-iteration",
+          "type": "callout",
+          "title": "逆向优化机制",
+          "text": "将前端咨询反馈转化为获客、产品、销售和私域策略的迭代依据，形成销售/私域反哺获客与产品的经营闭环。",
+          "tone": "key"
+        },
+        {
+          "id": "c5-capabilities",
+          "type": "cards",
+          "title": "项目能力复盘",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "全渠道流量整合力",
+              "body": "具备自媒体内容操盘与 KOL/KOC 达人合作落地能力。"
+            },
+            {
+              "title": "私域精细化运营力",
+              "body": "掌握社群运营、互动裂变及老客转介绍玩法。"
+            },
+            {
+              "title": "顾问式销售转化力",
+              "body": "具备售前探需与异议处理技巧，提升高客单套餐成交。"
+            },
+            {
+              "title": "闭环经营思维",
+              "body": "打通获客、私域、销售、产品的商业闭环。"
+            }
+          ]
+        },
+        {
+          "id": "c5-summary",
+          "type": "callout",
+          "title": "案例总结",
+          "text": "本案例验证了在实体美业/摄影服务领域，从 0 到 1 构建线上获客与私域成交体系的能力。",
+          "tone": "key"
+        }
+      ]
+    },
+    {
+      "projectId": "project-6",
+      "enabled": true,
+      "title": "ABOUT SEKI｜个人介绍",
+      "subtitle": "AI 应用产品 ｜ AI 产品运营 ｜ 内容运营",
+      "presentation": "report",
+      "finalAction": {
+        "label": "阅读完毕",
+        "disabled": false
+      },
+      "pages": [
+        {
+          "id": "c6-profile",
+          "projectId": "project-6",
+          "internalName": "C6 P1 PROFILE",
+          "title": "SEKI",
+          "navLabel": "PROFILE",
+          "subtitle": "AI 应用产品 ｜ AI 产品运营 ｜ 内容运营",
+          "order": 1,
+          "kind": "overview",
+          "blockIds": [
+            "a7-intro",
+            "a7-profile-table"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-background",
+          "projectId": "project-6",
+          "internalName": "C6 P2 BACKGROUND",
+          "title": "BACKGROUND",
+          "navLabel": "BACKGROUND",
+          "order": 2,
+          "kind": "background",
+          "blockIds": [
+            "a7-language",
+            "a7-study"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-research",
+          "projectId": "project-6",
+          "internalName": "C6 P3 RESEARCH",
+          "title": "RESEARCH",
+          "navLabel": "RESEARCH",
+          "order": 3,
+          "kind": "evidence",
+          "blockIds": [
+            "a7-publications",
+            "a7-thesis",
+            "a7-projects"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-path",
+          "projectId": "project-6",
+          "internalName": "C6 P4 MY PATH",
+          "title": "MY PATH",
+          "navLabel": "MY PATH",
+          "order": 4,
+          "kind": "process",
+          "blockIds": [
+            "a7-path-flow"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-work",
+          "projectId": "project-6",
+          "internalName": "C6 P5 WHAT I WORK ON",
+          "title": "WHAT I WORK ON",
+          "navLabel": "WHAT I WORK ON",
+          "order": 5,
+          "kind": "custom",
+          "blockIds": [
+            "a7-work-cards"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-toolbox",
+          "projectId": "project-6",
+          "internalName": "C6 P6 TOOLBOX",
+          "title": "TOOLBOX",
+          "navLabel": "TOOLBOX",
+          "order": 6,
+          "kind": "custom",
+          "blockIds": [
+            "a7-toolbox-cards"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c6-focus",
+          "projectId": "project-6",
+          "internalName": "C6 P7 CURRENT FOCUS",
+          "title": "CURRENT FOCUS",
+          "navLabel": "CURRENT FOCUS",
+          "order": 7,
+          "kind": "reflection",
+          "blockIds": [
+            "a7-focus-callout"
+          ],
+          "enabled": true
+        }
+      ],
+      "blocks": [
+        {
+          "id": "a7-intro",
+          "type": "text",
+          "markdown": "从内容、用户与真实业务出发，持续把一线经验沉淀为 Skill、Workflow、Tool 与 Agent。"
+        },
+        {
+          "id": "a7-profile-table",
+          "type": "table",
+          "title": "01 PROFILE",
+          "columns": [
+            "项目",
+            "信息"
+          ],
+          "rows": [
+            [
+              "居住地",
+              "天津"
+            ],
+            [
+              "目标城市",
+              "北京 / 天津"
+            ],
+            [
+              "硕士",
+              "南宁师范大学｜职业技术教育学｜2022.09–2025.06"
+            ],
+            [
+              "本科",
+              "青岛科技大学｜日语｜2018.09–2022.06"
+            ]
+          ]
+        },
+        {
+          "id": "a7-language",
+          "type": "cards",
+          "title": "语言能力",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "日语",
+              "body": "JLPT N1"
+            },
+            {
+              "title": "英语",
+              "body": "CET-6 590+"
+            },
+            {
+              "title": "普通话",
+              "body": "二级甲等"
+            }
+          ]
+        },
+        {
+          "id": "a7-study",
+          "type": "table",
+          "title": "研究背景",
+          "columns": [
+            "方向",
+            "内容"
+          ],
+          "rows": [
+            [
+              "硕士研究方向",
+              "职业本科 · 课程建设 · 能力本位"
+            ],
+            [
+              "研究方法",
+              "文献研究 · 深度访谈 · 问卷调查"
+            ]
+          ]
+        },
+        {
+          "id": "a7-publications",
+          "type": "cards",
+          "title": "期刊",
+          "layout": "list",
+          "items": [
+            {
+              "title": "能力本位视域下职业本科专业课程体系建设",
+              "body": "《大学教育》2025 年第 6 期"
+            },
+            {
+              "title": "道·术·法：“工匠之师”教育家精神的三维生成路径与培育策略",
+              "body": "《机械职业教育》2025 年第 8 期"
+            }
+          ]
+        },
+        {
+          "id": "a7-thesis",
+          "type": "callout",
+          "title": "学位论文",
+          "text": "《基于能力本位的职业本科专业课程建设策略研究》｜南宁师范大学硕士学位论文，2025｜研究方法：文献研究 / 深度访谈 / 问卷调查",
+          "tone": "key"
+        },
+        {
+          "id": "a7-projects",
+          "type": "cards",
+          "title": "研究项目",
+          "layout": "list",
+          "items": [
+            {
+              "title": "广西职业教育教学改革研究重点项目",
+              "body": "GXZZJG2023A053｜核心成员"
+            },
+            {
+              "title": "广西教育科学“十四五”专项课题",
+              "body": "项目成员"
+            }
+          ]
+        },
+        {
+          "id": "a7-path-flow",
+          "type": "flow",
+          "title": "04 MY PATH",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "2018–2022｜日语本科",
+              "body": "JLPT N1 / CET-6 590+"
+            },
+            {
+              "title": "2022–2025｜职教硕士",
+              "body": "课程设计 / 职教研究 / 论文"
+            },
+            {
+              "title": "2025–2026｜内容与用户运营",
+              "body": "全链路内容生产 / 私域运营 / 广告投放 / 咨询转化与销售"
+            },
+            {
+              "title": "NOW｜AI 应用落地",
+              "body": "AI Skill / Workflow 自动化 / Multi-Agent / AI 应用产品"
+            }
+          ]
+        },
+        {
+          "id": "a7-work-cards",
+          "type": "cards",
+          "title": "05 WHAT I WORK ON",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "AI APPLICATION",
+              "body": "Skill 打造 / Workflow 工作流 / Multi-Agent 搭建 / AI Tool 落地"
+            },
+            {
+              "title": "CONTENT",
+              "body": "选题策划 / IP 人设定位 / 图文口播脚本 / 内容获客与爆款"
+            },
+            {
+              "title": "USER & BUSINESS",
+              "body": "私域社群运营 / 用户分层与 SOP / 广告投放（聚光、巨量）/ 独立咨询与销售成交"
+            },
+            {
+              "title": "EDUCATION",
+              "body": "课程体系设计 / 职业教育研究 / 教育产品内容制作 / AI × 教育应用落地"
+            }
+          ]
+        },
+        {
+          "id": "a7-toolbox-cards",
+          "type": "cards",
+          "title": "06 TOOLBOX",
+          "layout": "list",
+          "items": [
+            {
+              "title": "大模型与 Agent 框架",
+              "body": "ChatGPT · DeepSeek · Codex · API · Prompt / Skill · OpenAI Agents SDK · LangChain / LangGraph"
+            },
+            {
+              "title": "工作流与开发",
+              "body": "n8n · Coze · GitHub"
+            }
+          ]
+        },
+        {
+          "id": "a7-focus-callout",
+          "type": "callout",
+          "title": "07 CURRENT FOCUS",
+          "text": "AI 应用产品经理｜AI 产品运营｜AI 内容 / AIGC 运营｜AI × Education",
+          "tone": "key"
+        }
+      ]
+    },
+    {
+      "projectId": "project-7",
+      "enabled": true,
+      "title": "SIDE QUESTS",
+      "subtitle": "TodoList.exe / Tarot_Project / 小说推文 / 同人女 & 资深二次元",
+      "presentation": "report",
+      "finalAction": {
+        "label": "阅读完毕",
+        "disabled": false
+      },
+      "pages": [
+        {
+          "id": "c7-todolist",
+          "projectId": "project-7",
+          "internalName": "C7 SIDE01 TodoList.exe",
+          "title": "TodoList.exe",
+          "navLabel": "TodoList.exe",
+          "subtitle": "AI 辅助开发的小型桌面应用｜Vibe Coding / Desktop App",
+          "order": 1,
+          "kind": "demo",
+          "blockIds": [
+            "a8-todo-intro",
+            "a8-todo-features",
+            "a8-todo-flow",
+            "a8-todo-note"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c7-tarot",
+          "projectId": "project-7",
+          "internalName": "C7 SIDE02 Tarot Consultation",
+          "title": "塔罗咨询项目｜Tarot Consultation",
+          "navLabel": "Tarot_Project",
+          "order": 2,
+          "kind": "result",
+          "blockIds": [
+            "a8-tarot-metrics",
+            "a8-tarot-profile",
+            "a8-tarot-flow",
+            "a8-tarot-note"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c7-novel",
+          "projectId": "project-7",
+          "internalName": "C7 SIDE03 NOVEL CONTENT",
+          "title": "小说推文｜NOVEL CONTENT",
+          "navLabel": "小说推文",
+          "order": 3,
+          "kind": "evidence",
+          "blockIds": [
+            "a8-novel-status",
+            "a8-novel-tags"
+          ],
+          "enabled": true
+        },
+        {
+          "id": "c7-acg",
+          "projectId": "project-7",
+          "internalName": "C7 SIDE04 ACG & Fan Culture",
+          "title": "同人女 & 资深二次元｜ACG & Fan Culture",
+          "navLabel": "同人女 & 资深二次元",
+          "order": 4,
+          "kind": "reflection",
+          "blockIds": [
+            "a8-acg-intro",
+            "a8-acg-insights",
+            "a8-acg-flow",
+            "a8-acg-vocab",
+            "a8-acg-value",
+            "a8-acg-status"
+          ],
+          "enabled": true
+        }
+      ],
+      "blocks": [
+        {
+          "id": "a8-todo-intro",
+          "type": "text",
+          "markdown": "AI 辅助开发的小型桌面应用｜Vibe Coding / Desktop App\n\n从具体个人效率需求出发，通过 Vibe Coding 快速闭环，完成逻辑设计、代码生成到本地打包部署全流程。"
+        },
+        {
+          "id": "a8-todo-features",
+          "type": "cards",
+          "title": "已实现",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "任务管理",
+              "body": "任务新增 / 完成 / 删除 / 分类"
+            },
+            {
+              "title": "时间能力",
+              "body": "截止时间 / 提醒"
+            },
+            {
+              "title": "本地能力",
+              "body": "本地存储 / EXE 已打包"
+            }
+          ]
+        },
+        {
+          "id": "a8-todo-flow",
+          "type": "flow",
+          "title": "使用路径",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "新建任务"
+            },
+            {
+              "title": "设置时间"
+            },
+            {
+              "title": "完成任务"
+            }
+          ]
+        },
+        {
+          "id": "a8-todo-note",
+          "type": "callout",
+          "title": "素材状态",
+          "text": "真实界面截图 / 操作动图待补。",
+          "tone": "note"
+        },
+        {
+          "id": "a8-tarot-metrics",
+          "type": "metrics",
+          "items": [
+            {
+              "label": "累计服务用户",
+              "value": "200+"
+            },
+            {
+              "label": "累计收入",
+              "value": "¥3,000+"
+            },
+            {
+              "label": "用户来源",
+              "value": "私域 / 社群 / 转介绍"
+            }
+          ]
+        },
+        {
+          "id": "a8-tarot-profile",
+          "type": "cards",
+          "title": "高频议题",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "情感与关系",
+              "body": "情感 / 关系"
+            },
+            {
+              "title": "事业与选择",
+              "body": "事业 / 选择"
+            },
+            {
+              "title": "自我成长",
+              "body": "自我成长"
+            }
+          ]
+        },
+        {
+          "id": "a8-tarot-flow",
+          "type": "flow",
+          "title": "咨询 SOP",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "需求接收"
+            },
+            {
+              "title": "问题定义与拆解"
+            },
+            {
+              "title": "牌阵解读与分析"
+            },
+            {
+              "title": "深度共情沟通"
+            },
+            {
+              "title": "用户反馈与沉淀"
+            }
+          ],
+          "caption": "从个人兴趣出发的微型商业实践，积累高倾诉欲用户沟通经验与私域复购转化能力。"
+        },
+        {
+          "id": "a8-tarot-note",
+          "type": "callout",
+          "title": "素材状态",
+          "text": "真实服务页面 / 脱敏对话 / 用户反馈待补。",
+          "tone": "note"
+        },
+        {
+          "id": "a8-novel-status",
+          "type": "callout",
+          "title": "素材状态",
+          "text": "账号主页、封面墙、精选 3–5 条作品的封面 / 标题 / Hook / 真实播放点赞互动数据均待补。",
+          "tone": "note"
+        },
+        {
+          "id": "a8-novel-tags",
+          "type": "cards",
+          "title": "内容标签",
+          "layout": "grid",
+          "items": [
+            {
+              "title": "选题",
+              "body": "选题 · 标题 · Hook"
+            },
+            {
+              "title": "情绪",
+              "body": "情绪爆点"
+            },
+            {
+              "title": "叙事",
+              "body": "叙事节奏"
+            }
+          ]
+        },
+        {
+          "id": "a8-acg-intro",
+          "type": "text",
+          "markdown": "10+ 年资深二次元｜亚文化圈层观察者｜情绪内容受众与创作者"
+        },
+        {
+          "id": "a8-acg-insights",
+          "type": "cards",
+          "title": "三段圈层洞察",
+          "layout": "list",
+          "items": [
+            {
+              "title": "圈层经济与情感代偿（谷圈与实体凭证）",
+              "body": "当代二次元文化已从简单的“内容消费”转化为“高浓度情感代偿与符号消费”。线下“吃谷（Goods）”、痛包、摆阵与快闪，不仅是周边购买，更是用户将虚拟感情实体化的“身份凭证”与同频社交语言。"
+            },
+            {
+              "title": "乙女赛道：绝对偏爱与主体存在感",
+              "body": "乙女与女性向受众的内核需求已从“旁观甜宠剧情”转向“建立绝对的安全感与自我存在感”。用户对角色人设一致性有极高要求，看重“独占性”与“无条件的情感回应”，对任何破除沉浸感的运营事故有极强的社区反噬力。"
+            },
+            {
+              "title": "陪伴赛道：AIGC 驱动的“生成式拟态陪伴”",
+              "body": "大语言模型（LLM）正在彻底重构二次元陪伴体验。角色的长短期记忆、24/7 即时响应以及个性化对话，让受众从传统的“单向台词接收”升级为“拥有专属共同记忆的长期拟态伴侣”，提供了极高强度的即时情绪包裹。"
+            }
+          ]
+        },
+        {
+          "id": "a8-acg-flow",
+          "type": "flow",
+          "title": "圈层理解图谱",
+          "variant": "linear",
+          "steps": [
+            {
+              "title": "圈层理解"
+            },
+            {
+              "title": "情绪抓取"
+            },
+            {
+              "title": "符号解构"
+            },
+            {
+              "title": "爆点表达"
+            },
+            {
+              "title": "圈层共鸣"
+            }
+          ]
+        },
+        {
+          "id": "a8-acg-vocab",
+          "type": "text",
+          "markdown": "词汇｜IP 解构 · 情绪价值 · 二次创作 · 谷圈生态 · 拟态陪伴 · CP 哲学"
+        },
+        {
+          "id": "a8-acg-value",
+          "type": "callout",
+          "title": "价值",
+          "text": "懂圈层、懂情绪、懂亚文化语言，才能在二次元与 AI 陪伴赛道做出真正击中高黏性人群的心智爆款。",
+          "tone": "key"
+        },
+        {
+          "id": "a8-acg-status",
+          "type": "callout",
+          "title": "素材状态",
+          "text": "收藏 / 脱敏互动截图待补。",
+          "tone": "note"
+        }
+      ]
+    },
+    {
+      "projectId": "project-8",
+      "enabled": false,
+      "pages": []
+    }
+  ]
+}
