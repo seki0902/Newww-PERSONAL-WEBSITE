@@ -40,7 +40,8 @@ function MetricsBlockEditor({ block, onChange }: { block: Extract<Block, { type:
 export function ProjectPagesEditor({ bundle, onChange }: { bundle: ContentBundle; onChange: (bundle: ContentBundle) => void }) {
   const [projectId, setProjectId] = useState(projects[0]?.id ?? "");
   const [pageId, setPageId] = useState<string>();
-  const baseProject = projects.find((item) => item.id === projectId) ?? projects[0];
+  const visibleProjects = projects.filter((item) => bundle.projectPages.find((entry) => entry.projectId === item.id)?.enabled !== false);
+  const baseProject = visibleProjects.find((item) => item.id === projectId) ?? visibleProjects[0];
   const config = bundle.projectPages.find((item) => item.projectId === baseProject?.id);
   const project = useMemo(() => baseProject ? { ...baseProject, title: config?.title ?? baseProject.title, subtitle: config?.subtitle ?? baseProject.subtitle, blocks: config?.blocks ?? baseProject.blocks } : undefined, [baseProject, config]);
   const configured = bundle.projectPages.find((config) => config.projectId === project?.id)?.pages;
@@ -106,7 +107,7 @@ export function ProjectPagesEditor({ bundle, onChange }: { bundle: ContentBundle
     <section className="project-pages-editor">
       <div className="section-title">
         <div><span className="eyebrow">PROJECT CONTENT</span><h2>项目说明与章节</h2></div>
-        <label>项目<select value={project.id} onChange={(event) => { setProjectId(event.target.value); setPageId(undefined); }}>{projects.map((item) => <option key={item.id} value={item.id}>{bundle.projectPages.find((entry) => entry.projectId === item.id)?.title ?? item.title}</option>)}</select></label>
+        <label>项目<select value={project.id} onChange={(event) => { setProjectId(event.target.value); setPageId(undefined); }}>{visibleProjects.map((item) => <option key={item.id} value={item.id}>{bundle.projectPages.find((entry) => entry.projectId === item.id)?.title ?? item.title}</option>)}</select></label>
       </div>
       <div className="editor-two-columns">
         <label>项目名称<input value={project.title} onChange={(event) => updateProject({ title: event.target.value })} /></label>

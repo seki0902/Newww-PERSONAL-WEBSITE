@@ -3,7 +3,7 @@ import { BlockRenderer } from "../blocks/BlockRenderer";
 
 export function ProjectPageRenderer({ page, blocks, direction, projectId, resolveAsset }: { page: ProjectPage; blocks: Block[]; direction: "next" | "prev"; projectId: string; resolveAsset?: (assetId: string) => string | undefined }) {
   const blocksById = new Map(blocks.map((block) => [block.id, block]));
-  const kamiCase = /^(b1|b2|b3|b4|b5|c2)-/.exec(page.id)?.[1]?.toUpperCase();
+  const kamiCase = /^(b1|b2|b3|b4|b5|c2|c3|c4|c5|c6|c7)-/.exec(page.id)?.[1]?.toUpperCase();
   const caseEyebrow = kamiCase ? `${kamiCase} · ${page.navLabel}` : `${projectId.replace(/^project-/, "A")} · ${page.navLabel}`;
 
   return (

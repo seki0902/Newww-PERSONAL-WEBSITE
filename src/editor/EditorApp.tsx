@@ -154,6 +154,12 @@ export function EditorApp() {
 
   const desktopChoice = bundle.welcome.choices.find((choice) => choice.id === selectedDesktopId) ?? bundle.welcome.choices[0];
   const desktopContent = bundle.desktops[desktopChoice.id] ?? bundle.desktop;
+  const projectConfigs = desktopContent.projectPages ?? bundle.projectPages;
+  const disabledProjects = new Set(projectConfigs.filter((config) => config.enabled === false).map((config) => config.projectId));
+  const visibleProjects = baseProjects.filter((project) => !disabledProjects.has(project.id)).map((project) => {
+    const config = projectConfigs.find((item) => item.projectId === project.id);
+    return config ? { ...project, title: config.title ?? project.title, subtitle: config.subtitle ?? project.subtitle } : project;
+  });
   const audioAssets = bundle.assets.filter((asset) => asset.type === "audio");
   const imageAssets = bundle.assets.filter((asset) => asset.type === "image");
   const updateOnboarding = (patch: Partial<ContentBundle["onboarding"]>) => setBundle({ ...bundle, onboarding: { ...bundle.onboarding, ...patch } });
@@ -251,13 +257,13 @@ export function EditorApp() {
               {desktopContent.icons.map((icon) => <div key={icon.id} className="desktop-icon-field" data-testid={`desktop-icon-editor-${icon.id}`}>
                 <label>图标文字<input value={icon.label} onChange={(event) => updateDesktopIcon(icon.id, { label: event.target.value })} /></label>
                 <label>图标图片<select value={icon.iconAssetId ?? ""} onChange={(event) => updateDesktopIcon(icon.id, { iconAssetId: event.target.value || undefined })}><option value="">默认图标</option>{imageAssets.map((asset) => <option key={asset.id} value={asset.id}>{asset.label ?? asset.originalName}</option>)}</select></label>
-                <label>关联项目<select value={icon.projectId ?? ""} onChange={(event) => updateDesktopIcon(icon.id, { projectId: event.target.value || undefined, type: event.target.value ? "project" : icon.type })}><option value="">不关联项目</option>{baseProjects.map((project) => <option key={project.id} value={project.id}>{project.title}</option>)}</select></label>
+                <label>关联项目<select value={icon.projectId ?? ""} onChange={(event) => updateDesktopIcon(icon.id, { projectId: event.target.value || undefined, type: event.target.value ? "project" : icon.type })}><option value="">不关联项目</option>{visibleProjects.map((project) => <option key={project.id} value={project.id}>{project.title}</option>)}</select></label>
                 <label>入口类型<select value={icon.type} onChange={(event) => updateDesktopIcon(icon.id, { type: event.target.value as typeof icon.type, projectId: event.target.value === "project" ? icon.projectId : undefined })}><option value="project">项目</option><option value="system">系统</option><option value="inventory">物品</option><option value="portfolio">作品集</option></select></label>
                 <label className="check"><input type="checkbox" checked={icon.locked} onChange={(event) => updateDesktopIcon(icon.id, { locked: event.target.checked })} /> 锁定</label>
                 <button type="button" className="danger-button" onClick={() => removeDesktopIcon(icon.id)}>删除图标</button>
               </div>)}
             </div>
-            <FolderEditor icons={desktopContent.icons} assets={bundle.assets} projects={baseProjects} onChange={updateDesktopIcon} />
+            <FolderEditor icons={desktopContent.icons} assets={bundle.assets} projects={visibleProjects} onChange={updateDesktopIcon} />
           </section>}
 
           {activeSection === "projects" && <>
