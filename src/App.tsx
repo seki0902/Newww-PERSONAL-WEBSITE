@@ -117,7 +117,7 @@ function PlayerApp() {
     {bgm && <BgmAudio key={bgm} src={bgm} muted={muted} volume={bundle.intro.settings.bgmVolume ?? 0.24} testId={state.stage === "complete" ? "ending-bgm" : "desktop-bgm"} />}
     {screen}
     {state.stage === "desktop" && !showWelcome && <DesktopWindows muted={muted} desktop={selectedDesktop} projects={projects} resolveAsset={(id) => assetUrl(bundle, id, preview)} />}
-    {state.stage === "desktop" && !showWelcome && showGuide && <DesktopGuide onComplete={finishGuide} />}
+    {state.stage === "desktop" && !showWelcome && showGuide && <DesktopGuide onComplete={finishGuide} muted={muted} onMutedChange={setMuted} openSound={assetUrl(bundle, bundle.onboarding.openSoundAssetId, preview)} purrSound={assetUrl(bundle, bundle.onboarding.purrSoundAssetId, preview)} />}
     {state.stage === "desktop" && !showWelcome && ritualProject && <div className="route-overlay" data-testid="optional-tarot"><button type="button" className="novel-skip" onClick={closeRitual}>跳过，先看项目 →</button><TarotScreen project={ritualProject} embedded muted={muted} drawSound={assetUrl(bundle, selectedDesktop.tarotSoundAssetId ?? selectedDesktop.clickSoundAssetId, preview)} onClose={closeRitual} onComplete={() => { state.completeTarot(ritualProject.id); closeRitual(); }} /></div>}
   </>;
 }

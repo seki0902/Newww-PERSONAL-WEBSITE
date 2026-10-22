@@ -21,6 +21,9 @@ async function enterDesktop(page: Page) {
   await expect(page.getByRole("heading", { name: "测试项目一" })).toBeVisible();
   await page.getByRole("button", { name: "进入这条路线" }).click();
   await expect(page.getByTestId("desktop-guide")).toBeVisible();
+  const cat = page.getByTestId("desktop-guide-cat");
+  await expect(cat).toBeVisible();
+  await expect.poll(() => cat.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.getByRole("button", { name: "开始探索", exact: true }).click();
