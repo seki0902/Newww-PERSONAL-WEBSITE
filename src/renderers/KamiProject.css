@@ -81,6 +81,10 @@
 .kami-portfolio.project-window .project-nav-item.is-active { border-left-color: var(--brand); background: transparent; color: var(--brand); }
 .kami-portfolio.project-window .project-nav-item.is-active .project-nav-number { color: var(--brand); }
 .kami-portfolio.project-window .project-page-viewport { background: var(--parchment); }
+.kami-portfolio[data-continuous-reader="true"] .project-page-content { animation:none; }
+.kami-portfolio .project-reader-note { margin:0; padding:18px 28px; border-bottom:1px solid var(--border); color:var(--brand); font-size:14px; line-height:1.7; }
+.kami-portfolio .project-reader-section + .project-reader-section { border-top:1px solid var(--border); }
+.kami-portfolio .project-reader-footer { color:var(--stone); font-size:13px; }
 .kami-portfolio.project-window .project-page-content {
   max-width: 824px;
   margin-inline: auto;

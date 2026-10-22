@@ -15,6 +15,7 @@ export function DesktopWindows({ desktop, projects, resolveAsset, muted }: { des
   const read = useRuntimeStore((state) => state.desktopReadProjectIds?.[state.selectedDesktopId ?? ""]);
   const unlocked = useRuntimeStore((state) => state.unlockedProjectIds);
   const collected = useRuntimeStore((state) => state.completedTarotIds);
+  const contentRoute = useRuntimeStore((state) => state.selectedDesktopId === "content");
   const ordered = [...(windows ?? [])].sort((a, b) => a.order - b.order);
   // A document returns to its owning folder on close; that folder's temporary
   // minimized shortcut must not cover the document's reading controls.
@@ -46,6 +47,7 @@ export function DesktopWindows({ desktop, projects, resolveAsset, muted }: { des
           : project && navigation && entry.kind === "document" && icon ? <ProjectScreen
             project={{ ...project, presentation: "report", finalAction: project.finalAction?.label === "阅读完毕" ? { ...project.finalAction, disabled: false } : project.finalAction }}
             activePageId={entry.pageId} folderTitle={icon.label} fileTitle={entry.fileLabel} embedded modal={false} maximized={entry.maximized}
+            continuous={contentRoute && project.id !== "project-8"}
             resolveAsset={resolveAsset} onClose={() => close(entry.id, icon.id)} onComplete={() => close(entry.id, icon.id, true)}
             onGotoPage={(pageId) => act({ type: "navigate", windowId: entry.id, pageId })}
             onNextPage={() => { if (navigation.canNext) act({ type: "navigate", windowId: entry.id, pageId: navigation.pages[navigation.currentIndex + 1].id }); }}

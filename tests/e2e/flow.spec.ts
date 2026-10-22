@@ -57,12 +57,12 @@ test("完整流程：短开场 → 路线确认 → 桌面引导 → 一次抽�
   await page.getByTestId("project-1").click();
   await expect(page.getByRole("dialog", { name: "测试项目一" })).toBeVisible();
   await expect(page.getByText("这是 E2E 夹具项目正文。")).toBeVisible();
-  await page.getByRole("button", { name: "下一页 →" }).click();
+  await expect(page.locator('[data-continuous-reader="true"]')).toBeVisible();
   const blockImage = page.locator(".project-content-block[data-block-type='image'] img");
   await expect(blockImage).toBeVisible();
   await expect.poll(async () => blockImage.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
   await expect(page.frameLocator("iframe.agent-demo-frame").getByTestId("demo-root")).toHaveText("content-agent demo");
-  await page.getByRole("button", { name: "完成项目" }).click();
+  await page.getByRole("button", { name: "完成阅读" }).click();
 
   await expect(page.getByTestId("desktop-progress")).toContainText("50%");
   await page.getByTestId("desktop-progress").click();
@@ -76,7 +76,7 @@ test("完整流程：短开场 → 路线确认 → 桌面引导 → 一次抽�
   await expect(page.locator(".tarot-screen")).toHaveCount(0);
   await expect(page.getByRole("dialog", { name: "测试项目二" })).toBeVisible();
   await expect(page.getByText("这是第二个项目的正文。")).toBeVisible();
-  await page.getByRole("button", { name: "完成项目" }).click();
+  await page.getByRole("button", { name: "完成阅读" }).click();
 
   await expect(page.getByText("核心项目体验已完成")).toBeVisible();
   await expect(page.getByTestId("ending-bgm")).toHaveCount(1);
@@ -96,8 +96,7 @@ test("跳过直达电脑，切换路线先确认，取消与返回均保留各�
   await enterDesktop(page);
   await page.getByRole("button", { name: "跳过，先看项目 →" }).click();
   await page.getByTestId("project-1").click();
-  await page.getByRole("button", { name: "下一页 →" }).click();
-  await page.getByRole("button", { name: "完成项目" }).click();
+  await page.getByRole("button", { name: "完成阅读" }).click();
   await expect(page.getByTestId("desktop-progress")).toContainText("50%");
   await page.getByRole("button", { name: "切换路线", exact: true }).click();
   await page.getByRole("button", { name: /教育桌面/ }).click();

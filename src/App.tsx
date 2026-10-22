@@ -81,6 +81,7 @@ function PlayerApp() {
     onShowGuide={() => setShowGuide(true)}
     routeLabel={bundle.welcome.choices.find(choice => choice.id === desktopId)?.label}
     pdfUrl={bundle.portfolioPdfUrl}
+    useProjectLabels={desktopId === "content"}
     onReset={state.resetProgress}
     onProgress={() => state.desktopWindowAction({ type: "open-progress" })}
     content={desktopBundle}
@@ -93,7 +94,7 @@ function PlayerApp() {
   if (state.stage === "intro") screen = <VisualNovelScreen bundle={bundle} preview={preview} onComplete={enterComputer} onSkip={enterComputer} muted={muted} onMutedChange={setMuted} />;
   else if (state.stage === "tarot" && active) screen = desktop(<TarotScreen project={active} muted={muted} drawSound={assetUrl(bundle, selectedDesktop.tarotSoundAssetId ?? selectedDesktop.clickSoundAssetId, preview)} onComplete={() => state.completeTarot(active.id)} embedded />);
   else if (state.stage === "project" && active) {
-    const projectScreen = <ProjectScreen project={active} activePageId={state.activePageId} onGotoPage={state.gotoPage} onNextPage={state.nextPage} onPrevPage={state.prevPage} onComplete={() => state.completeProject(active.id)} onClose={state.closeProject} folderTitle={activeFolderTitle} fileTitle={state.activeFolderFileLabel} resolveAsset={(id) => assetUrl(bundle, id, preview)} embedded />;
+    const projectScreen = <ProjectScreen project={active} activePageId={state.activePageId} onGotoPage={state.gotoPage} onNextPage={state.nextPage} onPrevPage={state.prevPage} onComplete={() => state.completeProject(active.id)} onClose={state.closeProject} folderTitle={activeFolderTitle} fileTitle={state.activeFolderFileLabel} resolveAsset={(id) => assetUrl(bundle, id, preview)} embedded continuous={desktopId === "content" && active.id !== "project-8"} />;
     screen = active.presentation === "report" ? <>{desktop()}{projectScreen}</> : desktop(projectScreen);
   }
   else if (state.stage === "complete" && !showWelcome) screen = desktop(<section className="complete-window" role="dialog" aria-labelledby="complete-title">

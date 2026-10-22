@@ -23,17 +23,25 @@ type ProjectScreenProps = {
   maximized?: boolean;
   onMinimize?: () => void;
   onToggleMaximized?: () => void;
+  continuous?: boolean;
 };
 
-export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, onPrevPage, onComplete, onClose, folderTitle, fileTitle, resolveAsset, embedded = false, modal = true, maximized: controlledMaximized, onMinimize, onToggleMaximized }: ProjectScreenProps) {
+function scrollToSection(viewport: HTMLDivElement | null, pageId: string) {
+  const target = viewport?.querySelector<HTMLElement>(`[data-reader-section="${CSS.escape(pageId)}"]`);
+  if (viewport && target) viewport.scrollTop += target.getBoundingClientRect().top - viewport.getBoundingClientRect().top;
+}
+
+export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, onPrevPage, onComplete, onClose, folderTitle, fileTitle, resolveAsset, embedded = false, modal = true, maximized: controlledMaximized, onMinimize, onToggleMaximized, continuous = false }: ProjectScreenProps) {
   const [direction, setDirection] = useState<"next" | "prev">("next");
   const [localMaximized, setMaximized] = useState(false);
   const maximized = controlledMaximized ?? localMaximized;
   const [minimized, setMinimized] = useState(false);
   const windowRef = useRef<HTMLElement>(null);
   const restoreRef = useRef<HTMLButtonElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const isReport = project.presentation === "report";
   const pages = getEnabledProjectPages(project);
+  const readerPages = continuous ? [...pages.filter(page => page.kind === "demo"), ...pages.filter(page => page.kind !== "demo")] : pages;
   const navigation = getProjectPageNavigation(project, activePageId);
   const activePage = navigation.currentPage ?? pages[0];
   const currentIndex = navigation.currentIndex >= 0 ? navigation.currentIndex : 0;
@@ -44,6 +52,9 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
   useEffect(() => {
     if (firstPageId && !navigation.currentPage) onGotoPage(firstPageId);
   }, [firstPageId, navigation.currentPage, onGotoPage]);
+  useEffect(() => {
+    if (continuous && activePageId) scrollToSection(viewportRef.current, activePageId);
+  }, [continuous, activePageId]);
   useEffect(() => {
     if (!isReport) return;
     if (minimized) restoreRef.current?.focus();
@@ -79,6 +90,7 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
   const finalAction = project.finalAction;
 
   const navigateTo = (pageId: string) => {
+    if (continuous) { scrollToSection(viewportRef.current, pageId); onGotoPage(pageId); return; }
     const targetIndex = pages.findIndex((page) => page.id === pageId);
     if (targetIndex < 0 || targetIndex === currentIndex) return;
     setDirection(targetIndex < currentIndex ? "prev" : "next");
@@ -111,13 +123,13 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
 
   return (
     <Root className={`screen project-screen${isReport ? " project-screen--report" : ""}${!modal ? " project-screen--managed" : ""}${maximized ? " is-maximized" : ""}`} role={embedded ? "dialog" : undefined} aria-modal={isReport && embedded && modal ? true : undefined} aria-label={embedded ? project.title : undefined}>
-      <article ref={windowRef} className={`project-window project-window--paged kami-portfolio${isReport ? " project-window--report" : ""}${project.resourceLinks?.length ? " has-resource-links" : ""}`} onKeyDown={keepFocusInWindow}>
+      <article ref={windowRef} data-continuous-reader={continuous ? "true" : undefined} className={`project-window project-window--paged kami-portfolio${isReport ? " project-window--report" : ""}${project.resourceLinks?.length ? " has-resource-links" : ""}`} onKeyDown={keepFocusInWindow}>
         <header className="project-window-header">
           <div className="project-window-identity">
             <p className="project-window-path"><span>{folderTitle ?? project.title}</span><span aria-hidden="true">/</span><strong>{fileTitle ?? "项目说明"}</strong></p>
             {project.subtitle && <p className="project-window-subtitle">{project.subtitle}</p>}
           </div>
-          <span className="project-window-count" aria-live="polite">{String(pageNumber).padStart(2, "0")} / {String(pages.length).padStart(2, "0")}</span>
+          <span className="project-window-count" aria-live="polite">{continuous ? "完整项目内容" : `${String(pageNumber).padStart(2, "0")} / ${String(pages.length).padStart(2, "0")}`}</span>
           <div className="project-window-controls" aria-label="窗口控制">
             <button type="button" className="window-dot window-dot--minimize" title="最小化" aria-label="最小化项目说明窗口" onClick={() => onMinimize ? onMinimize() : setMinimized(true)} disabled={!isReport}>{isReport ? "−" : null}</button>
             <button type="button" className="window-dot window-dot--maximize" title={maximized ? "还原" : "最大化"} aria-label={maximized ? "还原项目说明窗口" : "最大化项目说明窗口"} onClick={() => onToggleMaximized ? onToggleMaximized() : setMaximized((value) => !value)} disabled={!isReport}>{isReport ? "□" : null}</button>
@@ -129,7 +141,7 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
           <aside className="project-sidebar">
             <h2>{isReport ? "章节目录" : "项目模块"}</h2>
             <nav aria-label={isReport ? "项目说明章节" : "项目模块"}>
-              {pages.map((page, index) => {
+              {readerPages.map((page, index) => {
                 const selected = page.id === activePage.id;
                 return (
                   <button key={page.id} type="button" className={selected ? "project-nav-item is-active" : "project-nav-item"} aria-current={selected ? "page" : undefined} onClick={() => navigateTo(page.id)}>
@@ -141,13 +153,19 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
             </nav>
           </aside>
 
-          <div className="project-page-viewport" key={activePage.id}>
-            <ProjectPageRenderer page={activePage} blocks={project.blocks} direction={direction} projectId={project.id} resolveAsset={resolveAsset} />
+          <div className="project-page-viewport" ref={viewportRef} key={continuous ? project.id : activePage.id}>
+            {continuous ? <>
+              <p className="project-reader-note">{readerPages[0]?.kind === "demo" ? "先体验 Demo，完整项目说明在下方，可连续向下阅读。" : "完整项目内容已展开，可连续向下阅读，也可通过目录跳转。"}</p>
+              {readerPages.map((page, index) => <div className="project-reader-section" key={page.id} data-reader-section={page.id}>
+                <ProjectPageRenderer page={{ ...page, order: index + 1, title: page.title.replace(/^PAGE\s+\d+[｜|]\s*/, "") }} blocks={project.blocks} direction="next" projectId={project.id} resolveAsset={resolveAsset} />
+              </div>)}
+            </> : <ProjectPageRenderer page={activePage} blocks={project.blocks} direction={direction} projectId={project.id} resolveAsset={resolveAsset} />}
           </div>
         </div>
 
         {project.resourceLinks?.length ? <nav className="project-resource-links" aria-label="个人资料链接">{project.resourceLinks.map(link => link.href ? <a key={link.label} href={link.href} target="_blank" rel="noreferrer">{link.label}</a> : <button key={link.label} type="button" disabled title="链接待补充">{link.label}<small>待补充</small></button>)}</nav> : null}
         <footer className="project-pager">
+          {continuous ? <><span className="project-reader-footer">全文阅读 · 所有章节均在此窗口</span><button type="button" className="primary-button" onClick={onComplete}>完成阅读</button></> : <>
           <div className="project-pager-reward">
             {!modal && isLastPage && finalAction?.disabled && <button type="button" className="project-pager-button" onClick={onComplete}>完成阅读</button>}
             {isLastPage && project.rewardItem && !isReport && <span className="reward-note">完成后获得：{project.rewardItem.title}</span>}
@@ -160,6 +178,7 @@ export function ProjectScreen({ project, activePageId, onGotoPage, onNextPage, o
           <div className="project-pager-complete">
             {isLastPage && !finalAction && <button type="button" className="primary-button" onClick={onComplete}>完成项目</button>}
           </div>
+          </>}
         </footer>
       </article>
     </Root>

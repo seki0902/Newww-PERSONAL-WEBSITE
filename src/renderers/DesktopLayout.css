@@ -25,6 +25,7 @@
 .desktop-reference-icon:focus-visible { outline: 2px solid #fff; outline-offset: 2px; background: rgba(221,248,255,.18); }
 .desktop-reference-icon.is-activating { animation: desktop-icon-open .3s ease-out; }
 .desktop-reference-icon.is-original-art > * { opacity: 0; }
+.desktop-screen[data-configured-labels="true"] .desktop-reference-icon > b { position:absolute; bottom:-.25cqw; left:50%; transform:translateX(-50%); width:calc(100% + 6px); min-height:1.9cqw; padding:.15cqw .2cqw; opacity:1; border:1px solid #61839140; border-radius:4px; background:#def0f4; color:#23434f; font-size:clamp(8px,1.03cqw,18px); line-height:1.35; white-space:normal; overflow-wrap:anywhere; text-shadow:none; }
 .desktop-reference-icon.is-current::before { content: ""; position: absolute; left: 14%; top: 12%; width: 68%; height: 63%; border: 2px solid #fff4b3; border-radius: 12%; box-shadow: 0 0 12px 5px #ffe38bd9, 0 0 28px 10px #fff7bd66; pointer-events: none; }
 .desktop-reference-icon.is-current::after { content: ""; position: absolute; right: 11%; top: 10%; width: .7cqw; height: .7cqw; min-width: 5px; min-height: 5px; border-radius: 50%; background: #fff4b3; box-shadow: 0 0 6px #ffe38b; pointer-events: none; }
 .desktop-reference-icon-art,.desktop-reference-icon > b { position: relative; z-index: 1; }

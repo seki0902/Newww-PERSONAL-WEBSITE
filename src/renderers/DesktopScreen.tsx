@@ -26,6 +26,7 @@ type DesktopScreenProps = {
   onShowGuide?: () => void;
   routeLabel?: string;
   pdfUrl?: string;
+  useProjectLabels?: boolean;
   content?: ContentBundle;
   preview?: boolean;
   audioActive?: boolean;
@@ -59,7 +60,7 @@ function DesktopGuideTrail() {
   </svg>;
 }
 
-export function DesktopScreen({ projects, unlocked, completed, inventory, progress, onOpen, activeFolderIconId, currentIconId, onOpenFolder, onCloseFolder, onOpenProjectFromFolder, onTarot, onReset, onProgress, onChooseRoute, onShowGuide, routeLabel, pdfUrl, content, preview, audioActive = true, muted, onMutedChange, readProjectIds = [], guidanceActive = false, children }: DesktopScreenProps) {
+export function DesktopScreen({ projects, unlocked, completed, inventory, progress, onOpen, activeFolderIconId, currentIconId, onOpenFolder, onCloseFolder, onOpenProjectFromFolder, onTarot, onReset, onProgress, onChooseRoute, onShowGuide, routeLabel, pdfUrl, useProjectLabels = false, content, preview, audioActive = true, muted, onMutedChange, readProjectIds = [], guidanceActive = false, children }: DesktopScreenProps) {
   const clickSoundRef = useRef<HTMLAudioElement>(null);
   const [activeIconId, setActiveIconId] = useState<string>();
   const wallpaper = content && assetUrl(content, content.desktop.wallpaperAssetId, Boolean(preview));
@@ -114,7 +115,7 @@ export function DesktopScreen({ projects, unlocked, completed, inventory, progre
   </>;
 
   if (canvaReference) {
-    return <main className="desktop-screen seki-desktop desktop-screen--canva-reference" data-testid="desktop-screen">
+    return <main className="desktop-screen seki-desktop desktop-screen--canva-reference" data-testid="desktop-screen" data-configured-labels={useProjectLabels ? "true" : undefined}>
       {clickSound && <audio ref={clickSoundRef} data-testid="desktop-click-sound" src={clickSound} preload="auto" muted={muted} />}
       <div className="desktop-reference-canvas">
         {utilities}
