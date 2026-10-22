@@ -16,39 +16,33 @@ async function passVisualNovel(page: Page) {
   await hotspot.click();
 }
 
-/** 开机动画约 4.8s，结束后进入新人引导。 */
-async function passStartup(page: Page) {
-  await expect(page.getByTestId("onboarding-overlay")).toBeVisible({ timeout: 20_000 });
-}
-
-async function passOnboarding(page: Page) {
-  const start = page.getByTestId("onboarding-start");
-  for (let pageIndex = 0; pageIndex < 2; pageIndex += 1) {
-    await expect(start).toBeEnabled();
-    // 按钮带无限引导动画（元素持续位移），Playwright 的稳定性等待会一直重试，这里用 force 点击。
-    await start.click({ force: true });
-  }
-  await expect(page.getByTestId("welcome-overlay")).toBeVisible();
-}
-
 async function enterDesktop(page: Page) {
-  await page.getByTestId("welcome-overlay").getByRole("button", { name: /内容桌面/ }).click();
+  await page.getByTestId("route-overlay").getByRole("button", { name: /内容桌面/ }).click();
+  await expect(page.getByRole("heading", { name: "测试项目一" })).toBeVisible();
+  await page.getByRole("button", { name: "进入这条路线" }).click();
+  await expect(page.getByTestId("desktop-guide")).toBeVisible();
+  await page.getByRole("button", { name: "下一步", exact: true }).click();
+  await page.getByRole("button", { name: "下一步", exact: true }).click();
+  await page.getByRole("button", { name: "开始探索", exact: true }).click();
   await expect(page.getByTestId("desktop-screen")).toBeVisible();
 }
 
 test.describe.configure({ mode: "serial" });
 
-test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 → 项目 → 结局", async ({ page }) => {
+test("完整流程：短开场 → 路线确认 → 桌面引导 → 一次抽牌 → 项目直达 → 结局", async ({ page }) => {
   await page.goto("/");
 
   // 1) 视觉小说开场
   await expect(page.locator(".visual-novel")).toBeVisible();
   await passVisualNovel(page);
 
-  // 2) 开机动画 + 新人引导 + 欢迎页
-  await passStartup(page);
-  await passOnboarding(page);
+  // 2) 路线项目预览 + 桌面操作引导
   await enterDesktop(page);
+
+  // 首次的可选塔罗体验只出现一次，不再逐个项目拦截。
+  await page.getByRole("button", { name: "牌背 1" }).click();
+  await expect(page.getByTestId("tarot-quote")).toBeVisible();
+  await page.getByRole("button", { name: "完成抽牌" }).click();
 
   // 3) 桌面：两个项目图标可用、锁定图标不可点、进度 0%
   await expect(page.getByTestId("project-1")).toBeVisible();
@@ -58,14 +52,6 @@ test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 �
 
   // 4) 第一个项目：抽牌解锁 → 阅读两页 → 完成，进度到 50% 且仍在桌面
   await page.getByTestId("project-1").click();
-  const tarotBack = page.getByRole("button", { name: "牌背 1" });
-  await expect(tarotBack).toBeVisible();
-  const tarotArt = tarotBack.locator("img");
-  await expect.poll(async () => tarotArt.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
-  await tarotBack.click();
-  await expect(page.getByTestId("tarot-quote")).toBeVisible();
-  await page.getByRole("button", { name: "完成抽牌" }).click();
-
   await expect(page.getByRole("dialog", { name: "测试项目一" })).toBeVisible();
   await expect(page.getByText("这是 E2E 夹具项目正文。")).toBeVisible();
   await page.getByRole("button", { name: "下一页 →" }).click();
@@ -84,8 +70,7 @@ test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 �
 
   // 5) 第二个项目：抽牌 → 阅读 → 完成 → 进入结局页
   await page.getByTestId("project-2").click();
-  await page.getByRole("button", { name: "牌背 2" }).click();
-  await page.getByRole("button", { name: "完成抽牌" }).click();
+  await expect(page.locator(".tarot-screen")).toHaveCount(0);
   await expect(page.getByRole("dialog", { name: "测试项目二" })).toBeVisible();
   await expect(page.getByText("这是第二个项目的正文。")).toBeVisible();
   await page.getByRole("button", { name: "完成项目" }).click();
@@ -98,8 +83,37 @@ test("完整通关流程：开场 → 开机 → 引导 → 桌面 → 抽牌 �
   await expect(page.getByText("核心项目体验已完成")).toBeVisible();
 
   // 7) 重新开始回到开场
-  await page.getByRole("button", { name: "重新开始" }).click();
+  await page.getByRole("button", { name: "重新开始", exact: true }).first().click();
   await expect(page.locator(".visual-novel")).toBeVisible();
+});
+
+test("跳过直达电脑，切换路线先确认，取消与返回均保留各路线进度", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "跳过剧情 →" }).click();
+  await enterDesktop(page);
+  await page.getByRole("button", { name: "跳过，先看项目 →" }).click();
+  await page.getByTestId("project-1").click();
+  await page.getByRole("button", { name: "下一页 →" }).click();
+  await page.getByRole("button", { name: "完成项目" }).click();
+  await expect(page.getByTestId("desktop-progress")).toContainText("50%");
+  await page.getByRole("button", { name: "切换路线", exact: true }).click();
+  await page.getByRole("button", { name: /教育桌面/ }).click();
+  await page.getByRole("button", { name: "返回选择" }).click();
+  await page.getByRole("button", { name: "留在当前桌面" }).click();
+  await expect(page.getByTestId("desktop-progress")).toContainText("50%");
+  await page.getByRole("button", { name: "切换路线", exact: true }).click();
+  await page.getByRole("button", { name: /教育桌面/ }).click();
+  await page.getByRole("button", { name: "进入这条路线" }).click();
+  await expect(page.getByTestId("desktop-progress")).toContainText("0%");
+  await expect(page.getByTestId("desktop-guide")).toHaveCount(0);
+  await expect(page.getByTestId("optional-tarot")).toHaveCount(0);
+  await page.getByRole("button", { name: "切换路线", exact: true }).click();
+  await page.getByRole("button", { name: /内容桌面/ }).click();
+  await page.getByRole("button", { name: "进入这条路线" }).click();
+  await expect(page.getByTestId("desktop-progress")).toContainText("50%");
+  await page.reload();
+  await expect(page.getByTestId("desktop-progress")).toContainText("50%");
+  await expect(page.getByTestId("desktop-guide")).toHaveCount(0);
 });
 
 test("编辑器路由：带 token 可以读取 draft，未带 token 时写接口被拒绝", async ({ page, request }) => {

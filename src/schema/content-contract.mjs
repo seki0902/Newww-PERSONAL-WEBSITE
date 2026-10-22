@@ -275,6 +275,7 @@ const desktopContentSchema = z.object({
 });
 export const contentBundleSchema = z.object({
   version: z.literal(1),
+  portfolioPdfUrl: z.string().regex(/^\/api\/assets\/[^\s]+$/).optional(),
   assets: z.array(assetSchema),
   intro: z.object({ settings: z.object({ bgmAssetId: z.string().optional(), textSoundAssetId: z.string().optional(), clickSoundAssetId: z.string().optional(), bgmVolume: z.number().min(0).max(1).optional(), typewriterSpeed: z.number().positive().optional(), textSoundInterval: z.number().int().positive().optional() }), scenes: z.array(introSceneSchema) }),
   onboarding: onboardingContentSchema,

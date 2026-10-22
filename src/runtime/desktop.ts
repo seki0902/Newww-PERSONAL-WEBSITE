@@ -38,8 +38,9 @@ export function reduceDesktopState(state: RuntimeState, action: DesktopAction, p
     const icon = desktop.icons.find((icon) => icon.id === action.iconId);
     if (!icon || icon.locked) return {};
     const project = projects.find(project => project.id === icon.projectId && project.enabled);
-    const file = project && icon.folder.items.find(file => !file.disabled && file.targetProjectId === project.id);
-    if (project && file && !state.unlockedProjectIds.includes(project.id) && !windows.some(window => window.kind === "document" && window.projectId === project.id)) {
+    const files = project ? icon.folder.items.filter(file => !file.disabled && file.targetProjectId === project.id && (!file.targetPageId || getEnabledProjectPages(project).some(page => page.id === file.targetPageId))) : [];
+    const file = files.find(file => file.kind === "demo") ?? files.find(file => file.targetPageId) ?? files[0];
+    if (project && file) {
       return reduceDesktopState(state, { type: "open-document", iconId: icon.id, projectId: project.id, fileLabel: file.label }, projects, desktop);
     }
     return { ...desktopStage, ...showFolder(windows, icon.id) };
@@ -49,19 +50,17 @@ export function reduceDesktopState(state: RuntimeState, action: DesktopAction, p
     const file = icon?.folder.items.find((file) => !file.disabled && file.targetProjectId === action.projectId && file.label === action.fileLabel);
     const project = projects.find((project) => project.id === action.projectId && project.enabled);
     if (!icon || icon.locked || !file || !project) return {};
-    const existingDocument = windows.find((window) => window.id === documentId(project.id) && window.kind === "document");
-    const needsTarot = !state.unlockedProjectIds.includes(project.id) && !existingDocument;
-    const id = needsTarot ? tarotId(project.id) : documentId(project.id);
+    const id = documentId(project.id);
     const existing = windows.find((window) => window.id === id);
     const common = { id, iconId: icon.id, projectId: project.id, fileLabel: file.label, minimized: false, maximized: existing?.maximized ?? false, order: nextOrder(windows) };
-    const shown: DesktopWindowState = needsTarot ? { ...common, kind: "tarot", revealed: existing?.kind === "tarot" ? existing.revealed : false } : {
+    const shown: DesktopWindowState = {
       ...common,
       id, kind: "document", iconId: icon.id, projectId: project.id, fileLabel: file.label,
       pageId: file.targetPageId && (existing?.kind !== "document" || existing.fileLabel !== file.label) ? getEnabledProjectPages(project).find((page) => page.id === file.targetPageId)?.id ?? getEnabledProjectPages(project)[0]?.id : existing?.kind === "document" ? existing.pageId : getEnabledProjectPages(project)[0]?.id,
       minimized: false, maximized: existing?.maximized ?? false, order: nextOrder(windows),
     };
     const documents = existing ? windows.map((window) => window.id === id ? shown : window) : [...windows, shown];
-    return { ...desktopStage, desktopWindows: documents.map((window) => window.kind === "folder" && window.iconId === icon.id ? { ...window, minimized: true } : window), focusedWindowId: id };
+    return { ...desktopStage, unlockedProjectIds: addUnique(state.unlockedProjectIds, project.id), desktopWindows: documents.map((window) => window.kind === "folder" && window.iconId === icon.id ? { ...window, minimized: true } : window), focusedWindowId: id };
   }
 
   const window = windows.find((window) => window.id === action.windowId);

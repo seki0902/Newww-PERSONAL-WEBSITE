@@ -14,7 +14,7 @@ const fakeStorage = () => {
 describe("runtime persist", () => {
   it("保存后可以完整恢复", () => {
     const storage = fakeStorage();
-    const state = { ...initialRuntimeState, stage: "desktop" as const, completedProjectIds: ["project-1"], inventoryItemIds: ["item-1"] };
+    const state = { ...initialRuntimeState, stage: "desktop" as const, completedProjectIds: ["project-1"], inventoryItemIds: ["item-1"], desktopGuideCompleted: true, tarotIntroSeen: true, desktopReadProjectIds: { content: ["project-1"], education: [] } };
     saveRuntimeState(state, storage);
     expect(restoreRuntimeState(storage)).toEqual(state);
   });

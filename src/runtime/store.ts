@@ -7,6 +7,8 @@ import { clearRuntimeState, initialRuntimeState, restoreRuntimeState, saveRuntim
 import { reconcileDesktopState, reduceDesktopState, type DesktopAction, type DesktopContent } from "./desktop";
 
 interface RuntimeStore extends RuntimeState {
+  finishDesktopGuide: () => void;
+  dismissTarotIntro: () => void;
   desktopWindowAction: (action: DesktopAction) => void;
   selectDesktop: (desktopId: string) => void;
   openFolder: (iconId: string) => void; closeFolder: () => void;
@@ -63,13 +65,16 @@ function getRestoredState() {
 
 export const useRuntimeStore = create<RuntimeStore>((set, get) => ({
   ...getRestoredState(),
+  finishDesktopGuide: () => commit(set, { desktopGuideCompleted: true }),
+  dismissTarotIntro: () => commit(set, { tarotIntroSeen: true }),
   desktopWindowAction: (action) => {
     if (!runtimeDesktop) return;
     const update = reduceDesktopState(get(), action, runtimeProjects, runtimeDesktop);
     if (Object.keys(update).length) commit(set, update);
     // 桌面窗口模式（新壳）下不会走 completeProject，需要在这里补上收尾：
     // 读完最后一个启用项目后进入结局页，与旧路径行为保持一致。
-    if (action.type === "read" && !getNextProject(runtimeProjects, get().completedProjectIds)) {
+    const readProjectIds = get().selectedDesktopId ? get().desktopReadProjectIds?.[get().selectedDesktopId!] ?? [] : get().completedProjectIds;
+    if (action.type === "read" && !getNextProject(runtimeProjects, readProjectIds)) {
       commit(set, { stage: "complete", activeProjectId: undefined, activePageId: undefined });
     }
   },

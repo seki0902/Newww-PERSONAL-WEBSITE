@@ -5,7 +5,7 @@ import "./SceneAssets.css";
 import { usePortraitMask } from "./usePortraitMask";
 import { useReducedMotion } from "./useReducedMotion";
 
-export function VisualNovelScreen({ bundle, preview, onComplete, muted, onMutedChange }: { bundle: ContentBundle; preview: boolean; onComplete: () => void; muted: boolean; onMutedChange: (muted: boolean) => void }) {
+export function VisualNovelScreen({ bundle, preview, onComplete, onSkip, muted, onMutedChange }: { bundle: ContentBundle; preview: boolean; onComplete: () => void; onSkip?: () => void; muted: boolean; onMutedChange: (muted: boolean) => void }) {
   const scenes = useMemo(() => bundle.intro.scenes.filter((scene) => scene.enabled).sort((a, b) => a.order - b.order), [bundle]);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [shown, setShown] = useState(0);
@@ -73,6 +73,7 @@ export function VisualNovelScreen({ bundle, preview, onComplete, muted, onMutedC
 
   if (!scene) return <main className="bundle-error">没有可播放的开场 Scene。</main>;
   return <main className={`visual-novel ${transitioning ? "computer-transition" : ""}`} onClick={startBgm}>
+    <button type="button" className="novel-skip" onClick={event => { event.stopPropagation(); audioRef.current?.pause(); (onSkip ?? onComplete)(); }}>跳过剧情 →</button>
     {bgm && <audio ref={audioRef} data-testid="intro-bgm" src={bgm} loop muted={muted} />}
     {textSound && <audio ref={textSoundRef} data-testid="text-sound" src={textSound} preload="auto" muted={muted} />}
     {clickSound && <audio ref={clickSoundRef} data-testid="click-sound" src={clickSound} preload="auto" muted={muted} />}

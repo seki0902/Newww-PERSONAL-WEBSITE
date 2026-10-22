@@ -31,8 +31,8 @@ log(`夹具就绪：${bundle.assets.length} 个素材 / ${pairs.length} 个 KV k
 
 // 3) 起 Workers 运行时（读 wrangler.toml 的 KV 绑定，ADMIN_TOKEN 由 --binding 注入）。
 const child = spawn(
-  "npx",
-  ["wrangler", "pages", "dev", "dist", "--port", port, "--persist-to", persistDir, "--binding", `ADMIN_TOKEN=${adminToken}`, "--log-level", "warn"],
+  process.execPath,
+  [join(projectRoot, "node_modules/wrangler/bin/wrangler.js"), "pages", "dev", "dist", "--port", port, "--persist-to", persistDir, "--binding", `ADMIN_TOKEN=${adminToken}`, "--log-level", "warn"],
   { cwd: projectRoot, stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, WRANGLER_SEND_METRICS: "false" } },
 );
 child.stdout.on("data", (data) => process.stdout.write(`[worker] ${data}`));

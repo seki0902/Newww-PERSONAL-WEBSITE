@@ -22,6 +22,10 @@ type DesktopScreenProps = {
   onTarot: () => void;
   onReset: () => void;
   onProgress?: () => void;
+  onChooseRoute?: () => void;
+  onShowGuide?: () => void;
+  routeLabel?: string;
+  pdfUrl?: string;
   content?: ContentBundle;
   preview?: boolean;
   audioActive?: boolean;
@@ -55,7 +59,7 @@ function DesktopGuideTrail() {
   </svg>;
 }
 
-export function DesktopScreen({ projects, unlocked, completed, inventory, progress, onOpen, activeFolderIconId, currentIconId, onOpenFolder, onCloseFolder, onOpenProjectFromFolder, onTarot, onReset, onProgress, content, preview, audioActive = true, muted, onMutedChange, readProjectIds = [], guidanceActive = false, children }: DesktopScreenProps) {
+export function DesktopScreen({ projects, unlocked, completed, inventory, progress, onOpen, activeFolderIconId, currentIconId, onOpenFolder, onCloseFolder, onOpenProjectFromFolder, onTarot, onReset, onProgress, onChooseRoute, onShowGuide, routeLabel, pdfUrl, content, preview, audioActive = true, muted, onMutedChange, readProjectIds = [], guidanceActive = false, children }: DesktopScreenProps) {
   const clickSoundRef = useRef<HTMLAudioElement>(null);
   const [activeIconId, setActiveIconId] = useState<string>();
   const wallpaper = content && assetUrl(content, content.desktop.wallpaperAssetId, Boolean(preview));
@@ -101,10 +105,19 @@ export function DesktopScreen({ projects, unlocked, completed, inventory, progre
     ? <FolderWindow title={activeFolder.label} items={activeFolder.folder.items} resolveAsset={(assetId) => assetUrl(content, assetId, Boolean(preview))} onClose={onCloseFolder} onOpenProject={(projectId, fileLabel) => onOpenProjectFromFolder(projectId, activeFolder.id, fileLabel)} />
     : null;
 
+  const utilities = <>
+    <a className="desktop-pdf-shortcut" href={pdfUrl} target="_blank" rel="noopener noreferrer" aria-label={pdfUrl ? "打开 PDF 作品集" : "PDF 作品集，排版完成后开放"} aria-disabled={!pdfUrl} onClick={event => { if (!pdfUrl) event.preventDefault(); }}>
+      <svg viewBox="0 0 54 64" aria-hidden="true"><path d="M7 2h27l13 13v47H7Z" fill="#faf9f5" stroke="#ced5d2" strokeWidth="2"/><path d="M34 2v14h13" fill="#dce9e7" stroke="#ced5d2"/><rect x="2" y="30" width="45" height="23" rx="3" fill="#b75b58"/><text x="24" y="46" textAnchor="middle" fontFamily="sans-serif" fontWeight="700" fontSize="15" fill="white">PDF</text></svg>
+      <span>PDF 作品集</span>
+    </a>
+    {onChooseRoute && <nav className="desktop-navigation" aria-label="桌面操作"><button type="button" onClick={onChooseRoute} aria-label="切换路线" title={routeLabel}>⊞ {routeLabel ?? "切换路线"} <span aria-hidden="true">⌃</span></button><button type="button" onClick={onShowGuide}>使用引导</button><button type="button" onClick={onTarot} aria-label="抽一张牌">抽牌</button><button type="button" onClick={onReset} aria-label="重新开始" title="重新开始">↻</button></nav>}
+  </>;
+
   if (canvaReference) {
     return <main className="desktop-screen seki-desktop desktop-screen--canva-reference" data-testid="desktop-screen">
       {clickSound && <audio ref={clickSoundRef} data-testid="desktop-click-sound" src={clickSound} preload="auto" muted={muted} />}
       <div className="desktop-reference-canvas">
+        {utilities}
         <img className="desktop-original-artwork" data-testid="desktop-original-artwork" src={canvaReference} alt="" aria-hidden="true" />
         <header className="desktop-reference-menubar">
           <div className="desktop-reference-brand">{brandIcon && <img src={brandIcon} alt="" />}<strong>{content?.desktop.systemName ?? "SEKI OS"}</strong><i aria-hidden="true" /><span>{content?.desktop.tagline ?? "Explore. Build. Grow."}</span></div>
@@ -138,6 +151,7 @@ export function DesktopScreen({ projects, unlocked, completed, inventory, progre
 
   return (
     <main className={`desktop-screen ${content ? "seki-desktop" : ""}`} data-testid="desktop-screen">
+      {utilities}
       {clickSound && <audio ref={clickSoundRef} data-testid="desktop-click-sound" src={clickSound} preload="auto" muted={muted} />}
       <div className="desktop-wallpaper" style={wallpaper ? { backgroundImage: `url(${wallpaper})` } : undefined} aria-hidden="true">
         {topOverlay && <img className="desktop-wallpaper-overlay desktop-wallpaper-overlay--top" src={topOverlay} alt="" />}

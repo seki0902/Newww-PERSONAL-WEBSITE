@@ -174,7 +174,7 @@ export function pushLocal(pairs, { persistTo, prune = false, log = console.log }
   const file = join(dir, "bulk.json");
   try {
     writeFileSync(file, JSON.stringify(pairs.map((pair) => ({ ...pair, base64: true }))));
-    const result = spawnSync("npx", ["wrangler", "kv", "bulk", "put", file, "--binding", "KV", "--local", "--persist-to", persistTo], {
+    const result = spawnSync(process.execPath, [join(projectRoot, "node_modules/wrangler/bin/wrangler.js"), "kv", "bulk", "put", file, "--binding", "KV", "--local", "--persist-to", persistTo], {
       cwd: projectRoot,
       stdio: ["ignore", "pipe", "pipe"],
       encoding: "utf8",

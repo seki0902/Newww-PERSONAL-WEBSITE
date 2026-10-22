@@ -5,7 +5,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 
 const eslintConfig = defineConfig([
-  globalIgnores(["node_modules/**", "dist/**", "outputs/**", "test-results/**", "playwright-report/**"]),
+  globalIgnores(["node_modules/**", "dist/**", "outputs/**", "test-results/**", "playwright-report/**", "tests/*.spec.ts"]),
   {
     files: ["src/**/*.{ts,tsx}", "tests/**/*.ts", "functions/**/*.ts", "*.config.ts"],
     extends: [js.configs.recommended, tseslint.configs.recommended],

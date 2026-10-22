@@ -10,6 +10,7 @@ const apiProxy = {
 
 export default defineConfig({
   plugins: [react()],
+  publicDir: false,
   build: { outDir: "dist" },
   server: { proxy: apiProxy },
   preview: { proxy: apiProxy },

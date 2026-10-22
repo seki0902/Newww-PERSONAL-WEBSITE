@@ -22,8 +22,14 @@ const desktopWindowSchema = z.discriminatedUnion("kind", [
 ]);
 export type DesktopWindowState = z.infer<typeof desktopWindowSchema>;
 export interface RuntimeState { version: 1; stage: RuntimeStage; selectedDesktopId?: string; activeFolderIconId?: string; activeFolderFileLabel?: string; activeProjectId?: string; activePageId?: string; completedProjectIds: string[]; completedTarotIds: string[]; unlockedProjectIds: string[]; inventoryItemIds: string[]; demoStates?: Record<string, DemoRuntimeState>; desktopWindows?: DesktopWindowState[]; focusedWindowId?: string; desktopReadProjectIds?: Record<string, string[]>; }
-export const initialRuntimeState: RuntimeState = { version: 1, stage: "intro", completedProjectIds: [], completedTarotIds: [], unlockedProjectIds: [], inventoryItemIds: [], demoStates: {} };
+export const initialRuntimeState: RuntimeState = { version: 1, stage: "intro", completedProjectIds: [], completedTarotIds: [], unlockedProjectIds: [], inventoryItemIds: [], demoStates: {}, desktopGuideCompleted: false, tarotIntroSeen: false };
 const runtimeStateSchema = z.object({ version: z.literal(1), stage: z.enum(["intro", "video", "desktop", "tarot", "project", "complete"]), selectedDesktopId: z.string().optional(), activeFolderIconId: z.string().optional(), activeFolderFileLabel: z.string().optional(), activeProjectId: z.string().optional(), activePageId: z.string().optional(), completedProjectIds: z.array(z.string()), completedTarotIds: z.array(z.string()), unlockedProjectIds: z.array(z.string()), inventoryItemIds: z.array(z.string()), demoStates: z.record(demoRuntimeStateSchema).optional(), desktopWindows: z.array(desktopWindowSchema).optional(), focusedWindowId: z.string().optional(), desktopReadProjectIds: z.record(z.array(z.string())).optional() });
+export interface RuntimeState {
+  desktopGuideCompleted?: boolean;
+  tarotIntroSeen?: boolean;
+}
+const navigationStateSchema = runtimeStateSchema.extend({ desktopGuideCompleted: z.boolean().default(false), tarotIntroSeen: z.boolean().default(false) });
+
 type StorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 function browserStorage(): StorageLike | undefined {
@@ -45,7 +51,7 @@ export function restoreRuntimeState(storage = browserStorage()): RuntimeState {
   try { stored = storage.getItem(STORAGE_KEY); }
   catch { console.warn("Runtime state could not be read"); return initialRuntimeState; }
   if (!stored) return initialRuntimeState;
-  try { return runtimeStateSchema.parse(JSON.parse(stored)); }
+  try { return navigationStateSchema.parse(JSON.parse(stored)); }
   catch { console.warn("Invalid persisted state"); clearRuntimeState(storage); return initialRuntimeState; }
 }
 export function clearRuntimeState(storage = browserStorage()) {

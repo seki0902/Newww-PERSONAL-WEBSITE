@@ -25,10 +25,19 @@ const base = (): RuntimeState => ({ ...initialRuntimeState });
 const projects = [project];
 
 describe("desktop window reducer", () => {
-  it("点击未解锁项目图标先打开塔罗窗口", () => {
+  it("点击项目直接打开文件，不再被塔罗拦截", () => {
     const update = reduceDesktopState(base(), { type: "open-folder", iconId: "icon-1" }, projects, desktop);
-    expect(update.desktopWindows?.[0]).toMatchObject({ kind: "tarot", projectId: "project-1", revealed: false });
-    expect(update.focusedWindowId).toBe("tarot:project-1");
+    expect(update.desktopWindows?.[0]).toMatchObject({ kind: "document", projectId: "project-1", pageId: "p1" });
+    expect(update.focusedWindowId).toBe("document:project-1");
+  });
+
+  it("有可用 Demo 时优先进入 Demo，文字说明仍可从文件夹打开", () => {
+    const withDemo = structuredClone(desktop);
+    withDemo.icons[0].folder.items.push({ id: "demo", label: "交互 Demo", content: "", kind: "demo", targetProjectId: "project-1", targetPageId: "p2", disabled: false });
+    const update = reduceDesktopState(base(), { type: "open-folder", iconId: "icon-1" }, projects, withDemo);
+    expect(update.desktopWindows?.[0]).toMatchObject({ kind: "document", pageId: "p2", fileLabel: "交互 Demo" });
+    const closed = reduceDesktopState({ ...base(), ...update }, { type: "close", windowId: "document:project-1" }, projects, withDemo);
+    expect(closed.desktopWindows?.[0]).toMatchObject({ kind: "folder", iconId: "icon-1" });
   });
 
   it("锁定图标点击不产生任何状态变化", () => {
@@ -37,7 +46,7 @@ describe("desktop window reducer", () => {
   });
 
   it("抽牌 → 翻牌 → 完成抽牌后解锁项目并切换成文档窗口", () => {
-    const opened = reduceDesktopState(base(), { type: "open-folder", iconId: "icon-1" }, projects, desktop);
+    const opened = { desktopWindows: [{ id: "tarot:project-1", kind: "tarot" as const, iconId: "icon-1", projectId: "project-1", fileLabel: "项目说明", minimized: false, maximized: false, order: 1 }] };
     const revealed = reduceDesktopState({ ...base(), ...opened }, { type: "reveal-tarot", windowId: "tarot:project-1" }, projects, desktop);
     expect(revealed.desktopWindows?.[0]).toMatchObject({ kind: "tarot", revealed: true });
     const completed = reduceDesktopState({ ...base(), ...opened, ...revealed }, { type: "complete-tarot", windowId: "tarot:project-1" }, projects, desktop);
@@ -47,7 +56,7 @@ describe("desktop window reducer", () => {
   });
 
   it("未翻牌时不能直接完成抽牌", () => {
-    const opened = reduceDesktopState(base(), { type: "open-folder", iconId: "icon-1" }, projects, desktop);
+    const opened = { desktopWindows: [{ id: "tarot:project-1", kind: "tarot" as const, iconId: "icon-1", projectId: "project-1", fileLabel: "项目说明", minimized: false, maximized: false, order: 1 }] };
     expect(reduceDesktopState({ ...base(), ...opened }, { type: "complete-tarot", windowId: "tarot:project-1" }, projects, desktop)).toEqual({});
   });
 
