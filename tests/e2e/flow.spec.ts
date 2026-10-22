@@ -56,7 +56,8 @@ test("完整流程：短开场 → 路线确认 → 桌面引导 → 一次抽�
   // 4) 第一个项目：抽牌解锁 → 阅读两页 → 完成，进度到 50% 且仍在桌面
   await page.getByTestId("project-1").click();
   await expect(page.getByRole("dialog", { name: "测试项目一" })).toBeVisible();
-  await expect(page.getByText("这是 E2E 夹具项目正文。")).toBeVisible();
+  await expect(page.getByRole("region", { name: "第一页", exact: true }).getByText("这是 E2E 夹具项目正文。")).toBeVisible();
+  await expect(page.getByRole("region", { name: "第二页", exact: true }).getByText("这是 E2E 夹具项目正文。")).toBeVisible();
   await expect(page.locator('[data-continuous-reader="true"]')).toBeVisible();
   const blockImage = page.locator(".project-content-block[data-block-type='image'] img");
   await expect(blockImage).toBeVisible();
