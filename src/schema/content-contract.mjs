@@ -214,7 +214,7 @@ const welcomeContentSchema = z.object({
   highlightedChoiceAssetId: z.string().min(1).optional(),
   cursorAssetId: z.string().min(1).optional(),
   clickSoundAssetId: z.string().min(1).optional(),
-  choices: z.array(welcomeChoiceSchema).length(3),
+  choices: z.array(welcomeChoiceSchema).min(1).max(3),
 }).default({
   speakerName: "SEKI",
   message: "嗨！\n你终于来了。\n想先从一个部分开始了解呢？",

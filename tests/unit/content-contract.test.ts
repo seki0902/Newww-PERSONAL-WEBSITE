@@ -40,6 +40,24 @@ describe("validateProjects（仓库内真实内容）", () => {
 });
 
 describe("validateContentBundle（E2E 夹具内容）", () => {
+  it.each([1, 2, 3])("允许只展示 %i 条路线，并保留隐藏路线的桌面内容", (count) => {
+    const raw = clone(fixtureBundle());
+    raw.desktops = { content: clone(raw.desktop), education: clone(raw.desktop), sales: clone(raw.desktop) };
+    raw.welcome.choices = raw.welcome.choices.slice(0, count);
+
+    const bundle = validateContentBundle(raw, validateProjects(projectsJson));
+
+    expect(bundle.welcome.choices.map((choice) => choice.id)).toEqual(["content", "education", "sales"].slice(0, count));
+    expect(Object.keys(bundle.desktops).sort()).toEqual(["content", "education", "sales"]);
+  });
+
+  it.each([0, 4])("拒绝 %i 条路线，避免无入口或超出欢迎页容量", (count) => {
+    const raw = clone(fixtureBundle());
+    raw.welcome.choices = count === 0 ? [] : [...raw.welcome.choices, { ...raw.welcome.choices[0], id: "extra", label: "Extra" }];
+
+    expect(() => validateContentBundle(raw, validateProjects(projectsJson))).toThrow();
+  });
+
   it("夹具内容通过校验，并能与仓库项目合并", () => {
     const bundle = validateContentBundle(fixtureBundle(), validateProjects(projectsJson));
     expect(bundle.version).toBe(1);

@@ -32,6 +32,27 @@ async function enterDesktop(page: Page) {
 
 test.describe.configure({ mode: "serial" });
 
+test("仅保留 AI 运营入口时仍可加载内容、确认路线并打开项目", async ({ page }) => {
+  await page.route("**/api/content", async (route) => {
+    const response = await route.fetch();
+    const bundle = await response.json();
+    bundle.welcome.choices = [{ ...bundle.welcome.choices[0], label: "AI 运营" }];
+    await route.fulfill({ response, json: bundle });
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "跳过剧情 →" }).click();
+  const routes = page.getByTestId("route-overlay");
+  await expect(routes.locator(".route-options button")).toHaveCount(1);
+  await routes.getByRole("button", { name: /AI 运营/ }).click();
+  await expect(routes.getByRole("heading", { name: "测试项目一" })).toBeVisible();
+  await routes.getByRole("button", { name: "进入这条路线" }).click();
+  await page.getByTestId("desktop-guide").getByRole("button", { name: "跳过引导" }).click();
+  await page.getByRole("button", { name: "跳过，先看项目 →" }).click();
+  await page.getByTestId("project-1").click();
+  await expect(page.getByRole("dialog", { name: "测试项目一" })).toBeVisible();
+  await expect(page.locator(".bundle-error")).toHaveCount(0);
+});
+
 test("完整流程：短开场 → 路线确认 → 桌面引导 → 一次抽牌 → 项目直达 → 结局", async ({ page }) => {
   await page.goto("/");
 
